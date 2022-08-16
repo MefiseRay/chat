@@ -1,5 +1,12 @@
 extends ../layouts/main/main.pug
 
+mixin linkItem(href, name)
+    li
+        a(href=href target="_blank")= name
+
 block content
     h1= title
     div= text
+    ul
+        each link in links
+            +linkItem(link.url, link.name)
