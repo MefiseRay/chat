@@ -1,6 +1,6 @@
 {
   "locals": {
-    "title": "test title",
-    "text": "test text"
+    "title": "404",
+    "text": "Страница с ошибкой 404"
   }
 }
