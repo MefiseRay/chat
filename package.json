@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "description": "My chat",
   "scripts": {
-    "start": "parcel build ./src/pages/*/*.pug & node ./server.js",
-    "build": "parcel build ./src/pages/*/*.pug"
+    "start": "parcel build --no-scope-hoist ./src/pages/*/*.pug & node ./server.js",
+    "test": "parcel build --no-scope-hoist src/pages/chat/chat.pug",
+    "build": "parcel build --no-scope-hoist ./src/pages/*/*.pug"
   },
   "repository": {
     "type": "git",
