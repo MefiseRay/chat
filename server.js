@@ -48,5 +48,5 @@ app.all('*', (req, res) => {
 });
 
 app.listen(PORT, function () {
-    console.log(`Example app listening on port ${PORT}!`);
+    console.log(`Server running at http://localhost:${PORT}/`);
 });
