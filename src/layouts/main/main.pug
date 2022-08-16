@@ -1,0 +1,18 @@
+DOCTYPE
+head(lang="ru")
+    head
+        title Chat - #{title}
+        meta(charset="UTF-8")
+        //- styles
+        script(type="module" src="/src/layouts/main/main.js")
+        block styles
+        //- scripts in the head area
+        link(media="all" rel="stylesheet" href="/src/layouts/main/main.scss")
+        block scripts-in-the-head
+    body
+        //- content area
+        block content
+        //- footer area
+        block footer
+        //- scripts in the footer area
+        block scripts-in-the-footer
