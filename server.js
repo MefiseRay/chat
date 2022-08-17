@@ -3,7 +3,7 @@ const express = require('express'),
     pug = require('pug');
 
 const app = express(),
-    PORT = 4000;
+    PORT = 3000;
 
 pug.basedir = path.join(__dirname, './');
 app.locals.basedir = path.join(__dirname, './');
@@ -13,10 +13,6 @@ app.locals.basedir = app.get('views');
 app.set('view engine', 'pug')
 app.use(express.static('./dist/'));
 app.use('/upload', express.static('static'));
-
-// app.get('/error-5xx', (req, res) => {
-//     res.render('error-5xx/error-5xx', { title: 'error-5xx', text: 'Hello there!' })
-// })
 
 app.get('/', (req, res) => {
     res.status(200).sendFile(path.join(__dirname, './dist/index.html'));

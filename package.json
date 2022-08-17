@@ -3,10 +3,11 @@
   "version": "1.0.0",
   "description": "My chat",
   "scripts": {
-    "dev": "rm -rf ./dist/  && rm -rf ./.parcel-cache/ && parcel watch ./src/pages/index.pug ./src/pages/*/*.pug & node ./server.js",
-    "build": "rm -rf ./dist/  && rm -rf ./.parcel-cache/ && parcel build ./src/pages/index.pug ./src/pages/*/*.pug",
-    "start": "node ./server.js",
-    "delete": "rm -rf ./dist/  && rm -rf ./.parcel-cache/"
+    "start": "rm -rf ./dist/  & rm -rf ./.parcel-cache/ & parcel build ./src/pages/index.pug ./src/pages/*/*.pug & node ./server.js",
+    "dev": "rm -rf ./dist/  & rm -rf ./.parcel-cache/ & parcel watch ./src/pages/index.pug ./src/pages/*/*.pug & node ./server.js",
+    "build": "rm -rf ./dist/  & rm -rf ./.parcel-cache/ & parcel build ./src/pages/index.pug ./src/pages/*/*.pug",
+    "start-server": "node ./server.js",
+    "delete": "rm -rf ./dist/  & rm -rf ./.parcel-cache/"
   },
   "repository": {
     "type": "git",
