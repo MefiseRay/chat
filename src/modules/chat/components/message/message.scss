@@ -1,0 +1,73 @@
+// constants SCSS
+@use '/src/_variables';
+.message {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: variables.$padding_1;
+  background: variables.$colorWhite;
+  border-radius: 0 variables.$borderRadius variables.$borderRadius;
+  padding: variables.$padding_2;
+  margin-right: auto;
+  max-width: 600px;
+  box-shadow: variables.$shadow;
+  .message__login {
+    color: variables.$colorMain;
+    font-size: variables.$fontSizeBig;
+    line-height: 1em;
+  }
+  .message__text {
+    color: variables.$textColor;
+    font-size: variables.$fontSize;
+    line-height: 1.5em;
+  }
+  .message__info {
+    margin-left: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 0;
+    gap: variables.$padding_0_5;
+    .message__time {
+      font-size: variables.$fontSizeVerySmall;
+      color: variables.$textColorLight;
+      line-height: 1em;
+    }
+  }
+  &.message_image {
+    position: relative;
+    padding: 0;
+    background: transparent;
+    .message__login {
+      position: absolute;
+      left: variables.$padding_1;
+      top: variables.$padding_1;
+      background: variables.$colorWhite;
+      border-radius: 2em;
+      padding: variables.$padding_0_5 variables.$padding_1;
+    }
+    .message__info {
+      position: absolute;
+      right: variables.$padding_1;
+      bottom: variables.$padding_1;
+      background: variables.$colorWhite;
+      border-radius: 2em;
+      padding: variables.$padding_0_5 variables.$padding_1;
+    }
+    .message__image,
+    .message__image img{
+      max-width: 600px;
+      border-radius: 0 variables.$borderRadius variables.$borderRadius;
+    }
+  }
+  &.message_my {
+    margin-right: 0;
+    margin-left: auto;
+    border-radius: variables.$borderRadius variables.$borderRadius 0;
+    .message__image,
+    .message__image img{
+      border-radius: variables.$borderRadius variables.$borderRadius 0;
+    }
+  }
+}

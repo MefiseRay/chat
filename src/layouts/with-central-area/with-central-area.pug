@@ -1,0 +1,12 @@
+extends ../main/main.pug
+
+block append styles
+    link(media="all" rel="stylesheet" href="/src/layouts/with-central-area/with-central-area.scss")
+
+block append scripts-in-the-head
+    script(src='/src/layouts/with-central-area/with-central-area.js')
+
+block content
+    div.page
+        div.center-area
+            block center-area

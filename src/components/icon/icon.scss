@@ -1,0 +1,22 @@
+// constants SCSS
+@use '/src/_variables';
+.icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  path {
+    fill: variables.$colorMain;
+  }
+  &.white path {
+    fill: variables.$colorWhite;
+  }
+  &.black path {
+    fill: variables.$textColor;
+  }
+  &.light path {
+    fill: variables.$textColorLight;
+  }
+  &.gray path {
+    fill: variables.$textColorDarkGray;
+  }
+}

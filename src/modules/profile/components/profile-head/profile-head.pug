@@ -1,0 +1,14 @@
+div.profile__head
+    div.left_area
+        a(href="#")
+            - icon = {type: "before", size: "30px"}
+            include ../../../../components/icon/icon.pug
+    div.avatar_area
+        - avatar = {src: profile.avatar, size: "60px"}
+        include ../../../../components/avatar/avatar.pug
+        div.login #{profile.login}
+    div.right_area
+        if action == "show"
+            a(href="#")
+                - icon = {type: "more-vert", size: "30px"}
+                include ../../../../components/icon/icon.pug

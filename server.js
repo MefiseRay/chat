@@ -33,6 +33,12 @@ app.get('/chats', (req, res) => {
 app.get('/profile', (req, res) => {
     res.status(200).sendFile(path.join(__dirname, './dist/profile/profile.html'));
 });
+app.get('/profile/change-data', (req, res) => {
+    res.status(200).sendFile(path.join(__dirname, './dist/change-data/change-data.html'));
+});
+app.get('/profile/change-password', (req, res) => {
+    res.status(200).sendFile(path.join(__dirname, './dist/change-password/change-password.html'));
+});
 app.get('/error-404', (req, res) => {
     res.status(404).sendFile(path.join(__dirname, './dist/error-404/error-404.html'));
 });

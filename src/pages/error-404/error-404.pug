@@ -1,11 +1,7 @@
-extends ../../layouts/main/main.pug
+extends ../../layouts/error-page/error-page.pug
 
-block styles
+block append styles
     link(media="all" rel="stylesheet" href="error-404.scss")
 
-block scripts-in-the-head
+block append scripts-in-the-head
     script(src='error-404.js')
-
-block content
-    h1= title
-    div= text

@@ -1,0 +1,83 @@
+// constants SCSS
+@use '/src/_variables';
+.chat_item {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding: variables.$padding_1;
+  gap: 0;
+  position: relative;
+  border-bottom: 1px solid variables.$colorMain;
+  cursor: pointer;
+  transition: 1s;
+  .chat_item__main {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0 variables.$padding_3 0 variables.$padding_1;
+    gap: variables.$padding_0_5;
+    .chat_item__name {
+      color: variables.$colorMain;
+      font-size: variables.$fontSizeBig;
+      font-weight: variables.$fontWeightBold;
+    }
+    .chat_item__message {
+      color: variables.$textColorLight;
+      font-size: variables.$fontSizeSmall;
+      font-weight: variables.$fontWeightLighter;
+      line-height: 1em;
+      height: 2em;
+      overflow: hidden;
+    }
+  }
+  .chat_item__info {
+    .chat_item__date_time {
+      position: absolute;
+      right: variables.$padding_1;
+      top: variables.$padding_1;
+      color: variables.$textColorLight;
+      font-size: variables.$fontSizeVerySmall;
+      font-weight: variables.$fontWeightLighter;
+      line-height: 1em;
+    }
+    .chat_item__not_read {
+      position: absolute;
+      right: variables.$padding_1;
+      bottom: variables.$padding_1;
+      color: variables.$colorWhite;
+      font-size: variables.$fontSizeVerySmall;
+      font-weight: variables.$fontWeightLighter;
+      line-height: 2em;
+      height: 2em;
+      width: 2em;
+      text-align: center;
+      background: variables.$colorGradient;
+      border-radius: 100%;
+      border: 1px solid transparent;
+    }
+  }
+  &:hover,
+  &.active {
+    background: variables.$colorGradient;
+    color: variables.$colorWhite;
+    .chat_item__main {
+      .chat_item__name,
+      .chat_item__message {
+        color: variables.$colorWhite;
+      }
+    }
+    .chat_item__info {
+      .chat_item__date_time {
+        color: variables.$colorWhite;
+      }
+      .chat_item__not_read {
+        color: variables.$colorWhite;
+        background: transparent;
+        border: 1px solid variables.$colorWhite;
+      }
+    }
+    .avatar {
+      background: variables.$colorWhite;
+    }
+  }
+}

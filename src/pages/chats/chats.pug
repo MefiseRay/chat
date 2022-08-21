@@ -1,11 +1,10 @@
 extends ../../layouts/main/main.pug
 
-block styles
+block append styles
     link(media="all" rel="stylesheet" href="chats.scss")
 
-block scripts-in-the-head
+block append scripts-in-the-head
     script(src='chats.js')
 
 block content
-    h1= title
-    div= text
+    include ../../modules/chat/chat.pug

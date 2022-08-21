@@ -1,6 +1,21 @@
 {
   "locals": {
     "title": "Авторизация",
-    "text": "Страница авторизации"
+    "form": {
+        "formStyle": "",
+        "formAction": "",
+        "formMethod": "",
+        "showTitle": true,
+        "title": "Вход",
+        "inputs": [
+            {name: "login",     title: "Логин",     type: "text"},
+            {name: "password",  title: "Пароль",    type: "password"},
+        ],
+        "buttons": [
+            {name: "sign-in",       class: "",                      text: "Войти"},
+            {name: "registration",  class: "button_transparent",    text: "Создать профиль"}
+        ],
+        "showButtons": true
+    }
   }
 }

@@ -8,6 +8,8 @@
         {url: "./chats", name: "Список чатов"},
         {url: "./chat", name: "Открытый чат"},
         {url: "./profile", name: "Профиль пользователя"},
+        {url: "./profile/change-data", name: "Изменить данные пользователя"},
+        {url: "./profile/change-password", name: "Изменить Пароль"},
         {url: "./error-404", name: "Ошибка 404"},
         {url: "./error-500", name: "Ошибка 500"}
     ]
