@@ -1,0 +1,9 @@
+extends ../layouts/with-central-area/with-central-area.pug
+
+mixin linkItem(href, name)
+    div
+        a(href=href target="_blank")= name
+
+block center-area
+    each link in links
+        +linkItem(link.url, link.name)

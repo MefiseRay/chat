@@ -1,0 +1,10 @@
+{
+  locals: {
+    "title": "500",
+    errorCode: "500",
+    errorText: "Упс! Похоже что-то сломалось. Наши специалисты уже чинят.",
+    buttons: [
+                {name: "back_to_chats", class: "button_white button_bordered",  text: "Назад к чатам"}
+            ]
+  }
+}

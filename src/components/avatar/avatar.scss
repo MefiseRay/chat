@@ -1,0 +1,12 @@
+// constants SCSS
+@use '/src/_variables';
+.avatar{
+  background: variables.$colorGradient;
+  padding: 3px;
+  border-radius: 100%;
+  box-shadow: variables.$shadow;
+  width: fit-content;
+  img {
+    border-radius: 100%;
+  }
+}

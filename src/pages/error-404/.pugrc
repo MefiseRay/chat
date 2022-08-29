@@ -1,0 +1,10 @@
+{
+  locals: {
+    "title": "404",
+    errorCode: "404",
+    errorText: "Похоже вы заблудились.",
+    buttons: [
+                {name: "back_to_chats", class: "button_white button_bordered",  text: "Назад к чатам"}
+            ]
+  }
+}

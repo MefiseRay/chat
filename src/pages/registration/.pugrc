@@ -1,0 +1,26 @@
+{
+  "locals": {
+    "title": "Регистрация",
+    "form": {
+        formStyle: "",
+        formAction: "",
+        formMethod: "",
+        showTitle: true,
+        title: "Регистрация",
+        inputs: [
+            {name: "login",                     title: "Логин",             type: "text"},
+            {name: "first_name",                title: "Имя",               type: "text"},
+            {name: "second_name",               title: "Фамилия",           type: "text"},
+            {name: "email",                     title: "E-mail",            type: "text"},
+            {name: "phone",                     title: "Телефон",           type: "text"},
+            {name: "password",                  title: "Пароль",            type: "password"},
+            {name: "password_confirmation",     title: "Пароль (еще раз)",  type: "password"},
+        ],
+        buttons: [
+            {name: "sign-in",       class: "",                      text: "Зарегистрироваться"},
+            {name: "registration",  class: "button_transparent",    text: "Войти"}
+        ],
+        showButtons: true
+    }
+  }
+}

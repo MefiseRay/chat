@@ -1,0 +1,67 @@
+// constants SCSS
+@use '/src/_variables';
+.button {
+  background: variables.$colorGradient;
+  border-radius: variables.$borderRadiusSmall;
+  font-weight: variables.$fontWeightLighter;
+  font-size: variables.$fontSize;
+  line-height: 1em;
+  color: variables.$colorWhite;
+  padding: variables.$padding_1;
+  text-align: center;
+  cursor: pointer;
+  transition: 1s;
+  border: 1px solid transparent;
+  &:hover {
+    background: variables.$colorGradientInversion;
+  }
+  &.button_white {
+    background: variables.$colorWhite;
+    color: variables.$colorMain;
+  }
+  &.button_white:hover {
+    background: variables.$colorWhite;
+    color: variables.$colorSecond;
+  }
+}
+
+.button_transparent {
+  color: variables.$colorMain;
+  background: transparent;
+  &:hover {
+    color: variables.$colorSecond;
+    background: transparent;
+  }
+  &.button_white {
+    background: transparent;
+    color: variables.$colorWhite;
+    border: 1px solid transparent;
+  }
+  &.button_white:hover {
+    background: transparent;
+    color: variables.$colorWhite;
+    border: 1px solid variables.$colorWhite;
+  }
+}
+
+.button_bordered {
+  color: variables.$colorMain;
+  border: 1px solid variables.$colorMain;
+  background: transparent;
+  &:hover {
+    background: variables.$colorGradient;
+    border-color: variables.$colorSecond;
+    color: variables.$colorWhite;
+  }
+  &.button_white {
+    background: transparent;
+    color: variables.$colorWhite;
+    border: 1px solid variables.$colorWhite;
+  }
+  &.button_white:hover {
+    color: variables.$colorMain;
+    background: variables.$colorWhite;
+    border-color: variables.$colorWhite;
+  }
+}
+

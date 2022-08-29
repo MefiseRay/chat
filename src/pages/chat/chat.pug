@@ -1,0 +1,10 @@
+extends ../../layouts/main/main.pug
+
+block append styles
+    link(media="all" rel="stylesheet" href="chat.scss")
+
+block append scripts-in-the-head
+    script(src='chat.js')
+
+block content
+    include ../../modules/chat/chat.pug

@@ -1,0 +1,18 @@
+extends ../main/main.pug
+
+block append styles
+    link(media="all" rel="stylesheet" href="/src/layouts/error-page/error-page.scss")
+
+block append scripts-in-the-head
+    script(src='/src/layouts/error-page/error-page.js')
+
+block content
+    div.page
+        div.error
+            div.error__code
+                =errorCode
+            div.error__text
+                =errorText
+            div.error__buttons
+                 each button in buttons
+                    include ../../components/button/button.pug

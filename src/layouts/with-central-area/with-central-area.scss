@@ -1,0 +1,19 @@
+// constants SCSS
+@use '/src/_variables';
+.page {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.center-area {
+  background: variables.$colorWhite;
+  box-shadow: variables.$shadow;
+  border-radius: variables.$borderRadius;
+  padding: variables.$padding_2 variables.$padding_4;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: variables.$padding_1;
+}

@@ -1,0 +1,10 @@
+extends ../../layouts/with-central-area/with-central-area.pug
+
+block append styles
+    link(media="all" rel="stylesheet" href="profile.scss")
+
+block append scripts-in-the-head
+    script(src='profile.js')
+
+block center-area
+    include ../../modules/profile/profile.pug
