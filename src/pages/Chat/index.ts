@@ -4,7 +4,7 @@ import { Chat } from '../../modules/Chat';
 import addChatIcon from '../../../static/icon/add.svg';
 import searchIcon from '../../../static/icon/search.svg';
 import menuIcon from '../../../static/icon/more-vert.svg';
-import attachFileIcon from '../../../cleclearstatic/icon/attach.svg';
+import attachFileIcon from '../../../static/icon/attach.svg';
 import sendIcon from '../../../static/icon/send.svg';
 
 export class ChatPage extends Block {
