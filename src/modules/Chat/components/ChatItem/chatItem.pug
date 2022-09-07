@@ -1,0 +1,9 @@
+div(class=styles.image)
+    | !{image}
+div(class=styles.main)
+    div(class=styles.name) #{name}
+    div(class=styles.message) #{message.text}
+div(class=styles.info)
+    div(class=styles.dateTime) #{message.dateTime}
+    if notRead > 0
+        div(class=styles.notRead) #{notRead}

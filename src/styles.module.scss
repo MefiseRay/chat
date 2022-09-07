@@ -1,0 +1,25 @@
+@use '/src/_variables';
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+html {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: variables.$colorGradient;
+  color: variables.$textColor;
+  font-family: variables.$fontFamily;
+  font-size: variables.$fontSize;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.app {
+  height: 100vh;
+}

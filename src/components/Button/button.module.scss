@@ -1,0 +1,73 @@
+@use '/src/_variables';
+.button {
+  background: variables.$colorGradient;
+  border-radius: variables.$borderRadiusSmall;
+  font-weight: variables.$fontWeightLighter;
+  font-size: variables.$fontSize;
+  font-family: variables.$fontFamily;
+  line-height: 1em;
+  color: variables.$colorWhite;
+  padding: variables.$padding_1;
+  text-align: center;
+  cursor: pointer;
+  transition: 0.5s;
+  border: 1px solid transparent;
+  &:hover {
+    background: variables.$colorGradientInversion;
+  }
+  &.white {
+    background: variables.$colorWhite;
+    color: variables.$colorMain;
+  }
+  &.white:hover {
+    background: variables.$colorWhite;
+    color: variables.$colorSecond;
+  }
+  &.block {
+    display: block;
+    width: 100%;
+  }
+  &.transparent {
+    color: variables.$colorMain;
+    background: transparent;
+    border: 1px solid transparent;
+    &:hover {
+      color: variables.$colorSecond;
+      background: transparent;
+      border: 1px solid transparent;
+    }
+    &.white {
+      background: transparent;
+      color: variables.$colorWhite;
+      border: 1px solid transparent;
+    }
+    &.white:hover {
+      background: transparent;
+      color: variables.$colorWhite;
+      border: 1px solid transparent;
+    }
+  }
+  &.bordered {
+    color: variables.$colorMain;
+    border: 1px solid variables.$colorMain;
+    background: transparent;
+    &:hover {
+      background: variables.$colorGradient;
+      border-color: variables.$colorSecond;
+      color: variables.$colorWhite;
+    }
+    &.white {
+      background: transparent;
+      color: variables.$colorWhite;
+      border: 1px solid variables.$colorWhite;
+    }
+    &.white:hover {
+      color: variables.$colorMain;
+      background: variables.$colorWhite;
+      border-color: variables.$colorWhite;
+    }
+  }
+}
+
+
+

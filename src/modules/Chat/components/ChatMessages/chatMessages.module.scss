@@ -1,0 +1,93 @@
+@use '/src/_variables';
+.chat {
+  height: 100vh;
+  width: 100%;
+  width: -moz-available;
+  width: -webkit-fill-available;
+  width: stretch;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0;
+  .topPanel {
+    background: variables.$colorWhite;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: variables.$padding_1 0;
+    gap: variables.$padding_1;
+    .chatInfo {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: start;
+      padding: 0 variables.$padding_2;
+      gap: variables.$padding_1;
+      .chatImage{}
+      .chatName {
+        color: variables.$colorMain;
+        font-size: variables.$fontSizeBig;
+        font-weight: variables.$fontWeightBold;
+      }
+    }
+    .menu {
+      padding: 0 variables.$padding_1;
+    }
+  }
+  .bottomPanel {
+    background: variables.$colorWhite;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: variables.$padding_1 0;
+    gap: 0;
+    .attachFile {
+      color: variables.$textColorLight;
+      padding: 0 variables.$padding_1;
+    }
+    .sendButton {
+      color: variables.$colorMain;
+      padding: 0 variables.$padding_1;
+    }
+    .input {
+      width: 100%;
+      width: -moz-available;
+      width: -webkit-fill-available;
+      width: stretch;
+      input {
+        width: 100%;
+        width: -moz-available;
+        width: -webkit-fill-available;
+        width: stretch;
+      }
+    }
+  }
+  .messages {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: variables.$padding_2 variables.$padding_2;
+    gap: variables.$padding_2;
+    width: 100%;
+    width: -moz-available;
+    width: -webkit-fill-available;
+    width: stretch;
+    height: 100%;
+    height: -moz-available;
+    height: -webkit-fill-available;
+    height: stretch;
+    overflow-y: scroll;
+    .timeline {
+      text-align: center;
+      font-size: variables.$fontSizeSmall;
+      color: variables.$colorWhite;
+      font-weight: variables.$fontWeightLighter;
+      line-height: 3em;
+    }
+  }
+}

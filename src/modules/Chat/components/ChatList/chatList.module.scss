@@ -1,0 +1,42 @@
+@use '/src/_variables';
+.wrapper {
+  height: 100vh;
+  background: variables.$colorWhite;
+  display: flex;
+  flex-direction: column;
+  align-items: initial;
+  padding: 0;
+  gap: variables.$padding_1;
+  .head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: variables.$padding_1 variables.$padding_1 0;
+    .user {
+      display: flex;
+      align-items: center;
+      justify-content: start;
+      padding: 0;
+      gap: variables.$padding_1;
+      font-size: variables.$fontSizeBig;
+      font-weight: variables.$fontWeightBold;
+    }
+    .add {
+      font-size: variables.$fontSizeBig;
+      font-weight: variables.$fontWeightBold;
+      cursor: pointer;
+      color: variables.$colorMain;
+    }
+  }
+  .search {
+    padding: 0 variables.$padding_1;
+  }
+  .chatList {
+    border-top: 1px solid variables.$colorMain;
+    height: 100%;
+    height: -moz-available;
+    height: -webkit-fill-available;
+    height: stretch;
+    overflow-y: scroll;
+  }
+}

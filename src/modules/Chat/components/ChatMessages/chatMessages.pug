@@ -1,0 +1,19 @@
+div(class=styles.chat)
+    div(class=styles.topPanel)
+        div(class=styles.chatInfo)
+            div(class=styles.chatImage)
+                | !{chatImage}
+            div(class=styles.chatName)
+                | #{chatData.name}
+        div(class=styles.nemu)
+            | !{chatMenu}
+    div(class=styles.messages)
+         each messageBlock in messageBlocks
+             | !{messageBlock}
+    div(class=styles.bottomPanel)
+        div(class=styles.attachFile)
+            | !{attachFile}
+        div(class=styles.input)
+            | !{messageInput}
+        div(class=styles.sendButton)
+            | !{sendButton}

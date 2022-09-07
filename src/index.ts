@@ -1,9 +1,13 @@
-import { HomePage } from './pages/Home';
-//import { Button } from './components/Button';
+import {PageNavigator} from "./utils/PageNavigator";
+import * as styles from "./styles.module.scss";
 
 window.addEventListener('DOMContentLoaded', () => {
-    const root = document.querySelector('#app')!;
-    const homePage = new HomePage({ title: 'Home page' });
-    root.append(homePage.getContent()!);
-    homePage.dispatchComponentDidMount();
+    PageNavigator.getRoot().classList.add(styles["app"]);
+    // по умолчанию отображается страница авторизации
+    // PageNavigator.renderAuthorizationPage();
+    // необходимо раскоментировать для првоерки отображения страницы с ошибкой 500
+    // PageNavigator.render500Page();
+    // необходимо раскоментировать для првоерки отображения страницы с ошибкой 404
+    // PageNavigator.render404Page();
+    PageNavigator.renderChatPage();
 });

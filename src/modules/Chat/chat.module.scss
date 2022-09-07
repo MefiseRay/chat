@@ -1,0 +1,34 @@
+@use '/src/_variables';
+.wrapper {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  padding: 0;
+  .left {
+    height: 100vh;
+    width: 400px;
+    background: variables.$colorWhite;
+    padding: 0;
+    margin: 0;
+  }
+  .right {
+    height: 100vh;
+    background: transparent;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    width: -moz-available;
+    width: -webkit-fill-available;
+    width: stretch;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    .notSelected {
+      font-size: variables.$fontSizeVeryBig;
+      color: variables.$colorWhite;
+      font-weight: variables.$fontWeightLighter;
+    }
+  }
+}

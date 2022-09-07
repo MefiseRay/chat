@@ -1,0 +1,11 @@
+@use '/src/_variables';
+.user {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  padding: 0;
+  gap: variables.$padding_1;
+  font-size: variables.$fontSizeBig;
+  font-weight: variables.$fontWeightBold;
+  cursor: pointer;
+}

@@ -1,0 +1,18 @@
+div(class=styles.user)
+    | #{profile.login}
+if messageText
+    div(class=styles.text)
+        | #{messageText}
+if messageImage
+    div(class=styles.image)
+        img(src=messageImage)
+div(class=styles.info)
+    //case status
+    //    when "isRead"
+    //        - icon = {type: "done-all", size: "10px", class: "light"}
+    //        include ../../../../components/icon/icon.pug
+    //    when "isSend"
+    //        - icon = {type: "done", size: "10px", class: "light"}
+    //        include ../../../../components/icon/icon.pug
+    div(class=styles.time)
+        | #{time}
