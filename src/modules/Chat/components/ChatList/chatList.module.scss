@@ -1,38 +1,44 @@
-@use '/src/_variables';
+@use "/src/_variables";
+
 .wrapper {
   height: 100vh;
-  background: variables.$colorWhite;
+  background: variables.$color-white;
   display: flex;
   flex-direction: column;
   align-items: initial;
   padding: 0;
-  gap: variables.$padding_1;
+  gap: variables.$padding-1;
+
   .head {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: variables.$padding_1 variables.$padding_1 0;
+    padding: variables.$padding-1 variables.$padding-1 0;
+
     .user {
       display: flex;
       align-items: center;
       justify-content: start;
       padding: 0;
-      gap: variables.$padding_1;
-      font-size: variables.$fontSizeBig;
-      font-weight: variables.$fontWeightBold;
+      gap: variables.$padding-1;
+      font-size: variables.$font-size-big;
+      font-weight: variables.$font-weight-bold;
     }
+
     .add {
-      font-size: variables.$fontSizeBig;
-      font-weight: variables.$fontWeightBold;
+      font-size: variables.$font-size-big;
+      font-weight: variables.$font-weight-bold;
       cursor: pointer;
-      color: variables.$colorMain;
+      color: variables.$color-main;
     }
   }
+
   .search {
-    padding: 0 variables.$padding_1;
+    padding: 0 variables.$padding-1;
   }
+
   .chatList {
-    border-top: 1px solid variables.$colorMain;
+    border-top: 1px solid variables.$color-main;
     height: 100%;
     height: -moz-available;
     height: -webkit-fill-available;

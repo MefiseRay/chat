@@ -1,85 +1,93 @@
-@use '/src/_variables';
+@use "/src/_variables";
+
 .item {
   display: flex;
   flex-direction: row;
   align-items: flex-start;
-  padding: variables.$padding_1;
+  padding: variables.$padding-1;
   gap: 0;
   position: relative;
-  border-bottom: 1px solid variables.$colorMain;
+  border-bottom: 1px solid variables.$color-main;
   cursor: pointer;
   transition: 1s;
-  .image {
 
-  }
   .main {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    padding: 0 variables.$padding_3 0 variables.$padding_1;
-    gap: variables.$padding_0_5;
+    padding: 0 variables.$padding-3 0 variables.$padding-1;
+    gap: variables.$padding-0-5;
+
     .name {
-      color: variables.$colorMain;
-      font-size: variables.$fontSizeBig;
-      font-weight: variables.$fontWeightBold;
+      color: variables.$color-main;
+      font-size: variables.$font-size-big;
+      font-weight: variables.$font-weight-bold;
     }
+
     .message {
-      color: variables.$textColorLight;
-      font-size: variables.$fontSizeSmall;
-      font-weight: variables.$fontWeightLighter;
+      color: variables.$text-color-light;
+      font-size: variables.$font-size-small;
+      font-weight: variables.$font-weight-lighter;
       line-height: 1em;
       height: 2em;
       overflow: hidden;
     }
   }
+
   .info {
     .dateTime {
       position: absolute;
-      right: variables.$padding_1;
-      top: variables.$padding_1;
-      color: variables.$textColorLight;
-      font-size: variables.$fontSizeVerySmall;
-      font-weight: variables.$fontWeightLighter;
+      right: variables.$padding-1;
+      top: variables.$padding-1;
+      color: variables.$text-color-light;
+      font-size: variables.$font-size-very-small;
+      font-weight: variables.$font-weight-lighter;
       line-height: 1em;
     }
+
     .notRead {
       position: absolute;
-      right: variables.$padding_1;
-      bottom: variables.$padding_1;
-      color: variables.$colorWhite;
-      font-size: variables.$fontSizeVerySmall;
-      font-weight: variables.$fontWeightLighter;
+      right: variables.$padding-1;
+      bottom: variables.$padding-1;
+      color: variables.$color-white;
+      font-size: variables.$font-size-very-small;
+      font-weight: variables.$font-weight-lighter;
       line-height: 2em;
       height: 2em;
       width: 2em;
       text-align: center;
-      background: variables.$colorGradient;
+      background: variables.$color-gradient;
       border-radius: 100%;
       border: 1px solid transparent;
     }
   }
+
   &:hover,
   &.active {
-    background: variables.$colorGradient;
-    color: variables.$colorWhite;
+    background: variables.$color-gradient;
+    color: variables.$color-white;
+
     .main {
       .name,
       .message {
-        color: variables.$colorWhite;
+        color: variables.$color-white;
       }
     }
+
     .info {
       .dateTime {
-        color: variables.$colorWhite;
+        color: variables.$color-white;
       }
+
       .notRead {
-        color: variables.$colorWhite;
+        color: variables.$color-white;
         background: transparent;
-        border: 1px solid variables.$colorWhite;
+        border: 1px solid variables.$color-white;
       }
     }
+
     .image > div {
-      background: variables.$colorWhite;
+      background: variables.$color-white;
     }
   }
 }

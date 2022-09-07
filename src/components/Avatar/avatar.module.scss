@@ -1,6 +1,7 @@
-@use '/src/_variables';
+@use "/src/_variables";
+
 .avatar {
-  background: variables.$colorGradient;
+  background: variables.$color-gradient;
   padding: 3px;
   border-radius: 100%;
   box-shadow: variables.$shadow;

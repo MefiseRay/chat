@@ -1,18 +1,20 @@
-@use '/src/_variables';
+@use "/src/_variables";
+
 .messagesBlock {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: variables.$padding_2;
+  gap: variables.$padding-2;
   width: 100%;
   width: -moz-available;
   width: -webkit-fill-available;
   width: stretch;
+
   .timeline {
     text-align: center;
-    font-size: variables.$fontSizeSmall;
-    color: variables.$colorWhite;
-    font-weight: variables.$fontWeightLighter;
+    font-size: variables.$font-size-small;
+    color: variables.$color-white;
+    font-weight: variables.$font-weight-lighter;
     line-height: 3em;
   }
 }

@@ -1,8 +1,7 @@
 import Block from '../../../../utils/Block';
-import IProps from "../../../../utils/IProps";
 import template from './chatUser.pug';
-import * as chatUserStyles from "./chatUser.module.scss";
-import {Avatar} from "../../../../components/Avatar";
+import * as chatUserStyles from './chatUser.module.scss';
+import { Avatar } from '../../../../components/Avatar';
 
 export interface ChatUserProps {
     avatar: Avatar,
@@ -13,12 +12,12 @@ export interface ChatUserProps {
 }
 
 export class ChatUser extends Block {
-    constructor(props: ChatUserProps) {
-        super('div', props);
-        this.element!.classList.add(chatUserStyles["user"]);
-    }
+  constructor(props: ChatUserProps) {
+    super('div', props);
+        this.element!.classList.add(chatUserStyles.user);
+  }
 
-    render() {
-        return this.compile(template, this.props);
-    }
+  render() {
+    return this.compile(template, this.props);
+  }
 }

@@ -1,0 +1,11 @@
+{
+  "extends": [
+    "stylelint-config-standard-scss"
+  ],
+  "rules": {
+    "selector-class-pattern": null,
+    "value-no-vendor-prefix": null,
+    "selector-no-vendor-prefix": null,
+    "no-descending-specificity": null
+  }
+}

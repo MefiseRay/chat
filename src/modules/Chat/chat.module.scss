@@ -1,17 +1,20 @@
-@use '/src/_variables';
+@use "/src/_variables";
+
 .wrapper {
   height: 100vh;
   display: flex;
   align-items: center;
   justify-content: start;
   padding: 0;
+
   .left {
     height: 100vh;
     width: 400px;
-    background: variables.$colorWhite;
+    background: variables.$color-white;
     padding: 0;
     margin: 0;
   }
+
   .right {
     height: 100vh;
     background: transparent;
@@ -25,10 +28,11 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+
     .notSelected {
-      font-size: variables.$fontSizeVeryBig;
-      color: variables.$colorWhite;
-      font-weight: variables.$fontWeightLighter;
+      font-size: variables.$font-size-very-big;
+      color: variables.$color-white;
+      font-weight: variables.$font-weight-lighter;
     }
   }
 }

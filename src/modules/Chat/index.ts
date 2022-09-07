@@ -1,14 +1,10 @@
 import Block from '../../utils/Block';
-import IProps from "../../utils/IProps";
 import template from './chat.pug';
-import {PageNavigator} from "../../utils/PageNavigator";
-import {ChatList} from "./components/ChatList";
+import { ChatList } from './components/ChatList';
 
-
-import * as chatStyles from "./chat.module.scss";
-import {ChatItem, ChatItemProps} from "./components/ChatItem";
-import {ChatMessages} from "./components/ChatMessages";
-
+import * as chatStyles from './chat.module.scss';
+import { ChatItem } from './components/ChatItem';
+import { ChatMessages } from './components/ChatMessages';
 
 export interface ChatProps {
     userId: string,
@@ -17,57 +13,56 @@ export interface ChatProps {
     menuIconSrc: string,
     attachFileIconSrc: string,
     sendIconSrc: string,
-    styles?: {}
+    styles?: Record<string, unknown>
 }
 
 export class Chat extends Block {
+  constructor(props: ChatProps) {
+    super('div', props);
+        this.element!.classList.add(chatStyles.wrapper);
+  }
 
-    constructor(props: ChatProps) {
-        super('div', props);
-        this.element!.classList.add(chatStyles["wrapper"]);
-    }
+  protected editPropsBeforeMakeThemProxy(props: ChatProps) {
+    props.styles = chatStyles;
+  }
 
-    protected editPropsBeforeMakeThemProxy(props: ChatProps) {
-        props.styles = chatStyles;
-    }
+  protected init() {
+    this.children.chatList = new ChatList({
+      profile: this._getProfileData(this.props.userId),
+      addChatIconSrc: this.props.addChatIconSrc,
+      searchIconSrc: this.props.searchIconSrc,
+    });
+    this._addSelectChatEvents();
+  }
 
-    protected init() {
-        this.children.chatList = new ChatList({
-            profile: this._getProfileData(this.props.userId),
-            addChatIconSrc: this.props.addChatIconSrc,
-            searchIconSrc: this.props.searchIconSrc
-        });
-        this._addSelectChatEvents();
-    }
+  render() {
+    return this.compile(template, this.props);
+  }
 
-    render() {
-        return this.compile(template, this.props);
-    }
-
-    private _addSelectChatEvents() {
-        const chatList = (this.children.chatList as ChatList).children.chatItemsList;
-        if(Array.isArray(chatList)) {
-            (chatList as ChatItem[]).forEach((targetChatItem: ChatItem) => {
-                targetChatItem.getContent()!.addEventListener("click", () => {
-                    (chatList as ChatItem[]).forEach((item: ChatItem) => {
-                        item.removeSelection();
-                    });
-                    targetChatItem.select();
-                    console.log(`Открыт чат ${targetChatItem.getPropValue("chatId")}`);
-                    this.children.chatMessages = new ChatMessages({
-                        chatId: targetChatItem.getPropValue("chatId"),
-                        profile: this._getProfileData(this.props.userId),
-                        menuIconSrc: this.props.menuIconSrc,
-                        attachFileIconSrc: this.props.attachFileIconSrc,
-                        sendIconSrc: this.props.sendIconSrc
-                    });
-                    this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
+  private _addSelectChatEvents() {
+    const chatList = (this.children.chatList as ChatList).children.chatItemsList;
+    if (Array.isArray(chatList)) {
+      (chatList as ChatItem[]).forEach((targetChatItem: ChatItem) => {
+                targetChatItem.getContent()!.addEventListener('click', () => {
+                  (chatList as ChatItem[]).forEach((item: ChatItem) => {
+                    item.removeSelection();
+                  });
+                  targetChatItem.select();
+                  console.log(`Открыт чат ${targetChatItem.getPropValue('chatId')}`);
+                  this.children.chatMessages = new ChatMessages({
+                    chatId: targetChatItem.getPropValue('chatId'),
+                    profile: this._getProfileData(this.props.userId),
+                    menuIconSrc: this.props.menuIconSrc,
+                    attachFileIconSrc: this.props.attachFileIconSrc,
+                    sendIconSrc: this.props.sendIconSrc,
+                  });
+                  this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
                 });
-            });
-        }
+      });
     }
+  }
 
-    private _getProfileData(id:string): {
+  private _getProfileData(id:string): {
         id: string,
         avatarSrc: string,
         login: string,
@@ -76,14 +71,14 @@ export class Chat extends Block {
         email: string,
         phone: string,
     } {
-        return {
-            id: "1234567890",
-            avatarSrc: "/upload/img/user_avatar.jpg",
-            login: "RayMefise",
-            firstName: "Max",
-            secondName: "Zaitsev",
-            email: "max.zaitsev@site.ru",
-            phone: "8 (920) 900-10-20",
-        }
-    }
+    return {
+      id,
+      avatarSrc: '/upload/img/user_avatar.jpg',
+      login: 'RayMefise',
+      firstName: 'Max',
+      secondName: 'Zaitsev',
+      email: 'max.zaitsev@site.ru',
+      phone: '8 (920) 900-10-20',
+    };
+  }
 }

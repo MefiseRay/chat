@@ -1,54 +1,24 @@
-const express = require('express'),
-    path = require('path'),
-    pug = require('pug');
-
-const app = express(),
-    PORT = 3000;
+/* eslint-disable */
+const express = require('express');
+const path = require('path');
+const pug = require('pug');
+/* eslint-enable */
+const app = express();
+const PORT = 3000;
 
 pug.basedir = path.join(__dirname, './');
 app.locals.basedir = path.join(__dirname, './');
-app.set('views', path.join(__dirname, './dist'))
-app.set('basedir', path.join(__dirname, './dist'))
+app.set('views', path.join(__dirname, './dist'));
+app.set('basedir', path.join(__dirname, './dist'));
 app.locals.basedir = app.get('views');
-app.set('view engine', 'pug')
+app.set('view engine', 'pug');
 app.use(express.static('./dist/'));
 app.use('/upload', express.static('static'));
 
 app.get('/', (req, res) => {
-    res.status(200).sendFile(path.join(__dirname, './dist/index.html'));
+  res.status(200).sendFile(path.join(__dirname, './dist/index.html'));
 });
 
-// app.get('/authorization', (req, res) => {
-//     res.status(200).sendFile(path.join(__dirname, './dist/authorization/authorization.html'));
-// });
-// app.get('/registration', (req, res) => {
-//     res.status(200).sendFile(path.join(__dirname, './dist/registration/registration.html'));
-// });
-// app.get('/chat', (req, res) => {
-//     res.status(200).sendFile(path.join(__dirname, './dist/chat/chat.html'));
-// });
-// app.get('/chats', (req, res) => {
-//     res.status(200).sendFile(path.join(__dirname, './dist/chats/chats.html'));
-// });
-// app.get('/profile', (req, res) => {
-//     res.status(200).sendFile(path.join(__dirname, './dist/profile/profile.html'));
-// });
-// app.get('/profile/change-data', (req, res) => {
-//     res.status(200).sendFile(path.join(__dirname, './dist/change-data/change-data.html'));
-// });
-// app.get('/profile/change-password', (req, res) => {
-//     res.status(200).sendFile(path.join(__dirname, './dist/change-password/change-password.html'));
-// });
-// app.get('/error-404', (req, res) => {
-//     res.status(404).sendFile(path.join(__dirname, './dist/error-404/error-404.html'));
-// });
-// app.get('/error-500', (req, res) => {
-//     res.status(500).sendFile(path.join(__dirname, './dist/error-500/error-500.html'));
-// });
-// app.all('*', (req, res) => {
-//     res.status(404).sendFile(path.join(__dirname, './dist/error-404/error-404.html'));
-// });
-
-app.listen(PORT, function () {
-    console.log(`Server running at http://localhost:${PORT}/`);
+app.listen(PORT, () => {
+  console.log(`Server running at http://localhost:${PORT}/`);
 });

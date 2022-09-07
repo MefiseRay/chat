@@ -1,20 +1,20 @@
-@use '/src/_variables';
+@use "/src/_variables";
+
 .dropdown {
   position: fixed;
-  padding: variables.$padding_1;
-  background: variables.$colorWhite;
-  border-radius: variables.$borderRadiusSmall;
+  padding: variables.$padding-1;
+  background: variables.$color-white;
+  border-radius: variables.$border-radius-small;
   box-shadow: variables.$shadow;
 
   .item {
     .button {
-      color: variables.$textColorLight;
+      color: variables.$text-color-light;
 
       &:hover {
-        color: variables.$textColorLight;
-        background: variables.$colorLight;
+        color: variables.$text-color-light;
+        background: variables.$color-light;
       }
     }
-
   }
 }

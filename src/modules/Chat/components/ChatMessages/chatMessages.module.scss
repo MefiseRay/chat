@@ -1,4 +1,5 @@
-@use '/src/_variables';
+@use "/src/_variables";
+
 .chat {
   height: 100vh;
   width: 100%;
@@ -10,55 +11,63 @@
   justify-content: space-between;
   align-items: center;
   padding: 0;
+
   .topPanel {
-    background: variables.$colorWhite;
+    background: variables.$color-white;
     width: 100%;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    padding: variables.$padding_1 0;
-    gap: variables.$padding_1;
+    padding: variables.$padding-1 0;
+    gap: variables.$padding-1;
+
     .chatInfo {
       display: flex;
       flex-direction: row;
       align-items: center;
       justify-content: start;
-      padding: 0 variables.$padding_2;
-      gap: variables.$padding_1;
-      .chatImage{}
+      padding: 0 variables.$padding-2;
+      gap: variables.$padding-1;
+
       .chatName {
-        color: variables.$colorMain;
-        font-size: variables.$fontSizeBig;
-        font-weight: variables.$fontWeightBold;
+        color: variables.$color-main;
+        font-size: variables.$font-size-big;
+        font-weight: variables.$font-weight-bold;
       }
     }
+
     .menu {
-      padding: 0 variables.$padding_1;
+      padding: 0 variables.$padding-1;
     }
   }
+
   .bottomPanel {
-    background: variables.$colorWhite;
+    background: variables.$color-white;
     width: 100%;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    padding: variables.$padding_1 0;
+    padding: variables.$padding-1 0;
     gap: 0;
+
     .attachFile {
-      color: variables.$textColorLight;
-      padding: 0 variables.$padding_1;
+      color: variables.$text-color-light;
+      padding: 0 variables.$padding-1;
     }
+
     .sendButton {
-      color: variables.$colorMain;
-      padding: 0 variables.$padding_1;
+      color: variables.$color-main;
+      padding: 0 variables.$padding-1;
     }
+
     .input {
       width: 100%;
       width: -moz-available;
       width: -webkit-fill-available;
       width: stretch;
+
       input {
         width: 100%;
         width: -moz-available;
@@ -67,12 +76,13 @@
       }
     }
   }
+
   .messages {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: variables.$padding_2 variables.$padding_2;
-    gap: variables.$padding_2;
+    padding: variables.$padding-2 variables.$padding-2;
+    gap: variables.$padding-2;
     width: 100%;
     width: -moz-available;
     width: -webkit-fill-available;
@@ -82,11 +92,12 @@
     height: -webkit-fill-available;
     height: stretch;
     overflow-y: scroll;
+
     .timeline {
       text-align: center;
-      font-size: variables.$fontSizeSmall;
-      color: variables.$colorWhite;
-      font-weight: variables.$fontWeightLighter;
+      font-size: variables.$font-size-small;
+      color: variables.$color-white;
+      font-weight: variables.$font-weight-lighter;
       line-height: 3em;
     }
   }

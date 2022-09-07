@@ -1,8 +1,10 @@
-@use '/src/_variables';
+@use "/src/_variables";
+
 .icon {
   display: inline-block;
   width: 1em;
   height: 1em;
+
   svg {
     height: 100%;
     width: 100%;

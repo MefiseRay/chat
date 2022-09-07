@@ -1,5 +1,6 @@
 // constants SCSS
-@use '/src/_variables';
+@use "/src/_variables";
+
 .wrapper {
   height: 100vh;
   display: flex;
@@ -7,14 +8,14 @@
   justify-content: center;
 
   .centerArea {
-    background: variables.$colorWhite;
+    background: variables.$color-white;
     box-shadow: variables.$shadow;
-    border-radius: variables.$borderRadius;
-    padding: variables.$padding_2 variables.$padding_4;
+    border-radius: variables.$border-radius;
+    padding: variables.$padding-2 variables.$padding-4;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: variables.$padding_1;
+    gap: variables.$padding-1;
   }
 }

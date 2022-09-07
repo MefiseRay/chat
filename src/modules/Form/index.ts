@@ -1,8 +1,8 @@
 import Block from '../../utils/Block';
 import template from './form.pug';
-import * as formStyles from "./form.module.scss";
-import {Button} from "../../components/Button";
-import {Input} from "../../components/Input";
+import * as formStyles from './form.module.scss';
+import { Button } from '../../components/Button';
+import { Input } from '../../components/Input';
 
 interface FormProps {
     action: string,
@@ -10,21 +10,20 @@ interface FormProps {
     title: string,
     inputs: Input[],
     buttons: Button[],
-    styles?: {}
+    styles?: Record<string, unknown>
 }
 
 export class Form extends Block {
+  constructor(props: FormProps) {
+    super('div', props);
+        this.element!.classList.add(formStyles.form);
+  }
 
-    constructor(props: FormProps) {
-        super('div', props);
-        this.element!.classList.add(formStyles["form"]);
-    }
+  protected editPropsBeforeMakeThemProxy(props: FormProps) {
+    props.styles = formStyles;
+  }
 
-    protected editPropsBeforeMakeThemProxy(props: FormProps) {
-        props.styles = formStyles;
-    }
-
-    render() {
-        return this.compile(template, this.props);
-    }
+  render() {
+    return this.compile(template, this.props);
+  }
 }

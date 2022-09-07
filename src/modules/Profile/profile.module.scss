@@ -1,15 +1,16 @@
-@use '/src/_variables';
+@use "/src/_variables";
+
 .profile {
   display: flex;
   flex-direction: column;
   align-items: center;
   min-width: 250px;
-  gap: variables.$padding_1;
-  padding: variables.$padding_2 0;
+  gap: variables.$padding-1;
+  padding: variables.$padding-2 0;
 
   .buttonIcon {
     cursor: pointer;
-    color: variables.$colorMain;
+    color: variables.$color-main;
   }
 
   .head {
@@ -18,54 +19,62 @@
     justify-content: space-between;
     align-items: center;
     padding: 0;
-    gap: variables.$padding_1;
+    gap: variables.$padding-1;
     width: 100%;
+
     .left {
       min-width: 2em;
     }
+
     .avatar {
       display: flex;
       flex-direction: column;
       align-items: center;
       padding: 0;
-      gap: variables.$padding_1;
+      gap: variables.$padding-1;
+
       .login {
         text-align: center;
-        font-size: variables.$fontSizeBig;
-        color: variables.$colorMain;
-        font-weight: variables.$fontWeightBold;
+        font-size: variables.$font-size-big;
+        color: variables.$color-main;
+        font-weight: variables.$font-weight-bold;
       }
     }
+
     .right {
       min-width: 2em;
     }
   }
+
   .body {
     display: flex;
     flex-direction: column;
     align-items: start;
-    padding: variables.$padding_2 0;
-    gap: variables.$padding_1;
+    padding: variables.$padding-2 0;
+    gap: variables.$padding-1;
     width: fit-content;
+
     .item {
       .title {
-        font-size: variables.$fontSizeVerySmall;
-        color: variables.$textColorLight;
+        font-size: variables.$font-size-very-small;
+        color: variables.$text-color-light;
         line-height: 1em;
       }
+
       .value {
-        font-size: variables.$fontSize;
-        color: variables.$textColor;
+        font-size: variables.$font-size;
+        color: variables.$text-color;
         line-height: 1.5em;
       }
     }
   }
+
   .footer {
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
     padding: 0;
-    gap: variables.$padding_1;
+    gap: variables.$padding-1;
   }
 }
