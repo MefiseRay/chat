@@ -1,5 +1,6 @@
 import { nanoid } from 'nanoid';
 import { EventBus } from './EventBus';
+import refElementsCollection from './RefElementsCollection';
 
 // Нельзя создавать экземпляр данного класса
 class Block {
@@ -10,7 +11,7 @@ class Block {
     FLOW_RENDER: 'flow:render',
   };
 
-  public id = nanoid(6); // идентификатор блока
+  public readonly id = nanoid(6); // идентификатор блока
 
   protected props: Record<string, any>; // параметры для блока
 
@@ -176,14 +177,20 @@ class Block {
 
   private _render() {
     const fragment = this.render();
-        this._element!.innerHTML = '';
-        this._element!.append(fragment);
-        this._addEvents();
+    refElementsCollection.setElementsCollection(fragment, this.id);
+    this._element!.innerHTML = '';
+    this._element!.append(fragment);
+    this._addEvents();
+    this.afterRender();
   }
 
   protected render(): DocumentFragment {
     return new DocumentFragment();
   }
+
+  /*eslint-disable */
+  protected afterRender(): void {}
+  /* eslint-enable */
 
   private _addEvents() {
     // поулчаем из props запись по ключу events которое является Record<string, () => void>

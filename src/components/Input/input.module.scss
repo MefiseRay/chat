@@ -2,6 +2,7 @@
 
 .input {
   position: relative;
+  transition: 1s;
 
   i {
     position: absolute;
@@ -9,13 +10,22 @@
     left: 0;
   }
 
-  .title {
+  .title,
+  .message {
     font-weight: variables.$font-weight-lighter;
     font-size: variables.$font-size-very-small;
-    line-height: 1em;
-    height: variables.$font-size-very-small;
     color: variables.$text-color-light;
     display: block;
+  }
+
+  .title {
+    line-height: 1em;
+    height: variables.$font-size-very-small;
+  }
+
+  .message {
+    line-height: 1.2em;
+    padding-top: variables.$padding-0-5;
   }
 
   i + input {
@@ -34,7 +44,6 @@
     line-height: 2em;
     height: 2em;
     color: variables.$text-color;
-    transition: 1s;
 
     &:active,
     &:hover,
@@ -126,6 +135,30 @@
 
     input {
       width: 100%;
+    }
+  }
+
+  &.success {
+    .title,
+    .message {
+      color: variables.$color-success;
+    }
+
+    input {
+      color: variables.$color-success;
+      border-color: variables.$color-success;
+    }
+  }
+
+  &.error {
+    .message {
+      color: variables.$color-error;
+      font-style: italic;
+    }
+
+    input {
+      color: variables.$color-error;
+      border-color: variables.$color-error;
     }
   }
 }

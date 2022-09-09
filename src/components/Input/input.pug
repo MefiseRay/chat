@@ -1,4 +1,5 @@
 label(class=styles.title) #{title}
 if icon
     | !{icon}
-input(type=type name=name placeholder=placeholder value=value)
+input(type=type name=name placeholder=placeholder value=value ref-name="input")
+div(class=styles.message ref-name="message")

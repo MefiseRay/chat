@@ -6,7 +6,6 @@
     "extends": [
         "eslint:recommended",
         "airbnb",
-//        "airbnb-typescript",
         "plugin:@typescript-eslint/recommended"
     ],
     "overrides": [
@@ -23,6 +22,7 @@
         "import/extensions": [".js", ".jsx", ".ts", ".tsx", ".mjs"],
         "max-len": 150
     },
+    "ignorePatterns": ["/dist/*"],
     "rules": {
         "@typescript-eslint/no-non-null-assertion": "off",
         "@typescript-eslint/no-explicit-any": ["off"],

@@ -12,6 +12,7 @@ import { ChatPage } from '../pages/Chat';
 import logoutIcon from '../../static/icon/logout.svg';
 import beforeIcon from '../../static/icon/before.svg';
 import moreVertIcon from '../../static/icon/more-vert.svg';
+import ValidationHelper from './ValidationHelper';
 
 export class PageNavigator {
   static root:Element = document.querySelector('#app')!;
@@ -42,7 +43,7 @@ export class PageNavigator {
         firstName: 'Max',
         secondName: 'Zaitsev',
         email: 'max.zaitsev@site.ru',
-        phone: '8 (920) 900-10-20',
+        phone: '89209001020',
         renderStatus: 'show',
         logoutSvg: logoutIcon,
         backSvg: beforeIcon,
@@ -52,170 +53,242 @@ export class PageNavigator {
   }
 
   static renderAuthorizationPage(): void {
-    PageNavigator.renderPage(new AuthorizationPage({
-      form: new Form({
-        action: '',
-        method: '',
-        title: 'Вход',
-        inputs: [
-          new Input({
-            title: 'Логин',
-            type: 'text',
-            name: 'login',
-            value: '',
-            placeholder: 'Логин',
-            isRounded: false,
-            isLight: false,
-            displayBlock: true,
-            iconSrc: null,
-          }),
-          new Input({
-            title: 'Пароль',
-            type: 'password',
-            name: 'password',
-            value: '',
-            placeholder: 'Пароль',
-            isRounded: false,
-            isLight: false,
-            displayBlock: true,
-            iconSrc: null,
-          }),
-        ],
-        buttons: [
-          new Button({
-            text: 'Войти',
-            events: {
-              click: () => PageNavigator.renderChatPage(),
+    const form: Form = new Form({
+      action: '',
+      method: '',
+      title: 'Вход',
+      inputs: [
+        new Input({
+          title: 'Логин',
+          type: 'text',
+          name: 'login',
+          value: '',
+          placeholder: 'Логин',
+          isRounded: false,
+          isLight: false,
+          displayBlock: true,
+          iconSrc: null,
+          validation: {
+            required: true,
+            trim: true,
+            callback: (value: string, required?:boolean, trim?:boolean) => ValidationHelper
+              .loginValidation(value, required, trim),
+          },
+        }),
+        new Input({
+          title: 'Пароль',
+          type: 'password',
+          name: 'password',
+          value: '',
+          placeholder: 'Пароль',
+          isRounded: false,
+          isLight: false,
+          displayBlock: true,
+          iconSrc: null,
+          validation: {
+            required: true,
+            trim: true,
+            callback: (value: string, required?:boolean, trim?:boolean) => ValidationHelper
+              .passwordValidation(value, required, trim),
+          },
+        }),
+      ],
+      buttons: [
+        new Button({
+          text: 'Войти',
+          events: {
+            click: (event:Event) => {
+              event.stopPropagation();
+              event.preventDefault();
+              const { validate, formData } = form.checkValidate();
+              if (validate) {
+                console.log(formData);
+                PageNavigator.renderChatPage();
+              }
             },
-            isTransparent: false,
-            isBordered: false,
-            isWhite: false,
-            displayBlock: true,
-          }),
-          new Button({
-            text: 'Создать профиль',
-            events: {
-              click: () => PageNavigator.renderRegistrationPage(),
+          },
+          isTransparent: false,
+          isBordered: false,
+          isWhite: false,
+          displayBlock: true,
+        }),
+        new Button({
+          text: 'Создать профиль',
+          events: {
+            click: (event:Event) => {
+              event.stopPropagation();
+              event.preventDefault();
+              PageNavigator.renderRegistrationPage();
             },
-            isTransparent: true,
-            isBordered: false,
-            isWhite: false,
-            displayBlock: true,
-          }),
-        ],
-      }),
-    }));
+          },
+          isTransparent: true,
+          isBordered: false,
+          isWhite: false,
+          displayBlock: true,
+        }),
+      ],
+    });
+    PageNavigator.renderPage(new AuthorizationPage({ form }));
   }
 
   static renderRegistrationPage(): void {
-    PageNavigator.renderPage(new RegistrationPage({
-      form: new Form({
-        action: '',
-        method: '',
-        title: 'Регистрация',
-        inputs: [
-          new Input({
-            title: 'Почта',
-            type: 'text',
-            name: 'email',
-            value: '',
-            placeholder: 'Почта',
-            isRounded: false,
-            isLight: false,
-            displayBlock: true,
-            iconSrc: null,
-          }),
-          new Input({
-            title: 'Логин',
-            type: 'text',
-            name: 'login',
-            value: '',
-            placeholder: 'Логин',
-            isRounded: false,
-            isLight: false,
-            displayBlock: true,
-            iconSrc: null,
-          }),
-          new Input({
-            title: 'Имя',
-            type: 'text',
-            name: 'first_name',
-            value: '',
-            placeholder: 'Имя',
-            isRounded: false,
-            isLight: false,
-            displayBlock: true,
-            iconSrc: null,
-          }),
-          new Input({
-            title: 'Фамилия',
-            type: 'text',
-            name: 'second_name',
-            value: '',
-            placeholder: 'Фамилия',
-            isRounded: false,
-            isLight: false,
-            displayBlock: true,
-            iconSrc: null,
-          }),
-          new Input({
-            title: 'Телефон',
-            type: 'text',
-            name: 'phone',
-            value: '',
-            placeholder: 'Телефон',
-            isRounded: false,
-            isLight: false,
-            displayBlock: true,
-            iconSrc: null,
-          }),
-          new Input({
-            title: 'Пароль',
-            type: 'password',
-            name: 'password',
-            value: '',
-            placeholder: 'Пароль',
-            isRounded: false,
-            isLight: false,
-            displayBlock: true,
-            iconSrc: null,
-          }),
-          new Input({
-            title: 'Пароль (еще раз)',
-            type: 'password',
-            name: 'password_confirmation',
-            value: '',
-            placeholder: 'Пароль (еще раз)',
-            isRounded: false,
-            isLight: false,
-            displayBlock: true,
-            iconSrc: null,
-          }),
-        ],
-        buttons: [
-          new Button({
-            text: 'Зарегистрироваться',
-            events: {
-              click: () => PageNavigator.renderChatPage(),
+    const form: Form = new Form({
+      action: '',
+      method: '',
+      title: 'Регистрация',
+      inputs: [
+        new Input({
+          title: 'Почта',
+          type: 'text',
+          name: 'email',
+          value: '',
+          placeholder: 'Почта',
+          isRounded: false,
+          isLight: false,
+          displayBlock: true,
+          iconSrc: null,
+          validation: {
+            required: true,
+            trim: true,
+            callback: (value: string, required?:boolean, trim?:boolean) => ValidationHelper
+              .emailValidation(value, required, trim),
+          },
+        }),
+        new Input({
+          title: 'Логин',
+          type: 'text',
+          name: 'login',
+          value: '',
+          placeholder: 'Логин',
+          isRounded: false,
+          isLight: false,
+          displayBlock: true,
+          iconSrc: null,
+          validation: {
+            required: true,
+            trim: true,
+            callback: (value: string, required?:boolean, trim?:boolean) => ValidationHelper
+              .loginValidation(value, required, trim),
+          },
+        }),
+        new Input({
+          title: 'Имя',
+          type: 'text',
+          name: 'first_name',
+          value: '',
+          placeholder: 'Имя',
+          isRounded: false,
+          isLight: false,
+          displayBlock: true,
+          iconSrc: null,
+          validation: {
+            required: true,
+            trim: true,
+            callback: (value: string, required?:boolean, trim?:boolean) => ValidationHelper
+              .nameValidation(value, required, trim),
+          },
+        }),
+        new Input({
+          title: 'Фамилия',
+          type: 'text',
+          name: 'second_name',
+          value: '',
+          placeholder: 'Фамилия',
+          isRounded: false,
+          isLight: false,
+          displayBlock: true,
+          iconSrc: null,
+          validation: {
+            required: true,
+            trim: true,
+            callback: (value: string, required?:boolean, trim?:boolean) => ValidationHelper
+              .secondNameValidation(value, required, trim),
+          },
+        }),
+        new Input({
+          title: 'Телефон',
+          type: 'text',
+          name: 'phone',
+          value: '',
+          placeholder: 'Телефон',
+          isRounded: false,
+          isLight: false,
+          displayBlock: true,
+          iconSrc: null,
+          validation: {
+            required: true,
+            trim: true,
+            callback: (value: string, required?:boolean, trim?:boolean) => ValidationHelper
+              .phoneValidation(value, required, trim),
+          },
+        }),
+        new Input({
+          title: 'Пароль',
+          type: 'password',
+          name: 'password',
+          value: '',
+          placeholder: 'Пароль',
+          isRounded: false,
+          isLight: false,
+          displayBlock: true,
+          iconSrc: null,
+          validation: {
+            required: true,
+            trim: true,
+            callback: (value: string, required?:boolean, trim?:boolean) => ValidationHelper
+              .passwordValidation(value, required, trim),
+          },
+        }),
+        new Input({
+          title: 'Пароль (еще раз)',
+          type: 'password',
+          name: 'password_confirmation',
+          value: '',
+          placeholder: 'Пароль (еще раз)',
+          isRounded: false,
+          isLight: false,
+          displayBlock: true,
+          iconSrc: null,
+          validation: {
+            required: true,
+            trim: true,
+            callback: (value: string, required?:boolean, trim?:boolean) => ValidationHelper
+              .passwordValidation(value, required, trim),
+          },
+        }),
+      ],
+      buttons: [
+        new Button({
+          text: 'Зарегистрироваться',
+          events: {
+            click: (event:Event) => {
+              event.stopPropagation();
+              event.preventDefault();
+              const { validate, formData } = form.checkValidate();
+              if (validate) {
+                console.log(formData);
+                PageNavigator.renderChatPage();
+              }
             },
-            isTransparent: false,
-            isBordered: false,
-            isWhite: false,
-            displayBlock: true,
-          }),
-          new Button({
-            text: 'Войти',
-            events: {
-              click: () => PageNavigator.renderAuthorizationPage(),
-            },
-            isTransparent: true,
-            isBordered: false,
-            isWhite: false,
-            displayBlock: true,
-          }),
-        ],
-      }),
-    }));
+          },
+          isTransparent: false,
+          isBordered: false,
+          isWhite: false,
+          displayBlock: true,
+        }),
+        new Button({
+          text: 'Войти',
+          events: {
+            click: () => PageNavigator.renderAuthorizationPage(),
+          },
+          isTransparent: true,
+          isBordered: false,
+          isWhite: false,
+          displayBlock: true,
+        }),
+      ],
+    });
+    PageNavigator.renderPage(new RegistrationPage({ form }));
   }
 
   static render404Page(): void {

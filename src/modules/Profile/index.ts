@@ -9,6 +9,7 @@ import * as profileStyles from './profile.module.scss';
 import { PageNavigator } from '../../utils/PageNavigator';
 import { Form } from '../Form';
 import { Input } from '../../components/Input';
+import ValidationHelper from '../../utils/ValidationHelper';
 
 interface ProfileProps {
     avatarSrc: string,
@@ -65,6 +66,12 @@ export class Profile extends Block {
           isLight: false,
           displayBlock: true,
           iconSrc: null,
+          validation: {
+            required: true,
+            trim: true,
+            callback: (value: string, required?:boolean, trim?:boolean) => ValidationHelper
+              .loginValidation(value, required, trim),
+          },
         }),
         new Input({
           title: 'Имя',
@@ -76,6 +83,12 @@ export class Profile extends Block {
           isLight: false,
           displayBlock: true,
           iconSrc: null,
+          validation: {
+            required: true,
+            trim: true,
+            callback: (value: string, required?:boolean, trim?:boolean) => ValidationHelper
+              .nameValidation(value, required, trim),
+          },
         }),
         new Input({
           title: 'Фамилия',
@@ -87,6 +100,12 @@ export class Profile extends Block {
           isLight: false,
           displayBlock: true,
           iconSrc: null,
+          validation: {
+            required: true,
+            trim: true,
+            callback: (value: string, required?:boolean, trim?:boolean) => ValidationHelper
+              .secondNameValidation(value, required, trim),
+          },
         }),
         new Input({
           title: 'Почта',
@@ -98,6 +117,12 @@ export class Profile extends Block {
           isLight: false,
           displayBlock: true,
           iconSrc: null,
+          validation: {
+            required: true,
+            trim: true,
+            callback: (value: string, required?:boolean, trim?:boolean) => ValidationHelper
+              .emailValidation(value, required, trim),
+          },
         }),
         new Input({
           title: 'Телефон',
@@ -109,6 +134,12 @@ export class Profile extends Block {
           isLight: false,
           displayBlock: true,
           iconSrc: null,
+          validation: {
+            required: true,
+            trim: true,
+            callback: (value: string, required?:boolean, trim?:boolean) => ValidationHelper
+              .phoneValidation(value, required, trim),
+          },
         }),
       ],
       buttons: [
@@ -118,7 +149,11 @@ export class Profile extends Block {
             click: (event) => {
               event.stopPropagation();
               event.preventDefault();
-              this.changeRenderStatus(Profile.RENDER_STATUSES.SHOW);
+              const { validate, formData } = (this.children.changeDataForm as Form).checkValidate();
+              if (validate) {
+                console.log(formData);
+                this.changeRenderStatus(Profile.RENDER_STATUSES.SHOW);
+              }
             },
           },
           isTransparent: false,
@@ -146,6 +181,12 @@ export class Profile extends Block {
           isLight: false,
           displayBlock: true,
           iconSrc: null,
+          validation: {
+            required: true,
+            trim: true,
+            callback: (value: string, required?:boolean, trim?:boolean) => ValidationHelper
+              .passwordValidation(value, required, trim),
+          },
         }),
         new Input({
           title: 'Пароль',
@@ -157,6 +198,12 @@ export class Profile extends Block {
           isLight: false,
           displayBlock: true,
           iconSrc: null,
+          validation: {
+            required: true,
+            trim: true,
+            callback: (value: string, required?:boolean, trim?:boolean) => ValidationHelper
+              .passwordValidation(value, required, trim),
+          },
         }),
         new Input({
           title: 'Пароль (еще раз)',
@@ -168,6 +215,12 @@ export class Profile extends Block {
           isLight: false,
           displayBlock: true,
           iconSrc: null,
+          validation: {
+            required: true,
+            trim: true,
+            callback: (value: string, required?:boolean, trim?:boolean) => ValidationHelper
+              .passwordValidation(value, required, trim),
+          },
         }),
       ],
       buttons: [
@@ -177,7 +230,14 @@ export class Profile extends Block {
             click: (event) => {
               event.stopPropagation();
               event.preventDefault();
-              this.changeRenderStatus(Profile.RENDER_STATUSES.SHOW);
+              const {
+                validate,
+                formData,
+              } = (this.children.changePasswordForm as Form).checkValidate();
+              if (validate) {
+                console.log(formData);
+                this.changeRenderStatus(Profile.RENDER_STATUSES.SHOW);
+              }
             },
           },
           isTransparent: false,
@@ -242,7 +302,10 @@ export class Profile extends Block {
       size: '3em',
       icon: this.props.logoutSvg,
     });
-        this.children.logoutIcon.element!.addEventListener('click', () => PageNavigator.renderAuthorizationPage());
+        this.children.logoutIcon.element!.addEventListener(
+          'click',
+          () => PageNavigator.renderAuthorizationPage(),
+        );
         this.children.logoutIcon.element!.classList.add(profileStyles.buttonIcon);
   }
 
