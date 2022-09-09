@@ -9,5 +9,4 @@ window.addEventListener('DOMContentLoaded', () => {
   // PageNavigator.render500Page();
   // необходимо раскоментировать для првоерки отображения страницы с ошибкой 404
   // PageNavigator.render404Page();
-  PageNavigator.renderChatPage();
 });
