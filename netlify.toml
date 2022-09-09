@@ -6,5 +6,5 @@
 # “publish” is the directory to publish (relative to the root of your repo).
 
 [build]
-  command = "echo 'default context'"
-  publish = "npm start"
+  command = "npm start"
+  publish = "dist"
