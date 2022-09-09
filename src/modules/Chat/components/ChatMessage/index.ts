@@ -1,6 +1,9 @@
 import Block from '../../../../utils/Block';
 import template from './chatMessage.pug';
 import * as chatMessageStyles from './chatMessage.module.scss';
+import {Icon} from "../../../../components/Icon";
+import isSendIcon from '../../../../../static/icon/done.svg';
+import isReadIcon from '../../../../../static/icon/done-all.svg';
 
 export interface ChatMessageProps {
     profile: {
@@ -26,6 +29,23 @@ export class ChatMessage extends Block {
         if (this.props.messageImage) {
             this.element!.classList.add(chatMessageStyles.imageMessage);
         }
+  }
+
+  protected init() {
+    switch (this.props.status) {
+      case "isRead":
+        this.children.icon = new Icon({
+          size: '1em',
+          icon: isReadIcon,
+        });
+        break;
+      case "isSend":
+        this.children.icon = new Icon({
+          size: '1em',
+          icon: isSendIcon,
+        });
+        break;
+    }
   }
 
   protected editPropsBeforeMakeThemProxy(props: ChatMessageProps) {
