@@ -13,7 +13,7 @@ export interface ChatMessagesBlockProps {
 export class ChatMessagesBlock extends Block {
   constructor(props: ChatMessagesBlockProps) {
     super('div', props);
-        this.element!.classList.add(chatMessagesBlockStyles.messagesBlock);
+        this.element!.classList.add(chatMessagesBlockStyles['messages-block']);
   }
 
   protected editPropsBeforeMakeThemProxy(props: ChatMessagesBlockProps) {

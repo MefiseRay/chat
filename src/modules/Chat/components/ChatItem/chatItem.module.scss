@@ -35,7 +35,7 @@
   }
 
   .info {
-    .dateTime {
+    .date-time {
       position: absolute;
       right: variables.$padding-1;
       top: variables.$padding-1;
@@ -45,7 +45,7 @@
       line-height: 1em;
     }
 
-    .notRead {
+    .not-read {
       position: absolute;
       right: variables.$padding-1;
       bottom: variables.$padding-1;
@@ -75,11 +75,11 @@
     }
 
     .info {
-      .dateTime {
+      .date-time {
         color: variables.$color-white;
       }
 
-      .notRead {
+      .not-read {
         color: variables.$color-white;
         background: transparent;
         border: 1px solid variables.$color-white;

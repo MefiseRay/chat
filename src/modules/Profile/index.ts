@@ -306,7 +306,7 @@ export class Profile extends Block {
           'click',
           () => PageNavigator.renderAuthorizationPage(),
         );
-        this.children.logoutIcon.element!.classList.add(profileStyles.buttonIcon);
+        this.children.logoutIcon.element!.classList.add(profileStyles['button-icon']);
   }
 
   protected addBackButton() {
@@ -321,7 +321,7 @@ export class Profile extends Block {
             this.changeRenderStatus(Profile.RENDER_STATUSES.SHOW);
           }
         });
-        this.children.backIcon.element!.classList.add(profileStyles.buttonIcon);
+        this.children.backIcon.element!.classList.add(profileStyles['button-icon']);
   }
 
   protected changeRenderStatus(renderStatus: string) {

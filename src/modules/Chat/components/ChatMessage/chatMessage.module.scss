@@ -40,7 +40,7 @@
     }
   }
 
-  &.imageMessage {
+  &.image-message {
     position: relative;
     padding: 0;
     background: transparent;
@@ -71,7 +71,7 @@
     }
   }
 
-  &.myMessage {
+  &.my-message {
     margin-right: 0;
     margin-left: auto;
     border-radius: variables.$border-radius variables.$border-radius 0;

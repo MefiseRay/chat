@@ -1,7 +1,7 @@
 import Block from '../../../../utils/Block';
 import template from './chatMessage.pug';
 import * as chatMessageStyles from './chatMessage.module.scss';
-import {Icon} from "../../../../components/Icon";
+import { Icon } from '../../../../components/Icon';
 import isSendIcon from '../../../../../static/icon/done.svg';
 import isReadIcon from '../../../../../static/icon/done-all.svg';
 
@@ -27,23 +27,25 @@ export class ChatMessage extends Block {
     super('div', props);
         this.element!.classList.add(chatMessageStyles.message);
         if (this.props.messageImage) {
-            this.element!.classList.add(chatMessageStyles.imageMessage);
+            this.element!.classList.add(chatMessageStyles['image-message']);
         }
   }
 
   protected init() {
     switch (this.props.status) {
-      case "isRead":
+      case 'isRead':
         this.children.icon = new Icon({
           size: '1em',
           icon: isReadIcon,
         });
         break;
-      case "isSend":
+      case 'isSend':
         this.children.icon = new Icon({
           size: '1em',
           icon: isSendIcon,
         });
+        break;
+      default:
         break;
     }
   }
@@ -57,6 +59,6 @@ export class ChatMessage extends Block {
   }
 
   setMessageMy() {
-        this.element!.classList.add(chatMessageStyles.myMessage);
+        this.element!.classList.add(chatMessageStyles['my-message']);
   }
 }

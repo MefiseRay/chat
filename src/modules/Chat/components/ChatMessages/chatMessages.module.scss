@@ -12,7 +12,7 @@
   align-items: center;
   padding: 0;
 
-  .topPanel {
+  .top-panel {
     background: variables.$color-white;
     width: 100%;
     display: flex;
@@ -22,7 +22,7 @@
     padding: variables.$padding-1 0;
     gap: variables.$padding-1;
 
-    .chatInfo {
+    .chat-info {
       display: flex;
       flex-direction: row;
       align-items: center;
@@ -30,7 +30,7 @@
       padding: 0 variables.$padding-2;
       gap: variables.$padding-1;
 
-      .chatName {
+      .chat-name {
         color: variables.$color-main;
         font-size: variables.$font-size-big;
         font-weight: variables.$font-weight-bold;
@@ -42,7 +42,7 @@
     }
   }
 
-  .bottomPanel {
+  .bottom-panel {
     background: variables.$color-white;
     width: 100%;
     display: flex;
@@ -52,12 +52,12 @@
     padding: variables.$padding-1 0;
     gap: 0;
 
-    .attachFile {
+    .attach-file {
       color: variables.$text-color-light;
       padding: 0 variables.$padding-1;
     }
 
-    .sendButton {
+    .send-button {
       color: variables.$color-main;
       padding: 0 variables.$padding-1;
     }
@@ -92,13 +92,5 @@
     height: -webkit-fill-available;
     height: stretch;
     overflow-y: scroll;
-
-    .timeline {
-      text-align: center;
-      font-size: variables.$font-size-small;
-      color: variables.$color-white;
-      font-weight: variables.$font-weight-lighter;
-      line-height: 3em;
-    }
   }
 }

@@ -4,6 +4,6 @@ div(class=styles.main)
     div(class=styles.name) #{name}
     div(class=styles.message) #{message.text}
 div(class=styles.info)
-    time(class=styles.dateTime) #{message.dateTime}
+    time(class=styles["date-time"]) #{message.dateTime}
     if notRead > 0
-        div(class=styles.notRead) #{notRead}
+        div(class=styles["not-read"]) #{notRead}
