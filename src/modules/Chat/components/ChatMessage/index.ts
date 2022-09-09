@@ -54,11 +54,11 @@ export class ChatMessage extends Block {
     props.styles = chatMessageStyles;
   }
 
-  render() {
+  protected render() {
     return this.compile(template, this.props);
   }
 
-  setMessageMy() {
+  public setMessageMy() {
         this.element!.classList.add(chatMessageStyles['my-message']);
   }
 }

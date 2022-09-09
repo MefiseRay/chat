@@ -15,7 +15,7 @@ export class Icon extends Block {
         this.element!.style.width = props.size;
   }
 
-  render() {
+  protected render() {
     return this.compile(template, this.props);
   }
 }

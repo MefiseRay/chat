@@ -31,7 +31,7 @@ export class ChatMessagesBlock extends Block {
     });
   }
 
-  render() {
+  protected render() {
     return this.compile(template, this.props);
   }
 }

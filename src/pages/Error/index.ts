@@ -31,7 +31,7 @@ export class ErrorPage extends Block {
     });
   }
 
-  render() {
+  protected render() {
     return this.compile(template, this.props);
   }
 }

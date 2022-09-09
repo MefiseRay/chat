@@ -17,7 +17,7 @@ export class ChatUser extends Block {
         this.element!.classList.add(chatUserStyles.user);
   }
 
-  render() {
+  protected render() {
     return this.compile(template, this.props);
   }
 }

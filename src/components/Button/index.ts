@@ -23,7 +23,7 @@ export class Button extends Block {
         if (props.displayBlock) this.element!.classList.add(buttonStyles.block);
   }
 
-  render() {
+  protected render() {
     return this.compile(template, this.props);
   }
 }

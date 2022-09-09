@@ -38,7 +38,7 @@ export class ChatItem extends Block {
         this.children.image.getContent()!.style.boxShadow = 'none';
   }
 
-  render() {
+  protected render() {
     if (this.props.selected) {
             this.element!.classList.add(chatItemStyles.active);
     } else {
@@ -47,15 +47,15 @@ export class ChatItem extends Block {
     return this.compile(template, this.props);
   }
 
-  isSelected() {
+  public isSelected() {
     return this.props.selected;
   }
 
-  removeSelection() {
+  public removeSelection() {
     this.props.selected = false;
   }
 
-  select() {
+  public select() {
     this.props.selected = true;
   }
 }

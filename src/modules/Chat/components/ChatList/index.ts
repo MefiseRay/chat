@@ -34,18 +34,18 @@ export class ChatList extends Block {
   }
 
   protected init() {
-    this.addAvatar();
-    this.addButton();
-    this.addSearchInput();
-    this.addItemsList();
-    this.addChatUser();
+    this._addAvatar();
+    this._addButton();
+    this._addSearchInput();
+    this._addItemsList();
+    this._addChatUser();
   }
 
-  render() {
+  protected render() {
     return this.compile(template, this.props);
   }
 
-  protected addChatUser() {
+  private _addChatUser() {
     this.children.chatUser = new ChatUser({
       avatar: new Avatar({
         src: this.props.profile.avatarSrc,
@@ -62,7 +62,7 @@ export class ChatList extends Block {
     });
   }
 
-  protected addAvatar() {
+  private _addAvatar() {
     this.children.avatar = new Avatar({
       src: this.props.profile.avatarSrc,
       size: '2em',
@@ -71,7 +71,7 @@ export class ChatList extends Block {
     });
   }
 
-  protected addButton() {
+  private _addButton() {
     this.children.addButton = new Icon({
       size: '1.5em',
       icon: this.props.addChatIconSrc,
@@ -81,7 +81,7 @@ export class ChatList extends Block {
         });
   }
 
-  protected addSearchInput() {
+  private _addSearchInput() {
     this.children.searchInput = new Input({
       title: 'Поиск',
       type: 'text',
@@ -95,15 +95,15 @@ export class ChatList extends Block {
     });
   }
 
-  protected addItemsList() {
+  private _addItemsList() {
     const itemsList: ChatItem[] = [];
-    this.testItemsData().forEach((element: ChatItemProps) => {
+    this._testItemsData().forEach((element: ChatItemProps) => {
       itemsList.push(new ChatItem(element));
     });
     this.children.chatItemsList = itemsList;
   }
 
-  private testItemsData():ChatItemProps[] {
+  private _testItemsData():ChatItemProps[] {
     const itemsData: ChatItemProps[] = [];
     let notRead = 0;
     for (let i = 1; i <= 20; i++) {

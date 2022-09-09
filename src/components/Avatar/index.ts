@@ -22,7 +22,7 @@ export class Avatar extends Block {
     props.styles = avatarStyles;
   }
 
-  render() {
+  protected render() {
     return this.compile(template, this.props);
   }
 }

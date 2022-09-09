@@ -35,7 +35,7 @@ export class Chat extends Block {
     this._addSelectChatEvents();
   }
 
-  render() {
+  protected render() {
     return this.compile(template, this.props);
   }
 

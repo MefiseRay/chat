@@ -71,7 +71,7 @@ export class MenuButton extends Block {
         menu.element!.remove();
   }
 
-  render() {
+  protected render() {
     return this.compile(template, this.props);
   }
 }

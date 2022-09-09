@@ -20,7 +20,7 @@ export class RegistrationPage extends Block {
     this.props.centralAreaStyles = centralAreaStyles;
   }
 
-  render() {
+  protected render() {
     return this.compile(template, this.props);
   }
 }

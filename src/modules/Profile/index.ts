@@ -42,15 +42,15 @@ export class Profile extends Block {
   }
 
   protected init() {
-    this.addAvatar();
-    this.addLogoutButton();
-    this.addBackButton();
-    this.addMenu();
-    this.addChangeDataForm();
-    this.addChangePasswordForm();
+    this._addAvatar();
+    this._addLogoutButton();
+    this._addBackButton();
+    this._addMenu();
+    this._addChangeDataForm();
+    this._addChangePasswordForm();
   }
 
-  protected addChangeDataForm() {
+  private _addChangeDataForm() {
     this.children.changeDataForm = new Form({
       action: '',
       method: '',
@@ -152,7 +152,7 @@ export class Profile extends Block {
               const { validate, formData } = (this.children.changeDataForm as Form).checkValidate();
               if (validate) {
                 console.log(formData);
-                this.changeRenderStatus(Profile.RENDER_STATUSES.SHOW);
+                this._changeRenderStatus(Profile.RENDER_STATUSES.SHOW);
               }
             },
           },
@@ -165,7 +165,7 @@ export class Profile extends Block {
     });
   }
 
-  protected addChangePasswordForm() {
+  private _addChangePasswordForm() {
     this.children.changePasswordForm = new Form({
       action: '',
       method: '',
@@ -236,7 +236,7 @@ export class Profile extends Block {
               } = (this.children.changePasswordForm as Form).checkValidate();
               if (validate) {
                 console.log(formData);
-                this.changeRenderStatus(Profile.RENDER_STATUSES.SHOW);
+                this._changeRenderStatus(Profile.RENDER_STATUSES.SHOW);
               }
             },
           },
@@ -249,7 +249,7 @@ export class Profile extends Block {
     });
   }
 
-  protected addMenu() {
+  private _addMenu() {
     this.children.menuButton = new MenuButton({
       icon: new Icon({
         size: '2em',
@@ -261,7 +261,7 @@ export class Profile extends Block {
             text: 'Изменить даныне',
             events: {
               click: () => {
-                this.changeRenderStatus(Profile.RENDER_STATUSES.CHANGE_DATA);
+                this._changeRenderStatus(Profile.RENDER_STATUSES.CHANGE_DATA);
               },
             },
             isTransparent: true,
@@ -273,7 +273,7 @@ export class Profile extends Block {
             text: 'Изменить пароль',
             events: {
               click: () => {
-                this.changeRenderStatus(Profile.RENDER_STATUSES.CHANGE_PASSWORD);
+                this._changeRenderStatus(Profile.RENDER_STATUSES.CHANGE_PASSWORD);
               },
             },
             isTransparent: true,
@@ -288,7 +288,7 @@ export class Profile extends Block {
     });
   }
 
-  protected addAvatar() {
+  private _addAvatar() {
     this.children.avatar = new Avatar({
       src: this.props.avatarSrc,
       size: '6em',
@@ -297,7 +297,7 @@ export class Profile extends Block {
     });
   }
 
-  protected addLogoutButton() {
+  private _addLogoutButton() {
     this.children.logoutIcon = new Icon({
       size: '3em',
       icon: this.props.logoutSvg,
@@ -309,7 +309,7 @@ export class Profile extends Block {
         this.children.logoutIcon.element!.classList.add(profileStyles['button-icon']);
   }
 
-  protected addBackButton() {
+  private _addBackButton() {
     this.children.backIcon = new Icon({
       size: '2em',
       icon: this.props.backSvg,
@@ -318,13 +318,13 @@ export class Profile extends Block {
           if (this.props.renderStatus === 'show') {
             PageNavigator.renderChatPage();
           } else {
-            this.changeRenderStatus(Profile.RENDER_STATUSES.SHOW);
+            this._changeRenderStatus(Profile.RENDER_STATUSES.SHOW);
           }
         });
         this.children.backIcon.element!.classList.add(profileStyles['button-icon']);
   }
 
-  protected changeRenderStatus(renderStatus: string) {
+  private _changeRenderStatus(renderStatus: string) {
     const menuButton = this.children.menuButton as MenuButton;
     switch (renderStatus) {
       case Profile.RENDER_STATUSES.CHANGE_DATA:
@@ -344,7 +344,7 @@ export class Profile extends Block {
     }
   }
 
-  render() {
+  protected render() {
     return this.compile(template, this.props);
   }
 }
