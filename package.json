@@ -3,12 +3,12 @@
   "version": "1.0.0",
   "description": "My chat",
   "scripts": {
-    "start": "npm run delete & npm run build & npm run start-server",
-    "dev": "npm run delete & npm run watch & npm run start-server",
+    "start": "npm run build & npm run start-server",
+    "dev": "npm run watch & npm run start-server",
     "build": "parcel build ./src/index.html",
     "watch": "parcel watch ./src/index.html",
     "start-server": "node ./server.js",
-    "delete": "rm -rf ./dist/  & rm -rf ./.parcel-cache/",
+    "delete-files-on-linux": "rm -rf ./dist/  & rm -rf ./.parcel-cache/",
     "eslint": "./node_modules/.bin/eslint . --fix",
     "stylelint": "npx stylelint '**/*.scss'"
   },
