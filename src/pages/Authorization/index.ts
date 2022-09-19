@@ -12,7 +12,7 @@ interface AuthorizationPageProps {
 
 export class AuthorizationPage extends Block {
   constructor(props: AuthorizationPageProps) {
-    super('div', props);
+    super(props);
         this.element!.classList.add(centralAreaStyles.wrapper);
   }
 

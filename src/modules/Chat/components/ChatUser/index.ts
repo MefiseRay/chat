@@ -13,7 +13,7 @@ export interface ChatUserProps {
 
 export class ChatUser extends Block {
   constructor(props: ChatUserProps) {
-    super('div', props);
+    super(props);
         this.element!.classList.add(chatUserStyles.user);
   }
 

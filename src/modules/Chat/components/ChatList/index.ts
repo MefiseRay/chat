@@ -25,7 +25,7 @@ export interface ChatListProps {
 
 export class ChatList extends Block {
   constructor(props: ChatListProps) {
-    super('div', props);
+    super(props);
         this.element!.classList.add(chatListStyles.wrapper);
   }
 

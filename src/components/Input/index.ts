@@ -44,7 +44,7 @@ export class Input extends Block {
   private _message: Element | undefined;
 
   constructor(props: InputProps) {
-    super('div', props);
+    super(props);
         this.element!.classList.add(inputStyles.input);
         if (props.isRounded) {
             this.element!.classList.add(inputStyles.rounded);

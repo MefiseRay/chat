@@ -8,11 +8,13 @@ interface IconProps {
 }
 
 export class Icon extends Block {
+
   constructor(props: IconProps) {
-    super('i', props);
-        this.element!.classList.add(iconStyles.icon);
-        this.element!.style.height = props.size;
-        this.element!.style.width = props.size;
+    super(props, 'i');
+    console.log(this._meta);
+    this.element!.classList.add(iconStyles.icon);
+    this.element!.style.height = props.size;
+    this.element!.style.width = props.size;
   }
 
   protected render() {

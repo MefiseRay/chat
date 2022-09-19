@@ -13,7 +13,7 @@ interface ErrorPageProps {
 
 export class ErrorPage extends Block {
   constructor(props: ErrorPageProps) {
-    super('div', props);
+    super(props);
         this.element!.classList.add(errorStyles.wrapper);
   }
 

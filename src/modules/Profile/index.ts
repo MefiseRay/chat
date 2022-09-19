@@ -33,7 +33,7 @@ export class Profile extends Block {
   };
 
   constructor(props: ProfileProps) {
-    super('div', props);
+    super(props);
         this.element!.classList.add(profileStyles.profile);
   }
 

@@ -16,7 +16,7 @@ interface FormProps {
 
 export class Form extends Block {
   constructor(props: FormProps) {
-    super('div', props);
+    super(props);
         this.element!.classList.add(formStyles.form);
   }
 

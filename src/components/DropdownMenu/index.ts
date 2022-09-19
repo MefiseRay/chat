@@ -16,7 +16,7 @@ interface DropdownMenuProps {
 
 export class DropdownMenu extends Block {
   constructor(props: DropdownMenuProps) {
-    super('div', props);
+    super(props);
     this.element!.classList.add(dropdownMenuStyles.dropdown);
   }
 

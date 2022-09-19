@@ -12,7 +12,7 @@ interface RegistrationPageProps{
 
 export class RegistrationPage extends Block {
   constructor(props: RegistrationPageProps) {
-    super('div', props);
+    super(props);
         this.element!.classList.add(centralAreaStyles.wrapper);
   }
 

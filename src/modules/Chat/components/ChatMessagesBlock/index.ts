@@ -12,7 +12,7 @@ export interface ChatMessagesBlockProps {
 
 export class ChatMessagesBlock extends Block {
   constructor(props: ChatMessagesBlockProps) {
-    super('div', props);
+    super(props);
         this.element!.classList.add(chatMessagesBlockStyles['messages-block']);
   }
 

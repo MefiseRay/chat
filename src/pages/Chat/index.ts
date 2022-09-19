@@ -9,7 +9,7 @@ import sendIcon from '../../../static/icon/send.svg';
 
 export class ChatPage extends Block {
   constructor(props: Record<string, unknown>) {
-    super('div', props);
+    super(props);
   }
 
   protected init() {

@@ -10,8 +10,9 @@ interface ProfilePageProps {
 }
 
 export class ProfilePage extends Block {
+
   constructor(props: ProfilePageProps) {
-    super('div', props);
+    super(props);
         this.element!.classList.add(centralAreaStyles.wrapper);
   }
 

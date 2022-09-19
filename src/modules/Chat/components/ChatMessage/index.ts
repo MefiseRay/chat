@@ -24,7 +24,7 @@ export interface ChatMessageProps {
 
 export class ChatMessage extends Block {
   constructor(props: ChatMessageProps) {
-    super('div', props);
+    super(props);
         this.element!.classList.add(chatMessageStyles.message);
         if (this.props.messageImage) {
             this.element!.classList.add(chatMessageStyles['image-message']);

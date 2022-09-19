@@ -11,11 +11,12 @@ interface AvatarProps {
 }
 
 export class Avatar extends Block {
+
   constructor(props: AvatarProps) {
-    super('div', props);
-        this.element!.classList.add(avatarStyles.avatar);
-        this.element!.style.height = props.size;
-        this.element!.style.width = props.size;
+    super(props);
+    this.element!.classList.add(avatarStyles.avatar);
+    this.element!.style.height = props.size;
+    this.element!.style.width = props.size;
   }
 
   protected editPropsBeforeMakeThemProxy(props: AvatarProps) {

@@ -19,7 +19,7 @@ export interface ChatItemProps {
 
 export class ChatItem extends Block {
   constructor(props: ChatItemProps) {
-    super('div', props);
+    super(props);
         this.element!.classList.add(chatItemStyles.item);
   }
 

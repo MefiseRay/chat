@@ -20,8 +20,8 @@ class Route {
   constructor(
     private pathname: string,
     private readonly blockClass: typeof Block,
-    private readonly query: string) {
-  }
+    private readonly query: string
+  ) {}
 
   leave() {
     this.block = null;
@@ -33,7 +33,7 @@ class Route {
 
   render() {
     if (!this.block) {
-      this.block = new this.blockClass('div',{});
+      this.block = new this.blockClass({});
       render(this.query, this.block);
       return;
     }

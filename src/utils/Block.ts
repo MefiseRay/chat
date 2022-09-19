@@ -21,7 +21,7 @@ class Block {
 
   private _element: HTMLElement | null = null;
 
-  private readonly _meta: { tagName: string; props: any; };
+  protected readonly _meta: { tagName: string; props: any; };
 
   /** JSDoc
      * конструктор
@@ -30,7 +30,7 @@ class Block {
      *
      * @returns {void}
      */
-  constructor(tagName = 'div', propsWithChildren: Record<string, any> = {}) {
+  constructor(propsWithChildren: Record<string, any> = {}, tagName:string = 'div') {
     this._getChildrenAndProps = this._getChildrenAndProps.bind(this);
     // создаем объект EventBus
     const eventBus = new EventBus();

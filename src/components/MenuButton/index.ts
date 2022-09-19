@@ -15,7 +15,7 @@ interface MenuButtonProps {
 
 export class MenuButton extends Block {
   constructor(props: MenuButtonProps) {
-    super('div', props);
+    super(props);
     this.element!.classList.add(menuButtonStyles.wrapper);
   }
 
