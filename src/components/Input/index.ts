@@ -5,9 +5,24 @@ import { Icon } from '../Icon';
 import { ValidationResult } from '../../utils/CustomValidation';
 import refElementsCollection from '../../utils/RefElementsCollection';
 
+export enum InputTypes {
+  text = 'text',
+  number = 'number',
+  email = 'email',
+  hidden = 'hidden',
+  month = 'month',
+  password = 'password',
+  search = 'search',
+  tel = 'tel',
+  time = 'time',
+  url = 'url',
+  week = 'week',
+  datetime = 'datetime'
+}
+
 interface InputProps {
   title: string,
-  type: string,
+  type: InputTypes,
   name: string,
   value: string,
   placeholder: string,

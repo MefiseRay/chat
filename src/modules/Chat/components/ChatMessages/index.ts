@@ -3,10 +3,9 @@ import template from './chatMessages.pug';
 import * as chatMessagesStyles from './chatMessages.module.scss';
 import { Avatar } from '../../../../components/Avatar';
 import { Icon } from '../../../../components/Icon';
-import { Input } from '../../../../components/Input';
+import { Input, InputTypes } from '../../../../components/Input';
 import { MenuButton } from '../../../../components/MenuButton';
 import { DropdownMenu } from '../../../../components/DropdownMenu';
-import { Button } from '../../../../components/Button';
 import { ChatMessagesBlock, ChatMessagesBlockProps } from '../ChatMessagesBlock';
 
 export interface ChatMessagesProps {
@@ -68,42 +67,24 @@ export class ChatMessages extends Block {
       }),
       menu: new DropdownMenu({
         items: [
-          new Button({
+          {
             text: 'Изменить',
-            events: {
-              click: () => {
-                console.log('Выбран пунк меню: Изменить');
-              },
+            click: () => {
+              console.log('Выбран пунк меню: Изменить');
             },
-            isTransparent: true,
-            isBordered: false,
-            isWhite: false,
-            displayBlock: true,
-          }),
-          new Button({
+          },
+          {
             text: 'Очистить',
-            events: {
-              click: () => {
-                console.log('Выбран пунк меню: Очистить сообщения');
-              },
+            click: () => {
+              console.log('Выбран пунк меню: Очистить сообщения');
             },
-            isTransparent: true,
-            isBordered: false,
-            isWhite: false,
-            displayBlock: true,
-          }),
-          new Button({
+          },
+          {
             text: 'Покинуть',
-            events: {
-              click: () => {
-                console.log('Выбран пунк меню: Удалить чат');
-              },
+            click: () => {
+              console.log('Выбран пунк меню: Удалить чат');
             },
-            isTransparent: true,
-            isBordered: false,
-            isWhite: false,
-            displayBlock: true,
-          }),
+          },
         ],
       }),
       horizontalShift: -5,
@@ -121,7 +102,7 @@ export class ChatMessages extends Block {
   private _addMessageInput() {
     this.children.messageInput = new Input({
       title: 'Введите свое сообщение',
-      type: 'text',
+      type: InputTypes.text,
       name: 'messageInput',
       value: '',
       placeholder: 'Введите свое сообщение',

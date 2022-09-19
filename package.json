@@ -4,7 +4,7 @@
   "description": "My chat",
   "scripts": {
     "start": "npm run build & npm run start-server",
-    "dev": "npm run watch & npm run start-server",
+    "dev": "npm run delete-files-on-linux & npm run watch & npm run start-server",
     "build": "parcel build ./src/index.html",
     "watch": "parcel watch ./src/index.html",
     "start-server": "node ./server.js",

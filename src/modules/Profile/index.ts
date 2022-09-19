@@ -8,7 +8,7 @@ import { MenuButton } from '../../components/MenuButton';
 import * as profileStyles from './profile.module.scss';
 import { PageNavigator } from '../../utils/PageNavigator';
 import { Form } from '../Form';
-import { Input } from '../../components/Input';
+import { Input, InputTypes } from '../../components/Input';
 import ValidationHelper from '../../utils/ValidationHelper';
 
 interface ProfileProps {
@@ -58,7 +58,7 @@ export class Profile extends Block {
       inputs: [
         new Input({
           title: 'Логин',
-          type: 'text',
+          type: InputTypes.text,
           name: 'login',
           value: this.props.login,
           placeholder: 'Логин',
@@ -75,7 +75,7 @@ export class Profile extends Block {
         }),
         new Input({
           title: 'Имя',
-          type: 'text',
+          type: InputTypes.text,
           name: 'first_name',
           value: this.props.firstName,
           placeholder: 'Имя',
@@ -92,7 +92,7 @@ export class Profile extends Block {
         }),
         new Input({
           title: 'Фамилия',
-          type: 'text',
+          type: InputTypes.text,
           name: 'second_name',
           value: this.props.secondName,
           placeholder: 'Фамилия',
@@ -109,7 +109,7 @@ export class Profile extends Block {
         }),
         new Input({
           title: 'Почта',
-          type: 'text',
+          type: InputTypes.email,
           name: 'email',
           value: this.props.email,
           placeholder: 'Почта',
@@ -126,7 +126,7 @@ export class Profile extends Block {
         }),
         new Input({
           title: 'Телефон',
-          type: 'text',
+          type: InputTypes.tel,
           name: 'phone',
           value: this.props.phone,
           placeholder: 'Телефон',
@@ -173,7 +173,7 @@ export class Profile extends Block {
       inputs: [
         new Input({
           title: 'Пароль',
-          type: 'password',
+          type: InputTypes.password,
           name: 'old_password',
           value: '',
           placeholder: 'Текущий пароль',
@@ -190,7 +190,7 @@ export class Profile extends Block {
         }),
         new Input({
           title: 'Пароль',
-          type: 'password',
+          type: InputTypes.password,
           name: 'password',
           value: '',
           placeholder: 'Новый пароль',
@@ -207,7 +207,7 @@ export class Profile extends Block {
         }),
         new Input({
           title: 'Пароль (еще раз)',
-          type: 'password',
+          type: InputTypes.password,
           name: 'password_confirmation',
           value: '',
           placeholder: 'Новый пароль (еще раз)',
@@ -257,30 +257,14 @@ export class Profile extends Block {
       }),
       menu: new DropdownMenu({
         items: [
-          new Button({
+          {
             text: 'Изменить даныне',
-            events: {
-              click: () => {
-                this._changeRenderStatus(Profile.RENDER_STATUSES.CHANGE_DATA);
-              },
-            },
-            isTransparent: true,
-            isBordered: false,
-            isWhite: false,
-            displayBlock: true,
-          }),
-          new Button({
+            click: () => this._changeRenderStatus(Profile.RENDER_STATUSES.CHANGE_DATA),
+          },
+          {
             text: 'Изменить пароль',
-            events: {
-              click: () => {
-                this._changeRenderStatus(Profile.RENDER_STATUSES.CHANGE_PASSWORD);
-              },
-            },
-            isTransparent: true,
-            isBordered: false,
-            isWhite: false,
-            displayBlock: true,
-          }),
+            click: () => this._changeRenderStatus(Profile.RENDER_STATUSES.CHANGE_PASSWORD),
+          },
         ],
       }),
       horizontalShift: -5,

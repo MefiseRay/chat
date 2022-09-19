@@ -80,4 +80,13 @@
       border-color: variables.$color-white;
     }
   }
+
+  &.menu-element {
+    color: variables.$text-color-light;
+
+    &:hover {
+      color: variables.$text-color-light;
+      background: variables.$color-light;
+    }
+  }
 }

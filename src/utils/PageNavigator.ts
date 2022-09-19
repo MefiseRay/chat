@@ -1,7 +1,7 @@
 import { Profile } from '../modules/Profile';
 import { ProfilePage } from '../pages/Profile';
 import { Form } from '../modules/Form';
-import { Input } from '../components/Input';
+import { Input, InputTypes } from '../components/Input';
 import { Button } from '../components/Button';
 import { AuthorizationPage } from '../pages/Authorization';
 import { RegistrationPage } from '../pages/Registration';
@@ -60,7 +60,7 @@ export class PageNavigator {
       inputs: [
         new Input({
           title: 'Логин',
-          type: 'text',
+          type: InputTypes.text,
           name: 'login',
           value: '',
           placeholder: 'Логин',
@@ -77,7 +77,7 @@ export class PageNavigator {
         }),
         new Input({
           title: 'Пароль',
-          type: 'password',
+          type: InputTypes.password,
           name: 'password',
           value: '',
           placeholder: 'Пароль',
@@ -139,7 +139,7 @@ export class PageNavigator {
       inputs: [
         new Input({
           title: 'Почта',
-          type: 'text',
+          type: InputTypes.email,
           name: 'email',
           value: '',
           placeholder: 'Почта',
@@ -156,7 +156,7 @@ export class PageNavigator {
         }),
         new Input({
           title: 'Логин',
-          type: 'text',
+          type: InputTypes.text,
           name: 'login',
           value: '',
           placeholder: 'Логин',
@@ -173,7 +173,7 @@ export class PageNavigator {
         }),
         new Input({
           title: 'Имя',
-          type: 'text',
+          type: InputTypes.text,
           name: 'first_name',
           value: '',
           placeholder: 'Имя',
@@ -190,7 +190,7 @@ export class PageNavigator {
         }),
         new Input({
           title: 'Фамилия',
-          type: 'text',
+          type: InputTypes.text,
           name: 'second_name',
           value: '',
           placeholder: 'Фамилия',
@@ -207,7 +207,7 @@ export class PageNavigator {
         }),
         new Input({
           title: 'Телефон',
-          type: 'text',
+          type: InputTypes.tel,
           name: 'phone',
           value: '',
           placeholder: 'Телефон',
@@ -224,7 +224,7 @@ export class PageNavigator {
         }),
         new Input({
           title: 'Пароль',
-          type: 'password',
+          type: InputTypes.password,
           name: 'password',
           value: '',
           placeholder: 'Пароль',
@@ -241,7 +241,7 @@ export class PageNavigator {
         }),
         new Input({
           title: 'Пароль (еще раз)',
-          type: 'password',
+          type: InputTypes.password,
           name: 'password_confirmation',
           value: '',
           placeholder: 'Пароль (еще раз)',

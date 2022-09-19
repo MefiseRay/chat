@@ -4,15 +4,20 @@ import { Button } from '../Button';
 
 import * as dropdownMenuStyles from './dropdownMenu.module.scss';
 
+interface DropdownMenuItemsProps {
+  text: string,
+  click: () => void,
+}
+
 interface DropdownMenuProps {
-    items: Button[],
+    items: DropdownMenuItemsProps[],
     styles?: Record<string, unknown>
 }
 
 export class DropdownMenu extends Block {
   constructor(props: DropdownMenuProps) {
     super('div', props);
-        this.element!.classList.add(dropdownMenuStyles.dropdown);
+    this.element!.classList.add(dropdownMenuStyles.dropdown);
   }
 
   protected editPropsBeforeMakeThemProxy(props: DropdownMenuProps) {
@@ -20,12 +25,20 @@ export class DropdownMenu extends Block {
   }
 
   protected init() {
-    Object.values(this.children).forEach((child) => {
-      if (Array.isArray(child)) {
-        child.forEach((childEl) => {
-                    childEl.element!.classList.add(dropdownMenuStyles.button);
-        });
-      }
+    this.children.buttons = [];
+    this.props.items.forEach((item: DropdownMenuItemsProps) => {
+      const button = new Button({
+        text: item.text,
+        events: {
+          click: () => item.click(),
+        },
+        isTransparent: true,
+        isBordered: false,
+        isWhite: false,
+        displayBlock: true,
+        isMenuElement: true,
+      });
+      (this.children.buttons as Button[]).push(button);
     });
   }
 

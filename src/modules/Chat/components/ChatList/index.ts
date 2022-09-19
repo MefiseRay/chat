@@ -4,7 +4,7 @@ import * as chatListStyles from './chatList.module.scss';
 import { Avatar } from '../../../../components/Avatar';
 import { PageNavigator } from '../../../../utils/PageNavigator';
 import { Icon } from '../../../../components/Icon';
-import { Input } from '../../../../components/Input';
+import { Input, InputTypes } from '../../../../components/Input';
 import { ChatItem, ChatItemProps } from '../ChatItem';
 import { ChatUser } from '../ChatUser';
 
@@ -20,7 +20,7 @@ export interface ChatListProps {
     }
     addChatIconSrc: string,
     searchIconSrc: string,
-    styles?: string
+    styles?: Record<string, unknown>
 }
 
 export class ChatList extends Block {
@@ -84,7 +84,7 @@ export class ChatList extends Block {
   private _addSearchInput() {
     this.children.searchInput = new Input({
       title: 'Поиск',
-      type: 'text',
+      type: InputTypes.text,
       name: 'search',
       value: '',
       placeholder: 'Поиск',

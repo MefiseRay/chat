@@ -25,18 +25,14 @@ const customValidation = (
     value = validationRule.preprocess(value);
   }
   if (validationRule.required && value === '') {
-    const message = withoutValueMessage ?? 'There is no value in the required field';
     result = {
       result: false,
       value,
-      message,
     };
+    if (withoutValueMessage) {
+      result.message = withoutValueMessage;
+    }
   }
-  console.log([
-    validationRule.validate,
-    value !== '',
-    !validationRule.required,
-  ]);
   if (validationRule.validate && (value !== '' || validationRule.required)) {
     result = validationRule.validate(value);
   } else {
