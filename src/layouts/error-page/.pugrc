@@ -1,7 +1,0 @@
-{
-  locals: {
-    errorCode: "",
-    errorText: "",
-    buttons: []
-  }
-}

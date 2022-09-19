@@ -1,0 +1,93 @@
+@use "/src/_variables";
+
+.item {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding: variables.$padding-1;
+  gap: 0;
+  position: relative;
+  border-bottom: 1px solid variables.$color-main;
+  cursor: pointer;
+  transition: 1s;
+
+  .main {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0 variables.$padding-3 0 variables.$padding-1;
+    gap: variables.$padding-0-5;
+
+    .name {
+      color: variables.$color-main;
+      font-size: variables.$font-size-big;
+      font-weight: variables.$font-weight-bold;
+    }
+
+    .message {
+      color: variables.$text-color-light;
+      font-size: variables.$font-size-small;
+      font-weight: variables.$font-weight-lighter;
+      line-height: 1em;
+      height: 2em;
+      overflow: hidden;
+    }
+  }
+
+  .info {
+    .date-time {
+      position: absolute;
+      right: variables.$padding-1;
+      top: variables.$padding-1;
+      color: variables.$text-color-light;
+      font-size: variables.$font-size-very-small;
+      font-weight: variables.$font-weight-lighter;
+      line-height: 1em;
+    }
+
+    .not-read {
+      position: absolute;
+      right: variables.$padding-1;
+      bottom: variables.$padding-1;
+      color: variables.$color-white;
+      font-size: variables.$font-size-very-small;
+      font-weight: variables.$font-weight-lighter;
+      line-height: 2em;
+      height: 2em;
+      width: 2em;
+      text-align: center;
+      background: variables.$color-gradient;
+      border-radius: 100%;
+      border: 1px solid transparent;
+    }
+  }
+
+  &:hover,
+  &.active {
+    background: variables.$color-gradient;
+    color: variables.$color-white;
+
+    .main {
+      .name,
+      .message {
+        color: variables.$color-white;
+      }
+    }
+
+    .info {
+      .date-time {
+        color: variables.$color-white;
+      }
+
+      .not-read {
+        color: variables.$color-white;
+        background: transparent;
+        border: 1px solid variables.$color-white;
+      }
+    }
+
+    .image > div {
+      background: variables.$color-white;
+    }
+  }
+}

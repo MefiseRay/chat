@@ -1,0 +1,13 @@
+div(class=styles.user)
+    | #{profile.login}
+if messageText
+    div(class=styles.text)
+        | #{messageText}
+if messageImage
+    div(class=styles.image)
+        img(src=messageImage)
+div(class=styles.info)
+    if icon
+        | !{icon}
+    time(class=styles.time)
+        | #{time}

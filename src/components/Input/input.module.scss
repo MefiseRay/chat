@@ -1,0 +1,164 @@
+@use "/src/_variables";
+
+.input {
+  position: relative;
+  transition: 1s;
+
+  i {
+    position: absolute;
+    bottom: 7px;
+    left: 0;
+  }
+
+  .title,
+  .message {
+    font-weight: variables.$font-weight-lighter;
+    font-size: variables.$font-size-very-small;
+    color: variables.$text-color-light;
+    display: block;
+  }
+
+  .title {
+    line-height: 1em;
+    height: variables.$font-size-very-small;
+  }
+
+  .message {
+    line-height: 1.2em;
+    padding-top: variables.$padding-0-5;
+  }
+
+  i + input {
+    padding-left: variables.$padding-2;
+  }
+
+  input {
+    background: transparent;
+    display: block;
+    border: none;
+    border-bottom: 1px solid variables.$color-main;
+    padding: 0 variables.$padding-0-5;
+    font-weight: variables.$font-weight-lighter;
+    font-size: variables.$font-size;
+    font-family: variables.$font-family;
+    line-height: 2em;
+    height: 2em;
+    color: variables.$text-color;
+
+    &:active,
+    &:hover,
+    &:focus {
+      outline: 0;
+      outline-offset: 0;
+      border-bottom: 1px solid variables.$color-second;
+    }
+
+    &::-webkit-input-placeholder {
+      font-size: 0;
+    }
+
+    &:-moz-placeholder {
+      font-size: 0;
+    }
+
+    &:-ms-input-placeholder {
+      font-size: 0;
+    }
+
+    &::placeholder {
+      font-size: 0;
+    }
+  }
+
+  &.rounded {
+    i {
+      left: 14px;
+    }
+
+    i + input {
+      padding-left: variables.$padding-3-5;
+    }
+
+    input {
+      border: 1px solid variables.$color-second;
+      border-radius: 28px;
+      padding: 0 variables.$padding-2;
+
+      &::-webkit-input-placeholder {
+        font-weight: variables.$font-weight-lighter;
+        font-size: variables.$font-size-very-small;
+        color: variables.$text-color-dark-gray;
+        line-height: 1em;
+      }
+
+      &:-moz-placeholder {
+        font-weight: variables.$font-weight-lighter;
+        font-size: variables.$font-size-very-small;
+        color: variables.$text-color-dark-gray;
+        line-height: 1em;
+      }
+
+      &:-ms-input-placeholder {
+        font-weight: variables.$font-weight-lighter;
+        font-size: variables.$font-size-very-small;
+        color: variables.$text-color-dark-gray;
+        line-height: 1em;
+      }
+
+      &::placeholder {
+        font-weight: variables.$font-weight-lighter;
+        font-size: variables.$font-size-very-small;
+        color: variables.$text-color-dark-gray;
+        line-height: 1em;
+      }
+    }
+
+    .title {
+      display: none;
+    }
+
+    &.light {
+      input {
+        border: 1px solid variables.$color-light;
+        background: variables.$color-light;
+      }
+
+      i {
+        color: variables.$text-color-dark-gray;
+      }
+    }
+  }
+
+  &.block {
+    display: block;
+    width: 100%;
+
+    input {
+      width: 100%;
+    }
+  }
+
+  &.success {
+    .title,
+    .message {
+      color: variables.$color-success;
+    }
+
+    input {
+      color: variables.$color-success;
+      border-color: variables.$color-success;
+    }
+  }
+
+  &.error {
+    .message {
+      color: variables.$color-error;
+      font-style: italic;
+    }
+
+    input {
+      color: variables.$color-error;
+      border-color: variables.$color-error;
+    }
+  }
+}

@@ -1,0 +1,27 @@
+@use "/src/_variables";
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: variables.$color-gradient;
+  color: variables.$text-color;
+  font-family: variables.$font-family;
+  font-size: variables.$font-size;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.app {
+  height: 100vh;
+}

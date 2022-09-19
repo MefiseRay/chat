@@ -1,0 +1,9 @@
+div(class=styles.head)
+    | !{chatUser}
+    div(class=styles.add)
+        | !{addButton}
+div(class=styles.search)
+    | !{searchInput}
+div(class=styles["chat-list"])
+     each value in chatItemsList
+         | !{value}

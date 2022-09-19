@@ -1,0 +1,9 @@
+form(action=action method=method)
+    if title !== ""
+        div(class=styles.title) #{title}
+    div(class=styles.content)
+        each input in inputs
+            | !{input}
+    div(class=styles.buttons)
+         each button in buttons
+             | !{button}

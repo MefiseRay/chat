@@ -1,0 +1,9 @@
+@use "/src/_variables";
+
+.dropdown {
+  position: fixed;
+  padding: variables.$padding-1;
+  background: variables.$color-white;
+  border-radius: variables.$border-radius-small;
+  box-shadow: variables.$shadow;
+}

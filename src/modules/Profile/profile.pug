@@ -1,0 +1,29 @@
+mixin infoList(title,value)
+    div(class=styles.item)
+        div(class=styles.title) #{title}
+        div(class=styles.value) #{value}
+
+
+div(class=styles.head)
+    div(class=styles.left)
+        | !{backIcon}
+    div(class=styles.avatar)
+        | !{avatar}
+        div(class=styles.login) #{login}
+    div(class=styles.right)
+        | !{menuButton}
+div(class=styles.body)
+    case renderStatus
+        when "show"
+            +infoList("ФИО", `${firstName} ${secondName}`)
+            +infoList("Почта", email)
+            +infoList("Телефон", phone)
+        when "changePassword"
+            | !{changePasswordForm}
+        when "changeData"
+            | !{changeDataForm}
+
+div(class=styles.footer)
+    | !{logoutIcon}
+
+

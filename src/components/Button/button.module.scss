@@ -1,0 +1,92 @@
+@use "/src/_variables";
+
+.button {
+  background: variables.$color-gradient;
+  border-radius: variables.$border-radius-small;
+  font-weight: variables.$font-weight-lighter;
+  font-size: variables.$font-size;
+  font-family: variables.$font-family;
+  line-height: 1em;
+  color: variables.$color-white;
+  padding: variables.$padding-1;
+  text-align: center;
+  cursor: pointer;
+  transition: 0.5s;
+  border: 1px solid transparent;
+
+  &:hover {
+    background: variables.$color-gradient-inversion;
+  }
+
+  &.white {
+    background: variables.$color-white;
+    color: variables.$color-main;
+  }
+
+  &.white:hover {
+    background: variables.$color-white;
+    color: variables.$color-second;
+  }
+
+  &.block {
+    display: block;
+    width: 100%;
+  }
+
+  &.transparent {
+    color: variables.$color-main;
+    background: transparent;
+    border: 1px solid transparent;
+
+    &:hover {
+      color: variables.$color-second;
+      background: transparent;
+      border: 1px solid transparent;
+    }
+
+    &.white {
+      background: transparent;
+      color: variables.$color-white;
+      border: 1px solid transparent;
+    }
+
+    &.white:hover {
+      background: transparent;
+      color: variables.$color-white;
+      border: 1px solid transparent;
+    }
+  }
+
+  &.bordered {
+    color: variables.$color-main;
+    border: 1px solid variables.$color-main;
+    background: transparent;
+
+    &:hover {
+      background: variables.$color-gradient;
+      border-color: variables.$color-second;
+      color: variables.$color-white;
+    }
+
+    &.white {
+      background: transparent;
+      color: variables.$color-white;
+      border: 1px solid variables.$color-white;
+    }
+
+    &.white:hover {
+      color: variables.$color-main;
+      background: variables.$color-white;
+      border-color: variables.$color-white;
+    }
+  }
+
+  &.menu-element {
+    color: variables.$text-color-light;
+
+    &:hover {
+      color: variables.$text-color-light;
+      background: variables.$color-light;
+    }
+  }
+}

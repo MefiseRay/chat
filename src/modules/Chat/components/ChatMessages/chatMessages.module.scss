@@ -1,0 +1,96 @@
+@use "/src/_variables";
+
+.chat {
+  height: 100vh;
+  width: 100%;
+  width: -moz-available;
+  width: -webkit-fill-available;
+  width: stretch;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0;
+
+  .top-panel {
+    background: variables.$color-white;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: variables.$padding-1 0;
+    gap: variables.$padding-1;
+
+    .chat-info {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: start;
+      padding: 0 variables.$padding-2;
+      gap: variables.$padding-1;
+
+      .chat-name {
+        color: variables.$color-main;
+        font-size: variables.$font-size-big;
+        font-weight: variables.$font-weight-bold;
+      }
+    }
+
+    .menu {
+      padding: 0 variables.$padding-1;
+    }
+  }
+
+  .bottom-panel {
+    background: variables.$color-white;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: variables.$padding-1 0;
+    gap: 0;
+
+    .attach-file {
+      color: variables.$text-color-light;
+      padding: 0 variables.$padding-1;
+    }
+
+    .send-button {
+      color: variables.$color-main;
+      padding: 0 variables.$padding-1;
+    }
+
+    .input {
+      width: 100%;
+      width: -moz-available;
+      width: -webkit-fill-available;
+      width: stretch;
+
+      input {
+        width: 100%;
+        width: -moz-available;
+        width: -webkit-fill-available;
+        width: stretch;
+      }
+    }
+  }
+
+  .messages {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: variables.$padding-2 variables.$padding-2;
+    gap: variables.$padding-2;
+    width: 100%;
+    width: -moz-available;
+    width: -webkit-fill-available;
+    width: stretch;
+    height: 100%;
+    height: -moz-available;
+    height: -webkit-fill-available;
+    height: stretch;
+    overflow-y: scroll;
+  }
+}

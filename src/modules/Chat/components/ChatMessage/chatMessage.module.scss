@@ -1,0 +1,84 @@
+@use "/src/_variables";
+
+.message {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: variables.$padding-1;
+  background: variables.$color-white;
+  border-radius: 0 variables.$border-radius variables.$border-radius;
+  padding: variables.$padding-2;
+  margin-right: auto;
+  max-width: 600px;
+  box-shadow: variables.$shadow;
+
+  .user {
+    color: variables.$color-main;
+    font-size: variables.$font-size-big;
+    line-height: 1em;
+  }
+
+  .text {
+    color: variables.$text-color;
+    font-size: variables.$font-size;
+    line-height: 1.5em;
+  }
+
+  .info {
+    margin-left: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 0;
+    gap: variables.$padding-0-5;
+    color: variables.$text-color-light;
+
+    .time {
+      font-size: variables.$font-size-very-small;
+      line-height: 1em;
+    }
+  }
+
+  &.image-message {
+    position: relative;
+    padding: 0;
+    background: transparent;
+
+    .user {
+      position: absolute;
+      left: variables.$padding-1;
+      top: variables.$padding-1;
+      background: variables.$color-white;
+      border-radius: 2em;
+      padding: variables.$padding-0-5 variables.$padding-1;
+    }
+
+    .info {
+      position: absolute;
+      right: variables.$padding-1;
+      bottom: variables.$padding-1;
+      background: variables.$color-white;
+      border-radius: 2em;
+      padding: variables.$padding-0-5 variables.$padding-1;
+    }
+
+    .image,
+    .image img {
+      display: block;
+      max-width: 600px;
+      border-radius: 0 variables.$border-radius variables.$border-radius;
+    }
+  }
+
+  &.my-message {
+    margin-right: 0;
+    margin-left: auto;
+    border-radius: variables.$border-radius variables.$border-radius 0;
+
+    .image,
+    .image img {
+      border-radius: variables.$border-radius variables.$border-radius 0;
+    }
+  }
+}

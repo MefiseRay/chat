@@ -1,1 +1,0 @@
-console.log("with-central-area.js");
