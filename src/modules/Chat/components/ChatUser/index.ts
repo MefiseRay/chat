@@ -11,7 +11,7 @@ export interface ChatUserProps {
     },
 }
 
-export class ChatUser extends Block {
+export class ChatUser extends Block<ChatUserProps> {
   constructor(props: ChatUserProps) {
     super(props);
         this.element!.classList.add(chatUserStyles.user);

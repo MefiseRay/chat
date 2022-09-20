@@ -11,7 +11,7 @@ interface ErrorPageProps {
     styles?: Record<string, unknown>
 }
 
-export class ErrorPage extends Block {
+export class ErrorPage extends Block<ErrorPageProps> {
   constructor(props: ErrorPageProps) {
     super(props);
         this.element!.classList.add(errorStyles.wrapper);

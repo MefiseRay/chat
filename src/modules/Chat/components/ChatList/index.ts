@@ -23,7 +23,7 @@ export interface ChatListProps {
     styles?: Record<string, unknown>
 }
 
-export class ChatList extends Block {
+export class ChatList extends Block<ChatListProps> {
   constructor(props: ChatListProps) {
     super(props);
         this.element!.classList.add(chatListStyles.wrapper);

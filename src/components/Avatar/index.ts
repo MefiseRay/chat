@@ -10,7 +10,7 @@ interface AvatarProps {
     styles?: Record<string, unknown>
 }
 
-export class Avatar extends Block {
+export class Avatar extends Block<AvatarProps> {
 
   constructor(props: AvatarProps) {
     super(props);

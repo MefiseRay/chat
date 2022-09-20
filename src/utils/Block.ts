@@ -3,7 +3,7 @@ import { EventBus } from './EventBus';
 import refElementsCollection from './RefElementsCollection';
 
 // Нельзя создавать экземпляр данного класса
-class Block {
+class Block<T extends Record<string, any>> {
   static EVENTS = {
     INIT: 'init',
     FLOW_CDM: 'flow:component-did-mount',
@@ -15,7 +15,7 @@ class Block {
 
   protected props: Record<string, any>; // параметры для блока
 
-  public children: Record<string, Block | Block[]>; // вложенные блоки
+  public children: Record<string, Block<Record<string, any>> | Block<Record<string, any>>[]>; // вложенные блоки
 
   protected eventBus: () => EventBus; // EventBus для событий
 
@@ -30,7 +30,7 @@ class Block {
      *
      * @returns {void}
      */
-  constructor(propsWithChildren: Record<string, any> = {}, tagName:string = 'div') {
+  constructor(propsWithChildren: T = {} as T, tagName:string = 'div') {
     this._getChildrenAndProps = this._getChildrenAndProps.bind(this);
     // создаем объект EventBus
     const eventBus = new EventBus();
@@ -61,11 +61,11 @@ class Block {
      * @private
      */
   private _getChildrenAndProps(childrenAndProps: Record<string, unknown>):
-      { props: Record<string, unknown>, children:Record<string, Block | Block[]> } {
+      { props: Record<string, unknown>, children:Record<string, Block<Record<string, any>> | Block<Record<string, any>>[]> } {
     // создаем набор характеристик
     const props: Record<string, unknown> = {};
     // создаем набор дочерних элементов
-    const children: Record<string, Block | Block[] > = {};
+    const children: Record<string, Block<Record<string, any>> | Block<Record<string, any>>[] > = {};
     Object.entries(childrenAndProps).forEach(([key, value]) => {
       if (Array.isArray(value) && value.every((v) => v instanceof Block)) {
         children[key] = value;

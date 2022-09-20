@@ -10,7 +10,7 @@ interface RegistrationPageProps{
     centralAreaStyles?: Record<string, unknown>
 }
 
-export class RegistrationPage extends Block {
+export class RegistrationPage extends Block<RegistrationPageProps> {
   constructor(props: RegistrationPageProps) {
     super(props);
         this.element!.classList.add(centralAreaStyles.wrapper);

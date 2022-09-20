@@ -7,9 +7,10 @@ import menuIcon from '../../../static/icon/more-vert.svg';
 import attachFileIcon from '../../../static/icon/attach.svg';
 import sendIcon from '../../../static/icon/send.svg';
 
-export class ChatPage extends Block {
-  constructor(props: Record<string, unknown>) {
-    super(props);
+export class ChatPage extends Block<{}> {
+
+  constructor() {
+    super({});
   }
 
   protected init() {

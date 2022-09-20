@@ -13,7 +13,7 @@ interface MenuButtonProps {
   styles?: Record<string, unknown>
 }
 
-export class MenuButton extends Block {
+export class MenuButton extends Block<MenuButtonProps> {
   constructor(props: MenuButtonProps) {
     super(props);
     this.element!.classList.add(menuButtonStyles.wrapper);

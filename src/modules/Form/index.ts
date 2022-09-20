@@ -14,7 +14,7 @@ interface FormProps {
     styles?: Record<string, unknown>
 }
 
-export class Form extends Block {
+export class Form extends Block<FormProps> {
   constructor(props: FormProps) {
     super(props);
         this.element!.classList.add(formStyles.form);

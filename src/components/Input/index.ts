@@ -38,7 +38,7 @@ interface InputProps {
   styles?: Record<string, unknown>
 }
 
-export class Input extends Block {
+export class Input extends Block<InputProps> {
   private _input: HTMLInputElement | undefined;
 
   private _message: Element | undefined;

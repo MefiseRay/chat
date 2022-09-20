@@ -10,7 +10,7 @@ interface AuthorizationPageProps {
     centralAreaStyles?: Record<string, unknown>
 }
 
-export class AuthorizationPage extends Block {
+export class AuthorizationPage extends Block<AuthorizationPageProps> {
   constructor(props: AuthorizationPageProps) {
     super(props);
         this.element!.classList.add(centralAreaStyles.wrapper);

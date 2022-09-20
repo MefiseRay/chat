@@ -17,7 +17,7 @@ export interface ChatItemProps {
     styles?: Record<string, unknown>
 }
 
-export class ChatItem extends Block {
+export class ChatItem extends Block<ChatItemProps> {
   constructor(props: ChatItemProps) {
     super(props);
         this.element!.classList.add(chatItemStyles.item);

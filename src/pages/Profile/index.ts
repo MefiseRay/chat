@@ -9,7 +9,7 @@ interface ProfilePageProps {
     centralAreaStyles?: Record<string, unknown>
 }
 
-export class ProfilePage extends Block {
+export class ProfilePage extends Block<ProfilePageProps> {
 
   constructor(props: ProfilePageProps) {
     super(props);

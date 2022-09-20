@@ -7,7 +7,7 @@ interface IconProps {
     icon: string
 }
 
-export class Icon extends Block {
+export class Icon extends Block<IconProps> {
 
   constructor(props: IconProps) {
     super(props, 'i');

@@ -4,7 +4,7 @@ function isEqual(lhs: string, rhs: string): boolean {
   return lhs === rhs;
 }
 
-function render(query: string, block: Block) {
+function render(query: string, block: Block<Record<string, any>>) {
   const root = document.querySelector(query);
   if (root === null) {
     throw new Error(`root not found by selector "${query}"`);
@@ -15,11 +15,11 @@ function render(query: string, block: Block) {
 }
 
 class Route {
-  private block: Block | null = null;
+  private block: Block<{}> | null = null;
 
   constructor(
     private pathname: string,
-    private readonly blockClass: typeof Block,
+    private readonly blockClass: typeof Block<{}>,
     private readonly query: string
   ) {}
 
@@ -41,25 +41,17 @@ class Route {
 }
 
 class Router {
-  private static __instance: Router;
   private routes: Route[] = [];
   private currentRoute: Route | null = null;
   private history = window.history;
 
   constructor(private readonly rootQuery: string) {
-    if (Router.__instance) {
-      return Router.__instance;
-    }
-
     this.routes = [];
-
-    Router.__instance = this;
   }
 
   public use(pathname: string, block: typeof Block) {
     const route = new Route(pathname, block, this.rootQuery);
     this.routes.push(route);
-
     return this;
   }
 

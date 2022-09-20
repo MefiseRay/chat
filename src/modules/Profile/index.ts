@@ -25,7 +25,7 @@ interface ProfileProps {
     styles?: Record<string, unknown>
 }
 
-export class Profile extends Block {
+export class Profile extends Block<ProfileProps> {
   static RENDER_STATUSES = {
     SHOW: 'show',
     CHANGE_DATA: 'changeData',

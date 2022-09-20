@@ -22,7 +22,7 @@ export interface ChatMessageProps {
     styles?: Record<string, unknown>
 }
 
-export class ChatMessage extends Block {
+export class ChatMessage extends Block<ChatMessageProps> {
   constructor(props: ChatMessageProps) {
     super(props);
         this.element!.classList.add(chatMessageStyles.message);

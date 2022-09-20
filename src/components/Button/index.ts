@@ -14,7 +14,7 @@ interface ButtonProps {
     isMenuElement?: boolean
 }
 
-export class Button extends Block {
+export class Button extends Block<ButtonProps> {
 
   constructor(props: ButtonProps) {
     super(props, 'button');

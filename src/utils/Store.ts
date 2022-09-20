@@ -6,12 +6,15 @@ export enum StoreEvents {
   Updated = 'updated'
 }
 
+type State = {
+
+};
+
 export class Store extends EventBus {
-  private state: any = {};
+  private state: State = {};
 
   public set(keyPath: string, data: unknown) {
     set(this.state, keyPath, data);
-
     this.emit(StoreEvents.Updated, this.getState());
   }
 
@@ -22,11 +25,11 @@ export class Store extends EventBus {
 
 const store = new Store();
 
-export function withStore(mapStateToProps: (state: any) => any) {
-  return function wrap(Component: typeof Block){
-    let previousState: any;
+export function withStore<SP extends Record<string, any>>(mapStateToProps: (state: State) => SP) {
+  return function wrap<P extends Record<string, any>>(Component: typeof Block<P & SP>){
+    let previousState: SP;
     return class WithStore extends Component {
-      constructor(props: any) {
+      constructor(props: P) {
         previousState = mapStateToProps(store.getState());
         super({ ...props, ...previousState });
         store.on(StoreEvents.Updated, () => {
@@ -37,7 +40,6 @@ export function withStore(mapStateToProps: (state: any) => any) {
       }
     }
   }
-
 }
 
 export default store;
