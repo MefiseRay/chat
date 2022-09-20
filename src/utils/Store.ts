@@ -1,13 +1,14 @@
 import { set } from './Helpers';
 import { EventBus } from './EventBus';
 import Block from './Block';
+import {User} from "../api/AuthAPI";
 
 export enum StoreEvents {
   Updated = 'updated'
 }
 
 type State = {
-
+  user?: User
 };
 
 export class Store extends EventBus {
