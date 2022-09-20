@@ -66,10 +66,8 @@ export class AuthorizationPage extends Block<{}> {
             click: async (event: Event) => {
               event.stopPropagation();
               event.preventDefault();
-              console.log('Войти');
               const {validate, formData} = form.checkValidate();
               if (validate) {
-                console.log(formData);
                 await AuthController.signIn(formData)
               }
             },
@@ -85,7 +83,6 @@ export class AuthorizationPage extends Block<{}> {
             click: (event:Event) => {
               event.stopPropagation();
               event.preventDefault();
-              console.log('Создать профиль');
               Router.go(Routes.Register);
             },
           },

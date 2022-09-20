@@ -152,7 +152,6 @@ class ProfileBase extends Block<ProfileProps> {
               const {validate, formData} = (this.children.changeDataForm as Form<UserChangeable>).checkValidate();
               if (validate) {
                 formData.display_name = `${formData.first_name} ${formData.second_name}`;
-                console.log(formData);
                 await UsersController.updateProfile(formData);
                 await AuthController.fetchUser();
                 this._changeRenderStatus(ProfileBase.RENDER_STATUSES.SHOW);
@@ -238,7 +237,6 @@ class ProfileBase extends Block<ProfileProps> {
                 formData,
               } = (this.children.changePasswordForm as Form<ChangePasswordForm>).checkValidate();
               if (validate && formData.newPassword == formData.newPasswordConfirmation) {
-                console.log(formData);
                 await UsersController.changePassword(formData);
                 this._changeRenderStatus(ProfileBase.RENDER_STATUSES.SHOW);
               }

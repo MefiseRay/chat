@@ -12,11 +12,6 @@ import {Routes} from "../../index";
 import Router from "../../utils/Router";
 import AuthController from '../../controllers/AuthController';
 
-// interface RegistrationPageProps{
-//     form: Form,
-//     centralAreaStyles?: Record<string, unknown>
-// }
-
 export class RegistrationPage extends Block<{}> {
   constructor() {
     super({});
@@ -158,9 +153,7 @@ export class RegistrationPage extends Block<{}> {
               event.preventDefault();
               const {validate, formData} = form.checkValidate();
               if (validate) {
-                console.log(formData);
                 await AuthController.signUp(formData);
-                // PageNavigator.renderChatPage();
               }
             },
           },
