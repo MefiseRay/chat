@@ -12,8 +12,9 @@ import ValidationHelper from '../../utils/ValidationHelper';
 import Router from "../../utils/Router";
 import {Routes} from "../../index";
 import AuthController from "../../controllers/AuthController";
+import UsersController from '../../controllers/UsersController';
 import {withStore} from "../../utils/Store";
-import {User} from "../../api/AuthAPI";
+import {ChangePasswordForm, UserChangeable} from "../../api/UsersAPI";
 
 interface ProfileProps {
     avatarSrc: string,
@@ -50,7 +51,7 @@ class ProfileBase extends Block<ProfileProps> {
   }
 
   private _addChangeDataForm() {
-    this.children.changeDataForm = new Form({
+    this.children.changeDataForm = new Form<UserChangeable>({
       action: '',
       method: '',
       title: '',
@@ -145,12 +146,15 @@ class ProfileBase extends Block<ProfileProps> {
         new Button({
           text: 'Сохранить',
           events: {
-            click: (event) => {
+            click: async (event) => {
               event.stopPropagation();
               event.preventDefault();
-              const { validate, formData } = (this.children.changeDataForm as Form<Record<string, any>>).checkValidate();
+              const {validate, formData} = (this.children.changeDataForm as Form<UserChangeable>).checkValidate();
               if (validate) {
+                formData.display_name = `${formData.first_name} ${formData.second_name}`;
                 console.log(formData);
+                await UsersController.updateProfile(formData);
+                await AuthController.fetchUser();
                 this._changeRenderStatus(ProfileBase.RENDER_STATUSES.SHOW);
               }
             },
@@ -165,7 +169,7 @@ class ProfileBase extends Block<ProfileProps> {
   }
 
   private _addChangePasswordForm() {
-    this.children.changePasswordForm = new Form({
+    this.children.changePasswordForm = new Form<ChangePasswordForm>({
       action: '',
       method: '',
       title: '',
@@ -173,7 +177,7 @@ class ProfileBase extends Block<ProfileProps> {
         new Input({
           title: 'Пароль',
           type: InputTypes.password,
-          name: 'old_password',
+          name: 'oldPassword',
           value: '',
           placeholder: 'Текущий пароль',
           isRounded: false,
@@ -190,7 +194,7 @@ class ProfileBase extends Block<ProfileProps> {
         new Input({
           title: 'Пароль',
           type: InputTypes.password,
-          name: 'password',
+          name: 'newPassword',
           value: '',
           placeholder: 'Новый пароль',
           isRounded: false,
@@ -207,7 +211,7 @@ class ProfileBase extends Block<ProfileProps> {
         new Input({
           title: 'Пароль (еще раз)',
           type: InputTypes.password,
-          name: 'password_confirmation',
+          name: 'newPasswordConfirmation',
           value: '',
           placeholder: 'Новый пароль (еще раз)',
           isRounded: false,
@@ -226,15 +230,16 @@ class ProfileBase extends Block<ProfileProps> {
         new Button({
           text: 'Сохранить',
           events: {
-            click: (event) => {
+            click: async (event) => {
               event.stopPropagation();
               event.preventDefault();
               const {
                 validate,
                 formData,
-              } = (this.children.changePasswordForm as Form<Record<string, any>>).checkValidate();
-              if (validate) {
+              } = (this.children.changePasswordForm as Form<ChangePasswordForm>).checkValidate();
+              if (validate && formData.newPassword == formData.newPasswordConfirmation) {
                 console.log(formData);
+                await UsersController.changePassword(formData);
                 this._changeRenderStatus(ProfileBase.RENDER_STATUSES.SHOW);
               }
             },

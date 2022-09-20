@@ -7,11 +7,6 @@ import logoutIcon from "../../../static/icon/logout.svg";
 import beforeIcon from "../../../static/icon/before.svg";
 import moreVertIcon from "../../../static/icon/more-vert.svg";
 
-// interface ProfilePageProps {
-//     profile: Profile,
-//     centralAreaStyles?: Record<string, unknown>
-// }
-
 export class ProfilePage extends Block<{}> {
 
   constructor() {

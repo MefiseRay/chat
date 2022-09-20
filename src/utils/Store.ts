@@ -1,7 +1,7 @@
 import { set } from './Helpers';
 import { EventBus } from './EventBus';
 import Block from './Block';
-import {User} from "../api/AuthAPI";
+import {User} from "../api/UsersAPI";
 
 export enum StoreEvents {
   Updated = 'updated'

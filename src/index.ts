@@ -1,4 +1,3 @@
-// import { PageNavigator } from './utils/PageNavigator';
 import * as styles from './styles.module.scss';
 import Router from './utils/Router';
 import AuthController from './controllers/AuthController';
