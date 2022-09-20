@@ -17,7 +17,8 @@ export enum InputTypes {
   time = 'time',
   url = 'url',
   week = 'week',
-  datetime = 'datetime'
+  datetime = 'datetime',
+  file = 'file'
 }
 
 interface InputProps {
