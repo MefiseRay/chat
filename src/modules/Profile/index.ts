@@ -6,18 +6,17 @@ import { DropdownMenu } from '../../components/DropdownMenu';
 import { Button } from '../../components/Button';
 import { MenuButton } from '../../components/MenuButton';
 import * as profileStyles from './profile.module.scss';
-import { PageNavigator } from '../../utils/PageNavigator';
 import { Form } from '../Form';
 import { Input, InputTypes } from '../../components/Input';
 import ValidationHelper from '../../utils/ValidationHelper';
+import Router from "../../utils/Router";
+import {Routes} from "../../index";
+import AuthController from "../../controllers/AuthController";
+import {withStore} from "../../utils/Store";
+import {User} from "../../api/AuthAPI";
 
 interface ProfileProps {
     avatarSrc: string,
-    login: string,
-    firstName: string,
-    secondName: string,
-    email: string,
-    phone: string,
     renderStatus: string,
     logoutSvg: string,
     backSvg: string,
@@ -25,7 +24,7 @@ interface ProfileProps {
     styles?: Record<string, unknown>
 }
 
-export class Profile extends Block<ProfileProps> {
+class ProfileBase extends Block<ProfileProps> {
   static RENDER_STATUSES = {
     SHOW: 'show',
     CHANGE_DATA: 'changeData',
@@ -77,7 +76,7 @@ export class Profile extends Block<ProfileProps> {
           title: 'Имя',
           type: InputTypes.text,
           name: 'first_name',
-          value: this.props.firstName,
+          value: this.props.first_name,
           placeholder: 'Имя',
           isRounded: false,
           isLight: false,
@@ -94,7 +93,7 @@ export class Profile extends Block<ProfileProps> {
           title: 'Фамилия',
           type: InputTypes.text,
           name: 'second_name',
-          value: this.props.secondName,
+          value: this.props.second_name,
           placeholder: 'Фамилия',
           isRounded: false,
           isLight: false,
@@ -149,10 +148,10 @@ export class Profile extends Block<ProfileProps> {
             click: (event) => {
               event.stopPropagation();
               event.preventDefault();
-              const { validate, formData } = (this.children.changeDataForm as Form).checkValidate();
+              const { validate, formData } = (this.children.changeDataForm as Form<Record<string, any>>).checkValidate();
               if (validate) {
                 console.log(formData);
-                this._changeRenderStatus(Profile.RENDER_STATUSES.SHOW);
+                this._changeRenderStatus(ProfileBase.RENDER_STATUSES.SHOW);
               }
             },
           },
@@ -233,10 +232,10 @@ export class Profile extends Block<ProfileProps> {
               const {
                 validate,
                 formData,
-              } = (this.children.changePasswordForm as Form).checkValidate();
+              } = (this.children.changePasswordForm as Form<Record<string, any>>).checkValidate();
               if (validate) {
                 console.log(formData);
-                this._changeRenderStatus(Profile.RENDER_STATUSES.SHOW);
+                this._changeRenderStatus(ProfileBase.RENDER_STATUSES.SHOW);
               }
             },
           },
@@ -259,11 +258,11 @@ export class Profile extends Block<ProfileProps> {
         items: [
           {
             text: 'Изменить даныне',
-            click: () => this._changeRenderStatus(Profile.RENDER_STATUSES.CHANGE_DATA),
+            click: () => this._changeRenderStatus(ProfileBase.RENDER_STATUSES.CHANGE_DATA),
           },
           {
             text: 'Изменить пароль',
-            click: () => this._changeRenderStatus(Profile.RENDER_STATUSES.CHANGE_PASSWORD),
+            click: () => this._changeRenderStatus(ProfileBase.RENDER_STATUSES.CHANGE_PASSWORD),
           },
         ],
       }),
@@ -288,7 +287,10 @@ export class Profile extends Block<ProfileProps> {
     });
         this.children.logoutIcon.element!.addEventListener(
           'click',
-          () => PageNavigator.renderAuthorizationPage(),
+          async () => {
+            await AuthController.logout();
+            Router.go(Routes.Index)
+          },
         );
         this.children.logoutIcon.element!.classList.add(profileStyles['button-icon']);
   }
@@ -300,9 +302,9 @@ export class Profile extends Block<ProfileProps> {
     });
         this.children.backIcon.element!.addEventListener('click', () => {
           if (this.props.renderStatus === 'show') {
-            PageNavigator.renderChatPage();
+            //PageNavigator.renderChatPage();
           } else {
-            this._changeRenderStatus(Profile.RENDER_STATUSES.SHOW);
+            this._changeRenderStatus(ProfileBase.RENDER_STATUSES.SHOW);
           }
         });
         this.children.backIcon.element!.classList.add(profileStyles['button-icon']);
@@ -311,18 +313,18 @@ export class Profile extends Block<ProfileProps> {
   private _changeRenderStatus(renderStatus: string) {
     const menuButton = this.children.menuButton as MenuButton;
     switch (renderStatus) {
-      case Profile.RENDER_STATUSES.CHANGE_DATA:
-        this.props.renderStatus = Profile.RENDER_STATUSES.CHANGE_DATA;
+      case ProfileBase.RENDER_STATUSES.CHANGE_DATA:
+        this.props.renderStatus = ProfileBase.RENDER_STATUSES.CHANGE_DATA;
         menuButton.removeMenu();
         menuButton.hide();
         break;
-      case Profile.RENDER_STATUSES.CHANGE_PASSWORD:
-        this.props.renderStatus = Profile.RENDER_STATUSES.CHANGE_PASSWORD;
+      case ProfileBase.RENDER_STATUSES.CHANGE_PASSWORD:
+        this.props.renderStatus = ProfileBase.RENDER_STATUSES.CHANGE_PASSWORD;
         menuButton.removeMenu();
         menuButton.hide();
         break;
       default:
-        this.props.renderStatus = Profile.RENDER_STATUSES.SHOW;
+        this.props.renderStatus = ProfileBase.RENDER_STATUSES.SHOW;
         menuButton.show();
         break;
     }
@@ -332,3 +334,6 @@ export class Profile extends Block<ProfileProps> {
     return this.compile(template, this.props);
   }
 }
+
+const withUser = withStore((state) => ({ ...state.user }))
+export const Profile = withUser(ProfileBase);

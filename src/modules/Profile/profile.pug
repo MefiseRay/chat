@@ -15,7 +15,7 @@ div(class=styles.head)
 div(class=styles.body)
     case renderStatus
         when "show"
-            +infoList("ФИО", `${firstName} ${secondName}`)
+            +infoList("ФИО", `${first_name} ${second_name}`)
             +infoList("Почта", email)
             +infoList("Телефон", phone)
         when "changePassword"

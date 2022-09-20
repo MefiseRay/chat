@@ -14,7 +14,7 @@ interface FormProps {
     styles?: Record<string, unknown>
 }
 
-export class Form extends Block<FormProps> {
+export class Form<FD extends Record<string, any>> extends Block<FormProps> {
   constructor(props: FormProps) {
     super(props);
         this.element!.classList.add(formStyles.form);
@@ -31,7 +31,7 @@ export class Form extends Block<FormProps> {
   public checkValidate():{
     validate: boolean,
     validationResultList: Record<string, ValidationResult>,
-    formData: Record<string, string>
+    formData: FD
     } {
     return this._validation(false);
   }
@@ -39,7 +39,7 @@ export class Form extends Block<FormProps> {
   public getValidationResult():{
     validate: boolean,
     validationResultList: Record<string, ValidationResult>,
-    formData: Record<string, string>
+    formData: FD
     } {
     return this._validation(true);
   }
@@ -47,20 +47,21 @@ export class Form extends Block<FormProps> {
   private _validation(onlyResult: boolean):{
     validate: boolean,
     validationResultList: Record<string, ValidationResult>,
-    formData: Record<string, string>
+    formData: FD
   } {
     let validate = true;
     const validationResultList: Record<string, ValidationResult> = {};
-    const formData: Record<string, string> = {};
+    const data: Record<string, unknown> = {};
     (this.children.inputs as Input[]).forEach((input:Input) => {
       const validationResult: ValidationResult = onlyResult
         ? input.getValidationResult() : input.checkValidate();
       validationResultList[input.getPropValue('name')] = validationResult;
-      formData[input.getPropValue('name')] = validationResult.value;
+      data[input.getPropValue('name')] = validationResult.value;
       if (!validationResult.result) {
         validate = false;
       }
     });
+    const formData: FD = data as FD;
     return { validate, validationResultList, formData };
   }
 }

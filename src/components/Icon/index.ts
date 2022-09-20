@@ -11,7 +11,6 @@ export class Icon extends Block<IconProps> {
 
   constructor(props: IconProps) {
     super(props, 'i');
-    console.log(this._meta);
     this.element!.classList.add(iconStyles.icon);
     this.element!.style.height = props.size;
     this.element!.style.width = props.size;

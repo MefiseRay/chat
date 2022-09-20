@@ -13,7 +13,7 @@ import logoutIcon from '../../static/icon/logout.svg';
 import beforeIcon from '../../static/icon/before.svg';
 import moreVertIcon from '../../static/icon/more-vert.svg';
 import ValidationHelper from './ValidationHelper';
-
+/*
 export class PageNavigator {
   static root:Element = document.querySelector('#app')!;
 
@@ -313,3 +313,4 @@ export class PageNavigator {
     }));
   }
 }
+*/

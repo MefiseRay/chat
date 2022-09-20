@@ -1,5 +1,3 @@
-import CONFIGURE from "./Config";
-
 export enum Method {
   Get = 'Get',
   Post = 'Post',
@@ -14,7 +12,7 @@ type Options = {
 };
 
 export default class HTTPTransport {
-  static API_URL = CONFIGURE.API_URL;
+  static API_URL = "https://ya-praktikum.tech/api/v2";
 
   protected endpoint: string;
 
