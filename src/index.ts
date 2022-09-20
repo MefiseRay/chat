@@ -5,12 +5,15 @@ import AuthController from './controllers/AuthController';
 import {AuthorizationPage} from "./pages/Authorization";
 import {RegistrationPage} from "./pages/Registration";
 import {ProfilePage} from "./pages/Profile";
+import {NotFoundPage} from "./pages/NotFound";
 
 export enum Routes {
   Index = '/',
   Register = '/register',
-  Profile = '/profile'
+  Profile = '/profile',
+  NotFound = '/not-found'
 }
+const routesPaths:String[] = Object.values(Routes);
 
 window.addEventListener('DOMContentLoaded', async () => {
   const root:Element = document.querySelector('#app')!;
@@ -19,6 +22,7 @@ window.addEventListener('DOMContentLoaded', async () => {
     .use(Routes.Index, AuthorizationPage)
     .use(Routes.Register, RegistrationPage)
     .use(Routes.Profile, ProfilePage)
+    .use(Routes.NotFound, NotFoundPage)
 
   let isProtectedRoute = true;
 
@@ -28,21 +32,25 @@ window.addEventListener('DOMContentLoaded', async () => {
       isProtectedRoute = false;
       break;
   }
-
-  try {
-    await AuthController.fetchUser();
-
-    Router.start();
-
-    if (!isProtectedRoute) {
-      Router.go(Routes.Profile)
+  if (routesPaths.includes(window.location.pathname)) {
+    try {
+      await AuthController.fetchUser();
+      Router.start();
+      if (!isProtectedRoute) {
+        Router.go(Routes.Profile)
+      }
+    } catch (e) {
+      Router.start();
+      if (isProtectedRoute) {
+        Router.go(Routes.Index);
+      }
     }
-  } catch (e) {
+  } else {
+    console.log("404",window.location.pathname);
     Router.start();
-
-    if (isProtectedRoute) {
-      Router.go(Routes.Index);
-    }
+    Router.go(Routes.NotFound);
   }
+
+
 
 });
