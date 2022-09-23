@@ -1,3 +1,4 @@
+import { nanoid } from 'nanoid';
 import Block from '../../utils/Block';
 import template from './form.pug';
 import * as formStyles from './form.module.scss';
@@ -11,17 +12,19 @@ interface FormProps {
     title: string,
     inputs: Input[],
     buttons: Button[],
-    styles?: Record<string, unknown>
+    styles?: Record<string, unknown>,
+    formId?: string,
 }
 
 export class Form<FD extends Record<string, any>> extends Block<FormProps> {
   constructor(props: FormProps) {
     super(props);
-        this.element!.classList.add(formStyles.form);
+    this.element!.classList.add(formStyles.form);
   }
 
   protected editPropsBeforeMakeThemProxy(props: FormProps) {
     props.styles = formStyles;
+    props.formId = nanoid(10);
   }
 
   protected render() {
@@ -63,5 +66,13 @@ export class Form<FD extends Record<string, any>> extends Block<FormProps> {
     });
     const formData: FD = data as FD;
     return { validate, validationResultList, formData };
+  }
+
+  public getFormData(): FormData | null {
+    const form = document.getElementById(this.props.formId);
+    if(form) {
+      return new FormData(form as HTMLFormElement);
+    }
+    return null;
   }
 }

@@ -1,4 +1,5 @@
 import BaseAPI, {BaseReadAPI, BaseUpdateAPI} from "./BaseAPI";
+import {ContentType} from "../utils/HTTPTransport";
 
 export interface UserChangeable {
   first_name: string;
@@ -37,6 +38,10 @@ export class UsersAPI extends BaseAPI implements BaseReadAPI {
 
   changePassword(data:ChangePassword) {
     return this.http.put('/password', data);
+  }
+
+  changeAvatar(data:FormData) {
+    return this.http.put('/profile/avatar', data, ContentType.FormData);
   }
 
 }

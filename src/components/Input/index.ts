@@ -132,4 +132,9 @@ export class Input extends Block<InputProps> {
     }
     return this._message;
   }
+
+  public getValue() {
+    const { value } = this.getInput();
+    return value;
+  }
 }

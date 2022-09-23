@@ -1,6 +1,7 @@
 import Block from '../../utils/Block';
 import template from './avatar.pug';
 import * as avatarStyles from './avatar.module.scss';
+import HTTPTransport from "../../utils/HTTPTransport";
 
 interface AvatarProps {
     src: string,
@@ -23,7 +24,19 @@ export class Avatar extends Block<AvatarProps> {
 
   protected editPropsBeforeMakeThemProxy(props: AvatarProps) {
     props.styles = avatarStyles;
-    if(!props.src || props.src === "") props.src = Avatar.NO_IMAGE;
+    if(!props.src || props.src === "") {
+      props.src = Avatar.NO_IMAGE;
+    } else {
+      props.src = HTTPTransport.getFile(props.src);
+    }
+  }
+
+  public changeAvatar(src: string) {
+    if(!src || src === "") {
+      this.props.src = Avatar.NO_IMAGE;
+    } else {
+      this.props.src = HTTPTransport.getFile(src);
+    }
   }
 
   protected render() {

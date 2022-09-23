@@ -29,6 +29,7 @@ class ProfileBase extends Block<ProfileProps> {
     SHOW: 'show',
     CHANGE_DATA: 'changeData',
     CHANGE_PASSWORD: 'changePassword',
+    CHANGE_AVATAR: 'changeAvatar',
   };
 
   constructor(props: ProfileProps) {
@@ -47,6 +48,7 @@ class ProfileBase extends Block<ProfileProps> {
     this._addMenu();
     this._addChangeDataForm();
     this._addChangePasswordForm();
+    this._addChangeAvatarForm();
   }
 
   private _addChangeDataForm() {
@@ -250,6 +252,49 @@ class ProfileBase extends Block<ProfileProps> {
     });
   }
 
+  private _addChangeAvatarForm() {
+    this.children.changeAvatarForm = new Form<Record<string, any>>({
+      action: '',
+      method: '',
+      title: '',
+      inputs: [
+        new Input({
+          title: 'Аватарка',
+          type: InputTypes.file,
+          name: 'avatar',
+          value: '',
+          placeholder: 'Аватарка',
+          isRounded: false,
+          isLight: false,
+          displayBlock: true,
+          iconSrc: null,
+        })
+      ],
+      buttons: [
+        new Button({
+          text: 'Сохранить',
+          events: {
+            click: async (event) => {
+              event.stopPropagation();
+              event.preventDefault();
+              const formData = (this.children.changeAvatarForm as Form<Record<string, any>>).getFormData();
+              if(formData) {
+                await UsersController.changAvatar(formData);
+                await AuthController.fetchUser();
+                (this.children.avatarBlock as Avatar).changeAvatar(this.props.avatar);
+                this._changeRenderStatus(ProfileBase.RENDER_STATUSES.SHOW);
+              }
+            },
+          },
+          isTransparent: false,
+          isBordered: false,
+          isWhite: false,
+          displayBlock: true,
+        }),
+      ],
+    });
+  }
+
   private _addMenu() {
     this.children.menuButton = new MenuButton({
       icon: new Icon({
@@ -265,6 +310,10 @@ class ProfileBase extends Block<ProfileProps> {
           {
             text: 'Изменить пароль',
             click: () => this._changeRenderStatus(ProfileBase.RENDER_STATUSES.CHANGE_PASSWORD),
+          },
+          {
+            text: 'Изменить аватар',
+            click: () => this._changeRenderStatus(ProfileBase.RENDER_STATUSES.CHANGE_AVATAR),
           },
         ],
       }),
@@ -322,6 +371,11 @@ class ProfileBase extends Block<ProfileProps> {
         break;
       case ProfileBase.RENDER_STATUSES.CHANGE_PASSWORD:
         this.props.renderStatus = ProfileBase.RENDER_STATUSES.CHANGE_PASSWORD;
+        menuButton.removeMenu();
+        menuButton.hide();
+        break;
+      case ProfileBase.RENDER_STATUSES.CHANGE_AVATAR:
+        this.props.renderStatus = ProfileBase.RENDER_STATUSES.CHANGE_AVATAR;
         menuButton.removeMenu();
         menuButton.hide();
         break;
