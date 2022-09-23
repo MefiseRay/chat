@@ -3,7 +3,7 @@ import template from './authorization.pug';
 
 import * as centralAreaStyles from '../../layouts/CentralArea/centralArea.module.scss';
 
-import { Form } from '../../modules/Form';
+import {Form} from '../../modules/Form';
 import {Input, InputTypes} from "../../components/Input";
 import ValidationHelper from "../../utils/ValidationHelper";
 import {Button} from "../../components/Button";
@@ -37,7 +37,7 @@ export class AuthorizationPage extends Block<{}> {
           validation: {
             required: true,
             trim: true,
-            callback: (value: string, required?:boolean, trim?:boolean) => ValidationHelper
+            callback: (value: string, required?: boolean, trim?: boolean) => ValidationHelper
               .loginValidation(value, required, trim),
           },
         }),
@@ -54,7 +54,7 @@ export class AuthorizationPage extends Block<{}> {
           validation: {
             required: true,
             trim: true,
-            callback: (value: string, required?:boolean, trim?:boolean) => ValidationHelper
+            callback: (value: string, required?: boolean, trim?: boolean) => ValidationHelper
               .passwordValidation(value, required, trim),
           },
         }),
@@ -80,7 +80,7 @@ export class AuthorizationPage extends Block<{}> {
         new Button({
           text: 'Создать профиль',
           events: {
-            click: (event:Event) => {
+            click: (event: Event) => {
               event.stopPropagation();
               event.preventDefault();
               Router.go(Routes.Register);

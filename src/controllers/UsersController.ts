@@ -25,7 +25,7 @@ export class UsersController {
     }
   }
 
-  async changAvatar(data:FormData) {
+  async changAvatar(data: FormData) {
     try {
       await this.api.changeAvatar(data);
     } catch (e: any) {

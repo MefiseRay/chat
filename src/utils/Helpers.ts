@@ -23,7 +23,7 @@ export function getKey(key: string, parentKey?: string) {
 
 export function getParams(data: PlainObject | [], parentKey?: string) {
   const result: [string, string][] = [];
-  for(const [key, value] of Object.entries(data)) {
+  for (const [key, value] of Object.entries(data)) {
     if (isArrayOrObject(value)) {
       result.push(...getParams(value, getKey(key, parentKey)));
     } else {
@@ -71,7 +71,7 @@ export function merge(lhs: PlainObject, rhs: PlainObject): PlainObject {
       } else {
         lhs[p] = rhs[p];
       }
-    } catch(e) {
+    } catch (e) {
       lhs[p] = rhs[p];
     }
   }

@@ -1,13 +1,13 @@
 import Block from '../../../../utils/Block';
 import template from './chatUser.pug';
 import * as chatUserStyles from './chatUser.module.scss';
-import { Avatar } from '../../../../components/Avatar';
+import {Avatar} from '../../../../components/Avatar';
 import {withStore} from "../../../../utils/Store";
 
 export interface ChatUserProps {
-    events: {
-        click: (event: Event) => void;
-    },
+  events: {
+    click: (event: Event) => void;
+  },
 }
 
 export class ChatUserBase extends Block<ChatUserProps> {
@@ -23,7 +23,6 @@ export class ChatUserBase extends Block<ChatUserProps> {
       alt: this.props.login,
       title: this.props.login,
     });
-    console.log(this.children.avatarBlock)
   }
 
   protected render() {
@@ -31,5 +30,5 @@ export class ChatUserBase extends Block<ChatUserProps> {
   }
 }
 
-const withUser = withStore((state) => ({ ...state.user }));
+const withUser = withStore((state) => ({...state.user}));
 export const ChatUser = withUser(ChatUserBase);

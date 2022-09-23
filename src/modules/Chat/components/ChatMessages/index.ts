@@ -1,35 +1,35 @@
 import Block from '../../../../utils/Block';
 import template from './chatMessages.pug';
 import * as chatMessagesStyles from './chatMessages.module.scss';
-import { Avatar } from '../../../../components/Avatar';
-import { Icon } from '../../../../components/Icon';
-import { Input, InputTypes } from '../../../../components/Input';
-import { MenuButton } from '../../../../components/MenuButton';
-import { DropdownMenu } from '../../../../components/DropdownMenu';
-import { ChatMessagesBlock, ChatMessagesBlockProps } from '../ChatMessagesBlock';
+import {Avatar} from '../../../../components/Avatar';
+import {Icon} from '../../../../components/Icon';
+import {Input, InputTypes} from '../../../../components/Input';
+import {MenuButton} from '../../../../components/MenuButton';
+import {DropdownMenu} from '../../../../components/DropdownMenu';
+import {ChatMessagesBlock, ChatMessagesBlockProps} from '../ChatMessagesBlock';
 
 export interface ChatMessagesProps {
-    chatId: string,
-    profile: {
-        id: string,
-        avatarSrc: string,
-        login: string,
-        firstName: string,
-        secondName: string,
-        email: string,
-        phone: string,
-    }
-    menuIconSrc: string,
-    attachFileIconSrc: string,
-    sendIconSrc: string,
-    chatData?: Record<string, unknown>,
-    styles?: Record<string, unknown>
+  chatId: string,
+  profile: {
+    id: string,
+    avatarSrc: string,
+    login: string,
+    firstName: string,
+    secondName: string,
+    email: string,
+    phone: string,
+  }
+  menuIconSrc: string,
+  attachFileIconSrc: string,
+  sendIconSrc: string,
+  chatData?: Record<string, unknown>,
+  styles?: Record<string, unknown>
 }
 
 export class ChatMessages extends Block<ChatMessagesProps> {
   constructor(props: ChatMessagesProps) {
     super(props);
-        this.element!.classList.add(chatMessagesStyles.chat);
+    this.element!.classList.add(chatMessagesStyles.chat);
   }
 
   protected editPropsBeforeMakeThemProxy(props: ChatMessagesProps) {
@@ -122,7 +122,7 @@ export class ChatMessages extends Block<ChatMessagesProps> {
 
   private _addMessageBlocks() {
     this.children.messageBlocks = [];
-    this.props.chatData.messages.forEach((messageData:ChatMessagesBlockProps) => {
+    this.props.chatData.messages.forEach((messageData: ChatMessagesBlockProps) => {
       (this.children.messageBlocks as ChatMessagesBlock[]).push(new ChatMessagesBlock(messageData));
     });
   }

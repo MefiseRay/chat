@@ -3,8 +3,8 @@ import template from './icon.pug';
 import * as iconStyles from './icon.module.scss';
 
 interface IconProps {
-    size: string,
-    icon: string
+  size: string,
+  icon: string
 }
 
 export class Icon extends Block<IconProps> {

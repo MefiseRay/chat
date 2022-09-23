@@ -1,13 +1,13 @@
 import Block from '../../utils/Block';
 import template from './profile.pug';
-import { Avatar } from '../../components/Avatar';
-import { Icon } from '../../components/Icon';
-import { DropdownMenu } from '../../components/DropdownMenu';
-import { Button } from '../../components/Button';
-import { MenuButton } from '../../components/MenuButton';
+import {Avatar} from '../../components/Avatar';
+import {Icon} from '../../components/Icon';
+import {DropdownMenu} from '../../components/DropdownMenu';
+import {Button} from '../../components/Button';
+import {MenuButton} from '../../components/MenuButton';
 import * as profileStyles from './profile.module.scss';
-import { Form } from '../Form';
-import { Input, InputTypes } from '../../components/Input';
+import {Form} from '../Form';
+import {Input, InputTypes} from '../../components/Input';
 import ValidationHelper from '../../utils/ValidationHelper';
 import Router from "../../utils/Router";
 import {Routes} from "../../index";
@@ -17,11 +17,11 @@ import {withStore} from "../../utils/Store";
 import {ChangePasswordForm, UserChangeable} from "../../api/UsersAPI";
 
 interface ProfileProps {
-    renderStatus: string,
-    logoutSvg: string,
-    backSvg: string,
-    menuSvg: string,
-    styles?: Record<string, unknown>
+  renderStatus: string,
+  logoutSvg: string,
+  backSvg: string,
+  menuSvg: string,
+  styles?: Record<string, unknown>
 }
 
 class ProfileBase extends Block<ProfileProps> {
@@ -34,7 +34,7 @@ class ProfileBase extends Block<ProfileProps> {
 
   constructor(props: ProfileProps) {
     super(props);
-        this.element!.classList.add(profileStyles.profile);
+    this.element!.classList.add(profileStyles.profile);
   }
 
   protected editPropsBeforeMakeThemProxy(props: ProfileProps) {
@@ -70,7 +70,7 @@ class ProfileBase extends Block<ProfileProps> {
           validation: {
             required: true,
             trim: true,
-            callback: (value: string, required?:boolean, trim?:boolean) => ValidationHelper
+            callback: (value: string, required?: boolean, trim?: boolean) => ValidationHelper
               .loginValidation(value, required, trim),
           },
         }),
@@ -87,7 +87,7 @@ class ProfileBase extends Block<ProfileProps> {
           validation: {
             required: true,
             trim: true,
-            callback: (value: string, required?:boolean, trim?:boolean) => ValidationHelper
+            callback: (value: string, required?: boolean, trim?: boolean) => ValidationHelper
               .nameValidation(value, required, trim),
           },
         }),
@@ -104,7 +104,7 @@ class ProfileBase extends Block<ProfileProps> {
           validation: {
             required: true,
             trim: true,
-            callback: (value: string, required?:boolean, trim?:boolean) => ValidationHelper
+            callback: (value: string, required?: boolean, trim?: boolean) => ValidationHelper
               .secondNameValidation(value, required, trim),
           },
         }),
@@ -121,7 +121,7 @@ class ProfileBase extends Block<ProfileProps> {
           validation: {
             required: true,
             trim: true,
-            callback: (value: string, required?:boolean, trim?:boolean) => ValidationHelper
+            callback: (value: string, required?: boolean, trim?: boolean) => ValidationHelper
               .emailValidation(value, required, trim),
           },
         }),
@@ -138,7 +138,7 @@ class ProfileBase extends Block<ProfileProps> {
           validation: {
             required: true,
             trim: true,
-            callback: (value: string, required?:boolean, trim?:boolean) => ValidationHelper
+            callback: (value: string, required?: boolean, trim?: boolean) => ValidationHelper
               .phoneValidation(value, required, trim),
           },
         }),
@@ -187,7 +187,7 @@ class ProfileBase extends Block<ProfileProps> {
           validation: {
             required: true,
             trim: true,
-            callback: (value: string, required?:boolean, trim?:boolean) => ValidationHelper
+            callback: (value: string, required?: boolean, trim?: boolean) => ValidationHelper
               .passwordValidation(value, required, trim),
           },
         }),
@@ -204,7 +204,7 @@ class ProfileBase extends Block<ProfileProps> {
           validation: {
             required: true,
             trim: true,
-            callback: (value: string, required?:boolean, trim?:boolean) => ValidationHelper
+            callback: (value: string, required?: boolean, trim?: boolean) => ValidationHelper
               .passwordValidation(value, required, trim),
           },
         }),
@@ -221,7 +221,7 @@ class ProfileBase extends Block<ProfileProps> {
           validation: {
             required: true,
             trim: true,
-            callback: (value: string, required?:boolean, trim?:boolean) => ValidationHelper
+            callback: (value: string, required?: boolean, trim?: boolean) => ValidationHelper
               .passwordValidation(value, required, trim),
           },
         }),
@@ -278,7 +278,7 @@ class ProfileBase extends Block<ProfileProps> {
               event.stopPropagation();
               event.preventDefault();
               const formData = (this.children.changeAvatarForm as Form<Record<string, any>>).getFormData();
-              if(formData) {
+              if (formData) {
                 await UsersController.changAvatar(formData);
                 await AuthController.fetchUser();
                 (this.children.avatarBlock as Avatar).changeAvatar(this.props.avatar);
@@ -336,14 +336,14 @@ class ProfileBase extends Block<ProfileProps> {
       size: '3em',
       icon: this.props.logoutSvg,
     });
-        this.children.logoutIcon.element!.addEventListener(
-          'click',
-          async () => {
-            await AuthController.logout();
-            Router.go(Routes.Index)
-          },
-        );
-        this.children.logoutIcon.element!.classList.add(profileStyles['button-icon']);
+    this.children.logoutIcon.element!.addEventListener(
+      'click',
+      async () => {
+        await AuthController.logout();
+        Router.go(Routes.Index)
+      },
+    );
+    this.children.logoutIcon.element!.classList.add(profileStyles['button-icon']);
   }
 
   private _addBackButton() {
@@ -351,14 +351,14 @@ class ProfileBase extends Block<ProfileProps> {
       size: '2em',
       icon: this.props.backSvg,
     });
-        this.children.backIcon.element!.addEventListener('click', () => {
-          if (this.props.renderStatus === 'show') {
-            Router.go(Routes.Chat)
-          } else {
-            this._changeRenderStatus(ProfileBase.RENDER_STATUSES.SHOW);
-          }
-        });
-        this.children.backIcon.element!.classList.add(profileStyles['button-icon']);
+    this.children.backIcon.element!.addEventListener('click', () => {
+      if (this.props.renderStatus === 'show') {
+        Router.go(Routes.Chat)
+      } else {
+        this._changeRenderStatus(ProfileBase.RENDER_STATUSES.SHOW);
+      }
+    });
+    this.children.backIcon.element!.classList.add(profileStyles['button-icon']);
   }
 
   private _changeRenderStatus(renderStatus: string) {
@@ -391,5 +391,5 @@ class ProfileBase extends Block<ProfileProps> {
   }
 }
 
-const withUser = withStore((state) => ({ ...state.user }))
+const withUser = withStore((state) => ({...state.user}))
 export const Profile = withUser(ProfileBase);

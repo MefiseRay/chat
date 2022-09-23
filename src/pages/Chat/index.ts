@@ -1,6 +1,6 @@
 import Block from '../../utils/Block';
 import template from './chat.pug';
-import { Chat } from '../../modules/Chat';
+import {Chat} from '../../modules/Chat';
 import addChatIcon from '../../../static/icon/add.svg';
 import searchIcon from '../../../static/icon/search.svg';
 import menuIcon from '../../../static/icon/more-vert.svg';

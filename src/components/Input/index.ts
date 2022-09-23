@@ -1,8 +1,8 @@
 import Block from '../../utils/Block';
 import template from './input.pug';
 import * as inputStyles from './input.module.scss';
-import { Icon } from '../Icon';
-import { ValidationResult } from '../../utils/CustomValidation';
+import {Icon} from '../Icon';
+import {ValidationResult} from '../../utils/CustomValidation';
 import refElementsCollection from '../../utils/RefElementsCollection';
 
 export enum InputTypes {
@@ -34,7 +34,7 @@ interface InputProps {
   validation?: {
     required?: boolean,
     trim?: boolean,
-    callback: (value: string, required?:boolean, trim?:boolean) => ValidationResult
+    callback: (value: string, required?: boolean, trim?: boolean) => ValidationResult
   },
   styles?: Record<string, unknown>
 }
@@ -46,14 +46,14 @@ export class Input extends Block<InputProps> {
 
   constructor(props: InputProps) {
     super(props);
-        this.element!.classList.add(inputStyles.input);
-        if (props.isRounded) {
-            this.element!.classList.add(inputStyles.rounded);
-            if (props.isLight) this.element!.classList.add(inputStyles.light);
-        }
-        if (props.displayBlock) {
-            this.element!.classList.add(inputStyles.block);
-        }
+    this.element!.classList.add(inputStyles.input);
+    if (props.isRounded) {
+      this.element!.classList.add(inputStyles.rounded);
+      if (props.isLight) this.element!.classList.add(inputStyles.light);
+    }
+    if (props.displayBlock) {
+      this.element!.classList.add(inputStyles.block);
+    }
   }
 
   protected editPropsBeforeMakeThemProxy(props: InputProps) {
@@ -106,11 +106,11 @@ export class Input extends Block<InputProps> {
     return validationResult;
   }
 
-  public getValidationResult():ValidationResult {
+  public getValidationResult(): ValidationResult {
     if (!this.props.validation) {
       throw new Error('This input does not have a validator');
     }
-    const { value } = this.getInput();
+    const {value} = this.getInput();
     const validationResult: ValidationResult = this.props.validation.callback(
       value,
       this.props.validation.required,
@@ -134,7 +134,7 @@ export class Input extends Block<InputProps> {
   }
 
   public getValue() {
-    const { value } = this.getInput();
+    const {value} = this.getInput();
     return value;
   }
 }

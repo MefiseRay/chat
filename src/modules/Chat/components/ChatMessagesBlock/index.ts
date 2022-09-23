@@ -1,19 +1,19 @@
 import Block from '../../../../utils/Block';
 import template from './chatMessagesBlock.pug';
 import * as chatMessagesBlockStyles from './chatMessagesBlock.module.scss';
-import { ChatMessage, ChatMessageProps } from '../ChatMessage';
+import {ChatMessage, ChatMessageProps} from '../ChatMessage';
 
 export interface ChatMessagesBlockProps {
-    userId: string,
-    date: string,
-    massages: ChatMessageProps[],
-    styles?: Record<string, unknown>
+  userId: string,
+  date: string,
+  massages: ChatMessageProps[],
+  styles?: Record<string, unknown>
 }
 
 export class ChatMessagesBlock extends Block<ChatMessagesBlockProps> {
   constructor(props: ChatMessagesBlockProps) {
     super(props);
-        this.element!.classList.add(chatMessagesBlockStyles['messages-block']);
+    this.element!.classList.add(chatMessagesBlockStyles['messages-block']);
   }
 
   protected editPropsBeforeMakeThemProxy(props: ChatMessagesBlockProps) {

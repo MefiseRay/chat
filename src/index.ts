@@ -14,10 +14,11 @@ export enum Routes {
   NotFound = '/not-found',
   Chat = '/chat'
 }
-const routesPaths:String[] = Object.values(Routes);
+
+const routesPaths: String[] = Object.values(Routes);
 
 window.addEventListener('DOMContentLoaded', async () => {
-  const root:Element = document.querySelector('#app')!;
+  const root: Element = document.querySelector('#app')!;
   root.classList.add(styles.app);
   Router
     .use(Routes.Index, AuthorizationPage)
@@ -48,11 +49,10 @@ window.addEventListener('DOMContentLoaded', async () => {
       }
     }
   } else {
-    console.log("404",window.location.pathname);
+    console.log("404", window.location.pathname);
     Router.start();
     Router.go(Routes.NotFound);
   }
-
 
 
 });

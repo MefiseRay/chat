@@ -1,5 +1,5 @@
-import { set } from './Helpers';
-import { EventBus } from './EventBus';
+import {set} from './Helpers';
+import {EventBus} from './EventBus';
 import Block from './Block';
 import {User} from "../api/UsersAPI";
 
@@ -27,16 +27,16 @@ export class Store extends EventBus {
 const store = new Store();
 
 export function withStore<SP extends Record<string, any>>(mapStateToProps: (state: State) => SP) {
-  return function wrap<P extends Record<string, any>>(Component: typeof Block<P & SP>){
+  return function wrap<P extends Record<string, any>>(Component: typeof Block<P & SP>) {
     let previousState: SP;
     return class WithStore extends Component {
       constructor(props: P) {
         previousState = mapStateToProps(store.getState());
-        super({ ...props, ...previousState });
+        super({...props, ...previousState});
         store.on(StoreEvents.Updated, () => {
           const stateProps = mapStateToProps(store.getState());
           previousState = stateProps;
-          this.setProps({ ...stateProps });
+          this.setProps({...stateProps});
         });
       }
     }

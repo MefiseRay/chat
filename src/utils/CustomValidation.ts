@@ -1,15 +1,15 @@
 export interface ValidationResult {
-    result: boolean,
-    value: string,
-    message?: string
+  result: boolean,
+  value: string,
+  message?: string
 }
 
 export interface ValidationRule {
-    required: boolean,
-    trim: boolean,
-    validate?: (value: string) => ValidationResult,
-    preprocess?: (value: string) => string,
-    postprocess?: (value: string) => string,
+  required: boolean,
+  trim: boolean,
+  validate?: (value: string) => ValidationResult,
+  preprocess?: (value: string) => string,
+  postprocess?: (value: string) => string,
 }
 
 const customValidation = (

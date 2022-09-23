@@ -3,15 +3,15 @@ import template from './button.pug';
 import * as buttonStyles from './button.module.scss';
 
 interface ButtonProps {
-    text: string,
-    events: {
-        click: (event: Event) => void;
-    },
-    isTransparent: boolean,
-    isBordered: boolean,
-    isWhite: boolean,
-    displayBlock: boolean,
-    isMenuElement?: boolean
+  text: string,
+  events: {
+    click: (event: Event) => void;
+  },
+  isTransparent: boolean,
+  isBordered: boolean,
+  isWhite: boolean,
+  displayBlock: boolean,
+  isMenuElement?: boolean
 }
 
 export class Button extends Block<ButtonProps> {

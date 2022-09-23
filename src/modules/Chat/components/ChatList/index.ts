@@ -10,15 +10,6 @@ import Router from "../../../../utils/Router";
 import {Routes} from "../../../../index";
 
 export interface ChatListProps {
-    profile: {
-        id: string,
-        avatarSrc: string,
-        login: string,
-        firstName: string,
-        secondName: string,
-        email: string,
-        phone: string,
-    }
     addChatIconSrc: string,
     searchIconSrc: string,
     styles?: Record<string, unknown>
@@ -35,7 +26,6 @@ export class ChatList extends Block<ChatListProps> {
   }
 
   protected init() {
-    this._addAvatar();
     this._addButton();
     this._addSearchInput();
     this._addItemsList();
@@ -53,15 +43,6 @@ export class ChatList extends Block<ChatListProps> {
           Router.go(Routes.Profile);
         },
       },
-    });
-  }
-
-  private _addAvatar() {
-    this.children.avatar = new Avatar({
-      src: this.props.profile.avatarSrc,
-      size: '2em',
-      alt: this.props.profile.login,
-      title: this.props.profile.login,
     });
   }
 
@@ -104,16 +85,9 @@ export class ChatList extends Block<ChatListProps> {
       const min = Math.ceil(-80);
       const max = Math.floor(80);
       notRead = Math.floor(Math.random() * (max - min + 1)) + min;
-
-      let imageSrc = '';
-      if (i < 10) {
-        imageSrc = `/upload/img/cat_0${i}.jpg`;
-      } else {
-        imageSrc = `/upload/img/cat_${i}.jpg`;
-      }
       itemsData.push({
         chatId: `${i}`,
-        imageSrc,
+        imageSrc: "",
         name: `Чат с номером ${i}`,
         message: {
           text: 'Случайный текст для проверки отображение его в списке чатов. '

@@ -3,7 +3,7 @@ import template from './registration.pug';
 
 import * as centralAreaStyles from '../../layouts/CentralArea/centralArea.module.scss';
 
-import { Form } from '../../modules/Form';
+import {Form} from '../../modules/Form';
 import {Input, InputTypes} from "../../components/Input";
 import ValidationHelper from "../../utils/ValidationHelper";
 import {Button} from "../../components/Button";
@@ -15,7 +15,7 @@ import AuthController from '../../controllers/AuthController';
 export class RegistrationPage extends Block<{}> {
   constructor() {
     super({});
-        this.element!.classList.add(centralAreaStyles.wrapper);
+    this.element!.classList.add(centralAreaStyles.wrapper);
   }
 
   protected init() {
@@ -37,7 +37,7 @@ export class RegistrationPage extends Block<{}> {
           validation: {
             required: true,
             trim: true,
-            callback: (value: string, required?:boolean, trim?:boolean) => ValidationHelper
+            callback: (value: string, required?: boolean, trim?: boolean) => ValidationHelper
               .emailValidation(value, required, trim),
           },
         }),
@@ -54,7 +54,7 @@ export class RegistrationPage extends Block<{}> {
           validation: {
             required: true,
             trim: true,
-            callback: (value: string, required?:boolean, trim?:boolean) => ValidationHelper
+            callback: (value: string, required?: boolean, trim?: boolean) => ValidationHelper
               .loginValidation(value, required, trim),
           },
         }),
@@ -71,7 +71,7 @@ export class RegistrationPage extends Block<{}> {
           validation: {
             required: true,
             trim: true,
-            callback: (value: string, required?:boolean, trim?:boolean) => ValidationHelper
+            callback: (value: string, required?: boolean, trim?: boolean) => ValidationHelper
               .nameValidation(value, required, trim),
           },
         }),
@@ -88,7 +88,7 @@ export class RegistrationPage extends Block<{}> {
           validation: {
             required: true,
             trim: true,
-            callback: (value: string, required?:boolean, trim?:boolean) => ValidationHelper
+            callback: (value: string, required?: boolean, trim?: boolean) => ValidationHelper
               .secondNameValidation(value, required, trim),
           },
         }),
@@ -105,7 +105,7 @@ export class RegistrationPage extends Block<{}> {
           validation: {
             required: true,
             trim: true,
-            callback: (value: string, required?:boolean, trim?:boolean) => ValidationHelper
+            callback: (value: string, required?: boolean, trim?: boolean) => ValidationHelper
               .phoneValidation(value, required, trim),
           },
         }),
@@ -122,7 +122,7 @@ export class RegistrationPage extends Block<{}> {
           validation: {
             required: true,
             trim: true,
-            callback: (value: string, required?:boolean, trim?:boolean) => ValidationHelper
+            callback: (value: string, required?: boolean, trim?: boolean) => ValidationHelper
               .passwordValidation(value, required, trim),
           },
         }),
@@ -139,7 +139,7 @@ export class RegistrationPage extends Block<{}> {
           validation: {
             required: true,
             trim: true,
-            callback: (value: string, required?:boolean, trim?:boolean) => ValidationHelper
+            callback: (value: string, required?: boolean, trim?: boolean) => ValidationHelper
               .passwordValidation(value, required, trim),
           },
         }),

@@ -1,7 +1,7 @@
 import Block from '../../utils/Block';
 import template from './menuButton.pug';
-import { Icon } from '../Icon';
-import { DropdownMenu } from '../DropdownMenu';
+import {Icon} from '../Icon';
+import {DropdownMenu} from '../DropdownMenu';
 
 import * as menuButtonStyles from './menuButton.module.scss';
 
@@ -32,8 +32,8 @@ export class MenuButton extends Block<MenuButtonProps> {
       const target = event.target as HTMLElement;
       const sourceElRect = target.getBoundingClientRect();
       const elRect = menu.element!.getBoundingClientRect();
-      const { horizontalShift } = this.props;
-      const { verticalShift } = this.props;
+      const {horizontalShift} = this.props;
+      const {verticalShift} = this.props;
 
       if (icon.element) {
         let top = sourceElRect.bottom + verticalShift;

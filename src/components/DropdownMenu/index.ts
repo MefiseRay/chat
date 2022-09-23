@@ -1,6 +1,6 @@
 import Block from '../../utils/Block';
 import template from './dropdownMenu.pug';
-import { Button } from '../Button';
+import {Button} from '../Button';
 
 import * as dropdownMenuStyles from './dropdownMenu.module.scss';
 
@@ -10,8 +10,8 @@ interface DropdownMenuItemsProps {
 }
 
 interface DropdownMenuProps {
-    items: DropdownMenuItemsProps[],
-    styles?: Record<string, unknown>
+  items: DropdownMenuItemsProps[],
+  styles?: Record<string, unknown>
 }
 
 export class DropdownMenu extends Block<DropdownMenuProps> {

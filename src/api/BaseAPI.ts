@@ -11,12 +11,15 @@ export default abstract class BaseAPI {
 export interface BaseCreateAPI {
   create(data: unknown): Promise<unknown>;
 }
+
 export interface BaseReadAPI {
   read(identifier?: string): Promise<unknown>;
 }
+
 export interface BaseUpdateAPI {
   update(identifier: string, data: unknown): Promise<unknown>;
 }
+
 export interface BaseDeleteAPI {
   delete(identifier: string): Promise<unknown>;
 }

@@ -11,7 +11,7 @@ export class ProfilePage extends Block<{}> {
 
   constructor() {
     super({});
-        this.element!.classList.add(centralAreaStyles.wrapper);
+    this.element!.classList.add(centralAreaStyles.wrapper);
   }
 
   protected init() {
