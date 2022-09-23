@@ -5,6 +5,7 @@ import { ChatList } from './components/ChatList';
 import * as chatStyles from './chat.module.scss';
 import { ChatItem } from './components/ChatItem';
 import { ChatMessages } from './components/ChatMessages';
+import {withStore} from "../../utils/Store";
 
 export interface ChatProps {
     userId: string,
@@ -16,7 +17,7 @@ export interface ChatProps {
     styles?: Record<string, unknown>
 }
 
-export class Chat extends Block<ChatProps> {
+export class ChatBase extends Block<ChatProps> {
   constructor(props: ChatProps) {
     super(props);
         this.element!.classList.add(chatStyles.wrapper);
@@ -82,3 +83,6 @@ export class Chat extends Block<ChatProps> {
     };
   }
 }
+
+const withUser = withStore((state) => ({ ...state.user }));
+export const Chat = withUser(ChatBase);

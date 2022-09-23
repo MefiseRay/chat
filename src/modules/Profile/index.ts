@@ -305,7 +305,7 @@ class ProfileBase extends Block<ProfileProps> {
     });
         this.children.backIcon.element!.addEventListener('click', () => {
           if (this.props.renderStatus === 'show') {
-            //PageNavigator.renderChatPage();
+            Router.go(Routes.Chat)
           } else {
             this._changeRenderStatus(ProfileBase.RENDER_STATUSES.SHOW);
           }

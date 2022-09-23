@@ -5,12 +5,14 @@ import {AuthorizationPage} from "./pages/Authorization";
 import {RegistrationPage} from "./pages/Registration";
 import {ProfilePage} from "./pages/Profile";
 import {NotFoundPage} from "./pages/NotFound";
+import {ChatPage} from "./pages/Chat";
 
 export enum Routes {
   Index = '/',
   Register = '/register',
   Profile = '/profile',
-  NotFound = '/not-found'
+  NotFound = '/not-found',
+  Chat = '/chat'
 }
 const routesPaths:String[] = Object.values(Routes);
 
@@ -22,6 +24,7 @@ window.addEventListener('DOMContentLoaded', async () => {
     .use(Routes.Register, RegistrationPage)
     .use(Routes.Profile, ProfilePage)
     .use(Routes.NotFound, NotFoundPage)
+    .use(Routes.Chat, ChatPage)
 
   let isProtectedRoute = true;
 

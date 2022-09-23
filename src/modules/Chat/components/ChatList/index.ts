@@ -2,11 +2,12 @@ import Block from '../../../../utils/Block';
 import template from './chatList.pug';
 import * as chatListStyles from './chatList.module.scss';
 import { Avatar } from '../../../../components/Avatar';
-import { PageNavigator } from '../../../../utils/PageNavigator';
 import { Icon } from '../../../../components/Icon';
 import { Input, InputTypes } from '../../../../components/Input';
 import { ChatItem, ChatItemProps } from '../ChatItem';
 import { ChatUser } from '../ChatUser';
+import Router from "../../../../utils/Router";
+import {Routes} from "../../../../index";
 
 export interface ChatListProps {
     profile: {
@@ -56,7 +57,7 @@ export class ChatList extends Block<ChatListProps> {
       login: this.props.profile.login,
       events: {
         click: () => {
-          PageNavigator.renderProfilePage();
+          Router.go(Routes.Profile);
         },
       },
     });
