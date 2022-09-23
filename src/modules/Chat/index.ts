@@ -17,7 +17,7 @@ export interface ChatProps {
     styles?: Record<string, unknown>
 }
 
-export class ChatBase extends Block<ChatProps> {
+export class Chat extends Block<ChatProps> {
   constructor(props: ChatProps) {
     super(props);
         this.element!.classList.add(chatStyles.wrapper);
@@ -83,6 +83,3 @@ export class ChatBase extends Block<ChatProps> {
     };
   }
 }
-
-const withUser = withStore((state) => ({ ...state.user }));
-export const Chat = withUser(ChatBase);

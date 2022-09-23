@@ -17,7 +17,6 @@ import {withStore} from "../../utils/Store";
 import {ChangePasswordForm, UserChangeable} from "../../api/UsersAPI";
 
 interface ProfileProps {
-    avatarSrc: string,
     renderStatus: string,
     logoutSvg: string,
     backSvg: string,
@@ -275,8 +274,8 @@ class ProfileBase extends Block<ProfileProps> {
   }
 
   private _addAvatar() {
-    this.children.avatar = new Avatar({
-      src: this.props.avatarSrc,
+    this.children.avatarBlock = new Avatar({
+      src: this.props.avatar,
       size: '6em',
       alt: this.props.login,
       title: this.props.login,

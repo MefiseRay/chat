@@ -16,7 +16,6 @@ export class ProfilePage extends Block<{}> {
 
   protected init() {
     this.children.profile = new Profile({
-      avatarSrc: '/upload/img/user_avatar.jpg',
       renderStatus: 'show',
       logoutSvg: logoutIcon,
       backSvg: beforeIcon,

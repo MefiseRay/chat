@@ -5,8 +5,6 @@ import { Avatar } from '../../../../components/Avatar';
 import {withStore} from "../../../../utils/Store";
 
 export interface ChatUserProps {
-    // noAvatar: Avatar,
-    // login: string,
     events: {
         click: (event: Event) => void;
     },
@@ -16,12 +14,16 @@ export class ChatUserBase extends Block<ChatUserProps> {
   constructor(props: ChatUserProps) {
     super(props);
     this.element!.classList.add(chatUserStyles.user);
-    this.children.noAvatar = new Avatar({
-      src: '/upload/img/user_avatar.jpg',
+  }
+
+  protected init() {
+    this.children.avatarBlock = new Avatar({
+      src: this.props.avatar,
       size: '2em',
       alt: this.props.login,
       title: this.props.login,
     });
+    console.log(this.children.avatarBlock)
   }
 
   protected render() {

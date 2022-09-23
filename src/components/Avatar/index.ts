@@ -12,7 +12,9 @@ interface AvatarProps {
 
 export class Avatar extends Block<AvatarProps> {
 
-  constructor(props: AvatarProps) {
+  static NO_IMAGE:string = '/upload/img/noimage.jpg';
+
+    constructor(props: AvatarProps) {
     super(props);
     this.element!.classList.add(avatarStyles.avatar);
     this.element!.style.height = props.size;
@@ -21,6 +23,7 @@ export class Avatar extends Block<AvatarProps> {
 
   protected editPropsBeforeMakeThemProxy(props: AvatarProps) {
     props.styles = avatarStyles;
+    if(!props.src || props.src === "") props.src = Avatar.NO_IMAGE;
   }
 
   protected render() {
