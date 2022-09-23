@@ -1,24 +1,25 @@
 import Block from '../../../../utils/Block';
 import template from './chatList.pug';
 import * as chatListStyles from './chatList.module.scss';
-import { Avatar } from '../../../../components/Avatar';
-import { Icon } from '../../../../components/Icon';
-import { Input, InputTypes } from '../../../../components/Input';
-import { ChatItem, ChatItemProps } from '../ChatItem';
-import { ChatUser } from '../ChatUser';
+import {Avatar} from '../../../../components/Avatar';
+import {Icon} from '../../../../components/Icon';
+import {Input, InputTypes} from '../../../../components/Input';
+import {ChatItem, ChatItemProps} from '../ChatItem';
+import {ChatUser} from '../ChatUser';
 import Router from "../../../../utils/Router";
 import {Routes} from "../../../../index";
+import ChatsController from "../../../../controllers/ChatsController";
 
 export interface ChatListProps {
-    addChatIconSrc: string,
-    searchIconSrc: string,
-    styles?: Record<string, unknown>
+  addChatIconSrc: string,
+  searchIconSrc: string,
+  styles?: Record<string, unknown>
 }
 
 export class ChatList extends Block<ChatListProps> {
   constructor(props: ChatListProps) {
     super(props);
-        this.element!.classList.add(chatListStyles.wrapper);
+    this.element!.classList.add(chatListStyles.wrapper);
   }
 
   protected editPropsBeforeMakeThemProxy(props: ChatListProps) {
@@ -51,9 +52,9 @@ export class ChatList extends Block<ChatListProps> {
       size: '1.5em',
       icon: this.props.addChatIconSrc,
     });
-        this.children.addButton.element!.addEventListener('click', () => {
-          console.log('Нажата кнопка добавления нового чата');
-        });
+    this.children.addButton.element!.addEventListener('click', async () => {
+      await ChatsController.create("Новый чат");
+    });
   }
 
   private _addSearchInput() {
@@ -78,7 +79,7 @@ export class ChatList extends Block<ChatListProps> {
     this.children.chatItemsList = itemsList;
   }
 
-  private _testItemsData():ChatItemProps[] {
+  private _testItemsData(): ChatItemProps[] {
     const itemsData: ChatItemProps[] = [];
     let notRead = 0;
     for (let i = 1; i <= 20; i++) {
@@ -91,7 +92,7 @@ export class ChatList extends Block<ChatListProps> {
         name: `Чат с номером ${i}`,
         message: {
           text: 'Случайный текст для проверки отображение его в списке чатов. '
-                        + 'Случайный текст для проверки отображение его в списке чатов.',
+            + 'Случайный текст для проверки отображение его в списке чатов.',
           dateTime: '20:43',
         },
         notRead: notRead > 0 ? notRead : 0,

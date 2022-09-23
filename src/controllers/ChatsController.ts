@@ -1,4 +1,5 @@
 import API, {ChatsAPI} from "../api/ChatsAPI";
+import store from "../utils/Store";
 
 export class ChatsController {
 
@@ -18,7 +19,8 @@ export class ChatsController {
 
   async create(title:string) {
     try {
-      await this.api.create(title);
+      const chat = await this.api.create(title);
+      if(chat.id) store.set('selectedChat', chat.id);
     } catch (e: any) {
       console.error(e);
     }

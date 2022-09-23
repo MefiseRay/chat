@@ -9,6 +9,7 @@ export enum StoreEvents {
 
 type State = {
   user?: User
+  selectedChat?: string
 };
 
 export class Store extends EventBus {
