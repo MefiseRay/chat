@@ -48,13 +48,6 @@ export class ChatList extends Block<ChatListProps> {
 
   private _addChatUser() {
     this.children.chatUser = new ChatUser({
-      avatar: new Avatar({
-        src: this.props.profile.avatarSrc,
-        size: '2em',
-        alt: this.props.profile.login,
-        title: this.props.profile.login,
-      }),
-      login: this.props.profile.login,
       events: {
         click: () => {
           Router.go(Routes.Profile);
