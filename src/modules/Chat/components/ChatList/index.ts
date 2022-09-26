@@ -58,10 +58,6 @@ export class ChatListBase extends Block<ChatListProps> {
     this.children.addButton.element!.addEventListener('click', async () => {
       this.props.selected = await ChatsController.create("Новый чат");
       this.props.addCallback(this.props.selected);
-      // console.log(this.props.selected);
-      // await ChatsController.get();
-      // this._addItemsList();
-      // this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
     });
   }
 
