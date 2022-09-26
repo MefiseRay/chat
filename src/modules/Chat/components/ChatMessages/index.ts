@@ -26,7 +26,6 @@ export class ChatMessagesBase extends Block<ChatMessagesProps> {
   }
 
   protected editPropsBeforeMakeThemProxy(props: ChatMessagesProps & ChatsData) {
-    console.log(props);
     props.styles = chatMessagesStyles;
   }
 
@@ -37,7 +36,7 @@ export class ChatMessagesBase extends Block<ChatMessagesProps> {
       this._addAttachFile();
       this._addMessageInput();
       this._addSendButton();
-      // this._addMessageBlocks();
+      this._addMessageBlocks();
     }
   }
 
@@ -111,15 +110,9 @@ export class ChatMessagesBase extends Block<ChatMessagesProps> {
 
   private _addMessageBlocks() {
     this.children.messageBlocks = [];
-    this.props.chatData.messages.forEach((messageData: ChatMessagesBlockProps) => {
-      (this.children.messageBlocks as ChatMessagesBlock[]).push(new ChatMessagesBlock(messageData));
-    });
-  }
-
-  private _updateChatData(chatId?: string) {
-    if(chatId) {
-      this.props.chatData = this.props.chat[chatId];
-    }
+    // this.props.chatData.messages.forEach((messageData: ChatMessagesBlockProps) => {
+    //   (this.children.messageBlocks as ChatMessagesBlock[]).push(new ChatMessagesBlock(messageData));
+    // });
   }
 }
 
