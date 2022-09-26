@@ -9,7 +9,7 @@ import Router from "../../../../utils/Router";
 import {Routes} from "../../../../index";
 import ChatsController from "../../../../controllers/ChatsController";
 import store, {withStore} from "../../../../utils/Store";
-import {ChatData} from "../../../../api/ChatsAPI";
+import {ChatData, ChatsData} from "../../../../api/ChatsAPI";
 
 export interface ChatListProps {
   addChatIconSrc: string,
@@ -77,9 +77,9 @@ export class ChatListBase extends Block<ChatListProps> {
 
   private _addItemsList() {
     const itemsList: ChatItem[] = [];
-    this.props.chatList.forEach((element: ChatData) => {
+    for (const [key, element] of Object.entries(this.props.chatList as ChatsData)) {
       itemsList.push(new ChatItem(element));
-    });
+    }
     this.children.chatItemsList = itemsList;
   }
 }

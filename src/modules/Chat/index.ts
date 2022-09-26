@@ -86,32 +86,11 @@ export class Chat extends Block<ChatProps> {
   private _initChatMessage(chatId?: string) {
     this.children.chatMessages = new ChatMessages({
       chatId,
-      profile: this._getProfileData(this.props.userId),
       menuIconSrc: this.props.menuIconSrc,
       attachFileIconSrc: this.props.attachFileIconSrc,
       sendIconSrc: this.props.sendIconSrc,
       deleteCallback: (chatId: string) => this.deleteChat(chatId)
     });
     this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
-  }
-
-  private _getProfileData(id: string): {
-    id: string,
-    avatarSrc: string,
-    login: string,
-    firstName: string,
-    secondName: string,
-    email: string,
-    phone: string,
-  } {
-    return {
-      id,
-      avatarSrc: '/upload/img/user_avatar.jpg',
-      login: 'RayMefise',
-      firstName: 'Max',
-      secondName: 'Zaitsev',
-      email: 'max.zaitsev@site.ru',
-      phone: '8 (920) 900-10-20',
-    };
   }
 }

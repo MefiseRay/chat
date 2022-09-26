@@ -1,4 +1,4 @@
-import API, {ChatsAPI} from "../api/ChatsAPI";
+import API, {ChatData, ChatsAPI} from "../api/ChatsAPI";
 import store from "../utils/Store";
 
 export class ChatsController {
@@ -12,7 +12,11 @@ export class ChatsController {
   async get() {
     try {
       const chatList = await this.api.read();
-      if(chatList) store.set('chats.chatList', chatList);
+      let chats: Record<string, ChatData> = {};
+      chatList.forEach((chat) => {
+        chats[chat.id] = chat;
+      })
+      store.set('chats.chatList', chats);
     } catch (e: any) {
       console.error(e);
     }
