@@ -29,9 +29,9 @@ export class Chat extends Block<ChatProps> {
     props.styles = chatStyles;
   }
 
-  protected init() {
+  protected async init() {
     this._initChatList();
-    this._initChatMessage();
+    await this._initChatMessage();
   }
 
   protected render() {
@@ -52,12 +52,12 @@ export class Chat extends Block<ChatProps> {
     const chatList = (this.children.chatList as ChatListBase).children.chatItemsList;
     if (Array.isArray(chatList)) {
       (chatList as ChatItem[]).forEach((targetChatItem: ChatItem) => {
-        targetChatItem.getContent()!.addEventListener('click',  () => {
+        targetChatItem.getContent()!.addEventListener('click',  async () => {
           (chatList as ChatItem[]).forEach((item: ChatItem) => {
             item.removeSelection();
           });
           targetChatItem.select();
-          this._initChatMessage(targetChatItem.getPropValue('id'));
+          await this._initChatMessage(targetChatItem.getPropValue('id'));
         });
       });
     }
