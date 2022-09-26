@@ -47,9 +47,9 @@ export class Chat extends Block<ChatProps> {
             item.removeSelection();
           });
           targetChatItem.select();
-          console.log(`Открыт чат ${targetChatItem.getPropValue('chatId')}`);
+          console.log(`Открыт чат ${targetChatItem.getPropValue('id')}`);
           this.children.chatMessages = new ChatMessages({
-            chatId: targetChatItem.getPropValue('chatId'),
+            chatId: targetChatItem.getPropValue('id'),
             profile: this._getProfileData(this.props.userId),
             menuIconSrc: this.props.menuIconSrc,
             attachFileIconSrc: this.props.attachFileIconSrc,

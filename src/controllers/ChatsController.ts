@@ -21,7 +21,7 @@ export class ChatsController {
   async create(title:string) {
     try {
       const chat = await this.api.create(title);
-      if(chat.id) store.set('selectedChat', chat.id);
+      return chat.id;
     } catch (e: any) {
       console.error(e);
     }

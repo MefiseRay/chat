@@ -3,33 +3,25 @@ import template from './chatItem.pug';
 
 import * as chatItemStyles from './chatItem.module.scss';
 import {Avatar} from '../../../../components/Avatar';
+import {ChatData} from "../../../../api/ChatsAPI";
 
 export interface ChatItemProps {
-  chatId: string,
-  imageSrc: string,
-  name: string,
-  message: {
-    text: string,
-    dateTime: string,
-  },
-  notRead: number,
-  selected: boolean,
   styles?: Record<string, unknown>
 }
 
-export class ChatItem extends Block<ChatItemProps> {
-  constructor(props: ChatItemProps) {
+export class ChatItem extends Block<ChatData> {
+  constructor(props: ChatData) {
     super(props);
     this.element!.classList.add(chatItemStyles.item);
   }
 
-  protected editPropsBeforeMakeThemProxy(props: ChatItemProps) {
+  protected editPropsBeforeMakeThemProxy(props: ChatItemProps & ChatData) {
     props.styles = chatItemStyles;
   }
 
   protected init() {
     this.children.image = new Avatar({
-      src: this.props.imageSrc,
+      src: this.props.avatar,
       size: '3em',
       alt: this.props.name,
       title: this.props.name,

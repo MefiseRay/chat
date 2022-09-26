@@ -8,11 +8,13 @@ import {ChatUser, ChatUserBase} from '../ChatUser';
 import Router from "../../../../utils/Router";
 import {Routes} from "../../../../index";
 import ChatsController from "../../../../controllers/ChatsController";
-import {withStore} from "../../../../utils/Store";
+import store, {withStore} from "../../../../utils/Store";
+import {ChatData} from "../../../../api/ChatsAPI";
 
 export interface ChatListProps {
   addChatIconSrc: string,
   searchIconSrc: string,
+  selected?: string,
   styles?: Record<string, unknown>
 }
 
@@ -27,7 +29,6 @@ export class ChatListBase extends Block<ChatListProps> {
   }
 
   protected init() {
-    console.log(this.props.chatList);
     this._addButton();
     this._addSearchInput();
     this._addItemsList();
@@ -54,7 +55,9 @@ export class ChatListBase extends Block<ChatListProps> {
       icon: this.props.addChatIconSrc,
     });
     this.children.addButton.element!.addEventListener('click', async () => {
-      await ChatsController.create("Новый чат");
+      this.props.selected = await ChatsController.create("Новый чат");
+      console.log(this.props.selected);
+      await ChatsController.get();
     });
   }
 
@@ -74,33 +77,10 @@ export class ChatListBase extends Block<ChatListProps> {
 
   private _addItemsList() {
     const itemsList: ChatItem[] = [];
-    this._testItemsData().forEach((element: ChatItemProps) => {
+    this.props.chatList.forEach((element: ChatData) => {
       itemsList.push(new ChatItem(element));
     });
     this.children.chatItemsList = itemsList;
-  }
-
-  private _testItemsData(): ChatItemProps[] {
-    const itemsData: ChatItemProps[] = [];
-    let notRead = 0;
-    for (let i = 1; i <= 20; i++) {
-      const min = Math.ceil(-80);
-      const max = Math.floor(80);
-      notRead = Math.floor(Math.random() * (max - min + 1)) + min;
-      itemsData.push({
-        chatId: `${i}`,
-        imageSrc: "",
-        name: `Чат с номером ${i}`,
-        message: {
-          text: 'Случайный текст для проверки отображение его в списке чатов. '
-            + 'Случайный текст для проверки отображение его в списке чатов.',
-          dateTime: '20:43',
-        },
-        notRead: notRead > 0 ? notRead : 0,
-        selected: false,
-      });
-    }
-    return itemsData;
   }
 }
 

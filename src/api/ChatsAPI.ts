@@ -5,9 +5,9 @@ import {UserChangeable} from "./UsersAPI";
 export interface ChatData {
   id: number,
   title: string,
-  avatar: string,
+  avatar?: string,
   unread_count: number,
-  last_message: {
+  last_message?: {
     user: UserChangeable,
     time: string,
     content: string

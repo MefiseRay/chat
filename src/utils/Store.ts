@@ -10,7 +10,6 @@ export enum StoreEvents {
 
 type State = {
   user?: User
-  selectedChat?: string
   chats?: ChatsData
 };
 
