@@ -6,6 +6,7 @@ import {RegistrationPage} from "./pages/Registration";
 import {ProfilePage} from "./pages/Profile";
 import {NotFoundPage} from "./pages/NotFound";
 import {ChatPage} from "./pages/Chat";
+import ChatsController from "./controllers/ChatsController";
 
 export enum Routes {
   Index = '/',
@@ -38,6 +39,7 @@ window.addEventListener('DOMContentLoaded', async () => {
   if (routesPaths.includes(window.location.pathname)) {
     try {
       await AuthController.fetchUser();
+      await ChatsController.get();
       Router.start();
       if (!isProtectedRoute) {
         Router.go(Routes.Profile)
@@ -53,6 +55,4 @@ window.addEventListener('DOMContentLoaded', async () => {
     Router.start();
     Router.go(Routes.NotFound);
   }
-
-
 });

@@ -13,6 +13,10 @@ export interface ChatData {
     content: string
   }
 }
+export interface ChatsData {
+  selected?: string
+  chatList?: ChatData[]
+}
 
 export class ChatsAPI extends BaseAPI implements BaseReadAPI,BaseCreateAPI,BaseDeleteAPI{
   constructor() {

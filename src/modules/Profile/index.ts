@@ -15,6 +15,7 @@ import AuthController from "../../controllers/AuthController";
 import UsersController from '../../controllers/UsersController';
 import {withStore} from "../../utils/Store";
 import {ChangePasswordForm, UserChangeable} from "../../api/UsersAPI";
+import ChatsController from "../../controllers/ChatsController";
 
 interface ProfileProps {
   renderStatus: string,
@@ -351,8 +352,9 @@ class ProfileBase extends Block<ProfileProps> {
       size: '2em',
       icon: this.props.backSvg,
     });
-    this.children.backIcon.element!.addEventListener('click', () => {
+    this.children.backIcon.element!.addEventListener('click', async () => {
       if (this.props.renderStatus === 'show') {
+        await ChatsController.get();
         Router.go(Routes.Chat)
       } else {
         this._changeRenderStatus(ProfileBase.RENDER_STATUSES.SHOW);

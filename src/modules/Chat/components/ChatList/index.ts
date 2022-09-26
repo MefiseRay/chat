@@ -1,14 +1,14 @@
 import Block from '../../../../utils/Block';
 import template from './chatList.pug';
 import * as chatListStyles from './chatList.module.scss';
-import {Avatar} from '../../../../components/Avatar';
 import {Icon} from '../../../../components/Icon';
 import {Input, InputTypes} from '../../../../components/Input';
 import {ChatItem, ChatItemProps} from '../ChatItem';
-import {ChatUser} from '../ChatUser';
+import {ChatUser, ChatUserBase} from '../ChatUser';
 import Router from "../../../../utils/Router";
 import {Routes} from "../../../../index";
 import ChatsController from "../../../../controllers/ChatsController";
+import {withStore} from "../../../../utils/Store";
 
 export interface ChatListProps {
   addChatIconSrc: string,
@@ -16,7 +16,7 @@ export interface ChatListProps {
   styles?: Record<string, unknown>
 }
 
-export class ChatList extends Block<ChatListProps> {
+export class ChatListBase extends Block<ChatListProps> {
   constructor(props: ChatListProps) {
     super(props);
     this.element!.classList.add(chatListStyles.wrapper);
@@ -27,6 +27,7 @@ export class ChatList extends Block<ChatListProps> {
   }
 
   protected init() {
+    console.log(this.props.chatList);
     this._addButton();
     this._addSearchInput();
     this._addItemsList();
@@ -102,3 +103,6 @@ export class ChatList extends Block<ChatListProps> {
     return itemsData;
   }
 }
+
+const withChats = withStore((state) => ({...state.chats}));
+export const ChatList = withChats(ChatListBase);

@@ -1,11 +1,10 @@
 import Block from '../../utils/Block';
 import template from './chat.pug';
-import {ChatList} from './components/ChatList';
+import {ChatList, ChatListBase} from './components/ChatList';
 
 import * as chatStyles from './chat.module.scss';
 import {ChatItem} from './components/ChatItem';
 import {ChatMessages} from './components/ChatMessages';
-import {withStore} from "../../utils/Store";
 
 export interface ChatProps {
   userId: string,
@@ -40,7 +39,7 @@ export class Chat extends Block<ChatProps> {
   }
 
   private _addSelectChatEvents() {
-    const chatList = (this.children.chatList as ChatList).children.chatItemsList;
+    const chatList = (this.children.chatList as ChatListBase).children.chatItemsList;
     if (Array.isArray(chatList)) {
       (chatList as ChatItem[]).forEach((targetChatItem: ChatItem) => {
         targetChatItem.getContent()!.addEventListener('click', () => {

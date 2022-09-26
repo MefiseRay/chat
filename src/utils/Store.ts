@@ -2,6 +2,7 @@ import {set} from './Helpers';
 import {EventBus} from './EventBus';
 import Block from './Block';
 import {User} from "../api/UsersAPI";
+import {ChatsData} from "../api/ChatsAPI";
 
 export enum StoreEvents {
   Updated = 'updated'
@@ -10,6 +11,7 @@ export enum StoreEvents {
 type State = {
   user?: User
   selectedChat?: string
+  chats?: ChatsData
 };
 
 export class Store extends EventBus {
