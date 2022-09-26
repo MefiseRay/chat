@@ -38,5 +38,9 @@ export class ChatsAPI extends BaseAPI implements BaseReadAPI,BaseCreateAPI,BaseD
     data.append("chatId", chatId)
     return this.http.put('/avatar', data, ContentType.FormData);
   }
+
+  getToken(chatId: number): Promise<{ token: string }> {
+    return this.http.post(`/token/${chatId}`);
+  }
 }
 export default new ChatsAPI();

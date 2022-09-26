@@ -6,6 +6,7 @@ import * as chatStyles from './chat.module.scss';
 import {ChatItem} from './components/ChatItem';
 import {ChatMessages} from './components/ChatMessages';
 import ChatsController from "../../controllers/ChatsController";
+import {ChatWebSocket} from "../../utils/ChatWebSocket";
 
 export interface ChatProps {
   userId: string,
@@ -51,7 +52,7 @@ export class Chat extends Block<ChatProps> {
     const chatList = (this.children.chatList as ChatListBase).children.chatItemsList;
     if (Array.isArray(chatList)) {
       (chatList as ChatItem[]).forEach((targetChatItem: ChatItem) => {
-        targetChatItem.getContent()!.addEventListener('click', () => {
+        targetChatItem.getContent()!.addEventListener('click',  () => {
           (chatList as ChatItem[]).forEach((item: ChatItem) => {
             item.removeSelection();
           });
@@ -65,14 +66,14 @@ export class Chat extends Block<ChatProps> {
   public async deleteChat(chatId: string) {
     await ChatsController.delete(chatId);
     this._initChatList();
-    this._initChatMessage();
+    await this._initChatMessage();
     this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
   }
 
   public async updateChatList(chatId: string) {
     await ChatsController.get();
     this._initChatList();
-    this._initChatMessage(chatId);
+    await this._initChatMessage(chatId);
     const chatList = (this.children.chatList as ChatListBase).children.chatItemsList;
     if (Array.isArray(chatList)) {
       (chatList as ChatItem[]).forEach((targetChatItem: ChatItem) => {
@@ -83,7 +84,10 @@ export class Chat extends Block<ChatProps> {
     this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
   }
 
-  private _initChatMessage(chatId?: string) {
+  private async _initChatMessage(chatId?: string) {
+    if (chatId) {
+      await ChatsController.getSocket(Number(chatId));
+    }
     this.children.chatMessages = new ChatMessages({
       chatId,
       menuIconSrc: this.props.menuIconSrc,

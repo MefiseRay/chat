@@ -13,9 +13,9 @@ export class ChatsController {
     try {
       const chatList = await this.api.read();
       let chats: Record<string, ChatData> = {};
-      chatList.forEach((chat) => {
+      for (const chat of chatList) {
         chats[chat.id] = chat;
-      })
+      }
       store.set('chats.chatList', chats);
     } catch (e: any) {
       console.error(e);
@@ -48,6 +48,30 @@ export class ChatsController {
     }
   }
 
+  async getToken(chatId: number) {
+    try {
+      const token = await this.api.getToken(chatId);
+      return token.token;
+    } catch (e: any) {
+      console.error(e.message);
+    }
+  }
+
+  async getSocket(chatId: number) {
+    try {
+      if(store.getState().user !== undefined) {
+        const userId = store.getState().user?.id;
+        const token = await this.api.getToken(chatId);
+        store.set('socket', {
+          socketUserId: userId,
+          socketChatId: chatId,
+          socketToken: token.token
+        });
+      }
+    } catch (e: any) {
+      console.error(e.message);
+    }
+  }
 }
 
 export default new ChatsController();

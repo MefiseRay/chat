@@ -8,10 +8,12 @@ import {MenuButton} from '../../../../components/MenuButton';
 import {DropdownMenu} from '../../../../components/DropdownMenu';
 import {ChatMessagesBlock, ChatMessagesBlockProps} from '../ChatMessagesBlock';
 import {withStore} from "../../../../utils/Store";
-import {ChatData, ChatsData} from "../../../../api/ChatsAPI";
+import {ChatWebSocket} from "../../../../utils/ChatWebSocket";
+import ChatsController from "../../../../controllers/ChatsController";
 
 export interface ChatMessagesProps {
   chatId?: string,
+  user?: string,
   menuIconSrc: string,
   attachFileIconSrc: string,
   sendIconSrc: string,
@@ -20,17 +22,26 @@ export interface ChatMessagesProps {
 }
 
 export class ChatMessagesBase extends Block<ChatMessagesProps> {
+
+  private chatWebSocket:ChatWebSocket | undefined;
+
   constructor(props: ChatMessagesProps) {
     super(props);
     this.element!.classList.add(chatMessagesStyles.chat);
   }
 
-  protected editPropsBeforeMakeThemProxy(props: ChatMessagesProps & ChatsData) {
+  protected editPropsBeforeMakeThemProxy(props: Record<string, unknown>) {
+    console.log(props);
     props.styles = chatMessagesStyles;
   }
 
-  protected init() {
-    if(this.props.chatId) {
+  protected async init() {
+    if (this.props.chatId) {
+      this.chatWebSocket = new ChatWebSocket({
+        socketUserId: this.props.socketUserId,
+        socketChatId: this.props.socketChatId,
+        socketToken: this.props.socketToken
+      });
       this._addChatImage();
       this._addChatMenu();
       this._addAttachFile();
@@ -118,4 +129,5 @@ export class ChatMessagesBase extends Block<ChatMessagesProps> {
 
 const withUser = withStore((state) => ({...state.user}));
 const withChats = withStore((state) => ({...state.chats}));
-export const ChatMessages = withChats(withUser(ChatMessagesBase));
+const withSocket = withStore((state) => ({...state.socket}));
+export const ChatMessages = withSocket(withChats(withUser(ChatMessagesBase)));

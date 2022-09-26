@@ -3,6 +3,7 @@ import {EventBus} from './EventBus';
 import Block from './Block';
 import {User} from "../api/UsersAPI";
 import {ChatsData} from "../api/ChatsAPI";
+import {SocketData} from "./ChatWebSocket";
 
 export enum StoreEvents {
   Updated = 'updated'
@@ -11,6 +12,7 @@ export enum StoreEvents {
 type State = {
   user?: User
   chats?: ChatsData
+  socket?: SocketData
 };
 
 export class Store extends EventBus {
