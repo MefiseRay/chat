@@ -14,6 +14,7 @@ import {ChatData} from "../../../../api/ChatsAPI";
 export interface ChatListProps {
   addChatIconSrc: string,
   searchIconSrc: string,
+  addCallback: (chatId: string) => void
   selected?: string,
   styles?: Record<string, unknown>
 }
@@ -56,8 +57,11 @@ export class ChatListBase extends Block<ChatListProps> {
     });
     this.children.addButton.element!.addEventListener('click', async () => {
       this.props.selected = await ChatsController.create("Новый чат");
-      console.log(this.props.selected);
-      await ChatsController.get();
+      this.props.addCallback(this.props.selected);
+      // console.log(this.props.selected);
+      // await ChatsController.get();
+      // this._addItemsList();
+      // this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
     });
   }
 

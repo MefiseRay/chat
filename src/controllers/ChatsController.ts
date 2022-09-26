@@ -30,6 +30,7 @@ export class ChatsController {
   async delete(chatId:string) {
     try {
       await this.api.delete(chatId);
+      await this.get();
     } catch (e: any) {
       console.error(e);
     }

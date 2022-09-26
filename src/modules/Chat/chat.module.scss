@@ -28,11 +28,5 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
-    .not-selected {
-      font-size: variables.$font-size-very-big;
-      color: variables.$color-white;
-      font-weight: variables.$font-weight-lighter;
-    }
   }
 }

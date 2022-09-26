@@ -5,6 +5,7 @@ import {ChatList, ChatListBase} from './components/ChatList';
 import * as chatStyles from './chat.module.scss';
 import {ChatItem} from './components/ChatItem';
 import {ChatMessages} from './components/ChatMessages';
+import ChatsController from "../../controllers/ChatsController";
 
 export interface ChatProps {
   userId: string,
@@ -13,6 +14,7 @@ export interface ChatProps {
   menuIconSrc: string,
   attachFileIconSrc: string,
   sendIconSrc: string,
+  selected?: string,
   styles?: Record<string, unknown>
 }
 
@@ -27,15 +29,22 @@ export class Chat extends Block<ChatProps> {
   }
 
   protected init() {
-    this.children.chatList = new ChatList({
-      addChatIconSrc: this.props.addChatIconSrc,
-      searchIconSrc: this.props.searchIconSrc,
-    });
-    this._addSelectChatEvents();
+    this._initChatList();
+    this._initChatMessage();
   }
 
   protected render() {
     return this.compile(template, this.props);
+  }
+
+  private _initChatList() {
+    delete this.children.chatList;
+    this.children.chatList = new ChatList({
+      addChatIconSrc: this.props.addChatIconSrc,
+      searchIconSrc: this.props.searchIconSrc,
+      addCallback: (chatId: string) => this.updateChatList(chatId)
+    });
+    this._addSelectChatEvents();
   }
 
   private _addSelectChatEvents() {
@@ -47,18 +56,43 @@ export class Chat extends Block<ChatProps> {
             item.removeSelection();
           });
           targetChatItem.select();
-          console.log(`Открыт чат ${targetChatItem.getPropValue('id')}`);
-          this.children.chatMessages = new ChatMessages({
-            chatId: targetChatItem.getPropValue('id'),
-            profile: this._getProfileData(this.props.userId),
-            menuIconSrc: this.props.menuIconSrc,
-            attachFileIconSrc: this.props.attachFileIconSrc,
-            sendIconSrc: this.props.sendIconSrc,
-          });
-          this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
+          this._initChatMessage(targetChatItem.getPropValue('id'));
         });
       });
     }
+  }
+
+  public async deleteChat(chatId: string) {
+    await ChatsController.delete(chatId);
+    this._initChatList();
+    this._initChatMessage();
+    this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
+  }
+
+  public async updateChatList(chatId: string) {
+    await ChatsController.get();
+    this._initChatList();
+    this._initChatMessage(chatId);
+    const chatList = (this.children.chatList as ChatListBase).children.chatItemsList;
+    if (Array.isArray(chatList)) {
+      (chatList as ChatItem[]).forEach((targetChatItem: ChatItem) => {
+        if(targetChatItem.getPropValue('id') === chatId)
+          targetChatItem.select();
+      });
+    }
+    this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
+  }
+
+  private _initChatMessage(chatId?: string) {
+    this.children.chatMessages = new ChatMessages({
+      chatId,
+      profile: this._getProfileData(this.props.userId),
+      menuIconSrc: this.props.menuIconSrc,
+      attachFileIconSrc: this.props.attachFileIconSrc,
+      sendIconSrc: this.props.sendIconSrc,
+      deleteCallback: (chatId: string) => this.deleteChat(chatId)
+    });
+    this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
   }
 
   private _getProfileData(id: string): {

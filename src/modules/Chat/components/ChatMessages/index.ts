@@ -9,7 +9,7 @@ import {DropdownMenu} from '../../../../components/DropdownMenu';
 import {ChatMessagesBlock, ChatMessagesBlockProps} from '../ChatMessagesBlock';
 
 export interface ChatMessagesProps {
-  chatId: string,
+  chatId?: string,
   profile: {
     id: string,
     avatarSrc: string,
@@ -22,6 +22,7 @@ export interface ChatMessagesProps {
   menuIconSrc: string,
   attachFileIconSrc: string,
   sendIconSrc: string,
+  deleteCallback: (chatId: string) => void;
   chatData?: Record<string, unknown>,
   styles?: Record<string, unknown>
 }
@@ -33,17 +34,21 @@ export class ChatMessages extends Block<ChatMessagesProps> {
   }
 
   protected editPropsBeforeMakeThemProxy(props: ChatMessagesProps) {
-    props.chatData = this._getChatData(props.chatId, props.profile.id);
+    if(props.chatId) {
+      props.chatData = this._getChatData(props.chatId, props.profile.id);
+    }
     props.styles = chatMessagesStyles;
   }
 
   protected init() {
-    this._addChatImage();
-    this._addChatMenu();
-    this._addAttachFile();
-    this._addMessageInput();
-    this._addSendButton();
-    this._addMessageBlocks();
+    if(this.props.chatId) {
+      this._addChatImage();
+      this._addChatMenu();
+      this._addAttachFile();
+      this._addMessageInput();
+      this._addSendButton();
+      this._addMessageBlocks();
+    }
   }
 
   protected render() {
@@ -74,15 +79,9 @@ export class ChatMessages extends Block<ChatMessagesProps> {
             },
           },
           {
-            text: 'Очистить',
-            click: () => {
-              console.log('Выбран пунк меню: Очистить сообщения');
-            },
-          },
-          {
             text: 'Покинуть',
             click: () => {
-              console.log('Выбран пунк меню: Удалить чат');
+              this.props.deleteCallback(this.props.chatId);
             },
           },
         ],

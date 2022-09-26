@@ -94,3 +94,23 @@
     overflow-y: scroll;
   }
 }
+.not-selected {
+  height: 100vh;
+  background: transparent;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  width: -moz-available;
+  width: -webkit-fill-available;
+  width: stretch;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .message {
+    font-size: variables.$font-size-very-big;
+    color: variables.$color-white;
+    font-weight: variables.$font-weight-lighter;
+  }
+}
