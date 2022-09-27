@@ -16,6 +16,7 @@ import UsersController from '../../controllers/UsersController';
 import {withStore} from "../../utils/Store";
 import {ChangePasswordForm, UserChangeable} from "../../api/UsersAPI";
 import ChatsController from "../../controllers/ChatsController";
+import {SearchUser} from "../../components/SearchUser";
 
 interface ProfileProps {
   renderStatus: string,
@@ -50,6 +51,7 @@ class ProfileBase extends Block<ProfileProps> {
     this._addChangeDataForm();
     this._addChangePasswordForm();
     this._addChangeAvatarForm();
+    this._searchUser();
   }
 
   private _addChangeDataForm() {
@@ -390,6 +392,11 @@ class ProfileBase extends Block<ProfileProps> {
 
   protected render() {
     return this.compile(template, this.props);
+  }
+
+
+  private _searchUser() {
+    this.children.searchUser = new SearchUser();
   }
 }
 

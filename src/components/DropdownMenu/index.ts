@@ -4,12 +4,12 @@ import {Button} from '../Button';
 
 import * as dropdownMenuStyles from './dropdownMenu.module.scss';
 
-interface DropdownMenuItemsProps {
+export interface DropdownMenuItemsProps {
   text: string,
   click: () => void,
 }
 
-interface DropdownMenuProps {
+export interface DropdownMenuProps {
   items: DropdownMenuItemsProps[],
   styles?: Record<string, unknown>
 }

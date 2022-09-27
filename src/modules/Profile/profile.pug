@@ -18,6 +18,7 @@ div(class=styles.body)
             +infoList("ФИО", `${first_name} ${second_name}`)
             +infoList("Почта", email)
             +infoList("Телефон", phone)
+            | !{searchUser}
         when "changePassword"
             | !{changePasswordForm}
         when "changeData"

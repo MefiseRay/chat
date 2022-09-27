@@ -1,4 +1,4 @@
-import API, {ChangePassword, UserChangeable, UsersAPI} from "../api/UsersAPI";
+import API, {ChangePassword, User, UserChangeable, UsersAPI} from "../api/UsersAPI";
 import store from '../utils/Store';
 import router from '../utils/Router';
 
@@ -30,6 +30,15 @@ export class UsersController {
       await this.api.changeAvatar(data);
     } catch (e: any) {
       console.error(e.message);
+    }
+  }
+
+  async search(login: string) {
+    try {
+      return await this.api.search(login);
+    } catch (e: any) {
+      console.error(e.message);
+      return [];
     }
   }
 }
