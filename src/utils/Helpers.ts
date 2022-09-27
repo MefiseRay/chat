@@ -60,13 +60,13 @@ export function isEqual(lhs: PlainObject, rhs: PlainObject) {
   return true;
 }
 
-export function merge(lhs: PlainObject, rhs: PlainObject): PlainObject {
+export function merge(lhs: PlainObject, rhs: PlainObject, rewrite = false): PlainObject {
   for (let p in rhs) {
     if (!rhs.hasOwnProperty(p)) {
       continue;
     }
     try {
-      if (rhs[p].constructor === Object) {
+      if (rhs[p].constructor === Object && !rewrite) {
         rhs[p] = merge(lhs[p] as PlainObject, rhs[p] as PlainObject);
       } else {
         lhs[p] = rhs[p];
@@ -78,7 +78,7 @@ export function merge(lhs: PlainObject, rhs: PlainObject): PlainObject {
   return lhs;
 }
 
-export function set(object: PlainObject | unknown, path: string, value: unknown): PlainObject | unknown {
+export function set(object: PlainObject | unknown, path: string, value: unknown, rewrite = false): PlainObject | unknown {
   if (typeof object !== 'object' || object === null) {
     return object;
   }
@@ -86,5 +86,13 @@ export function set(object: PlainObject | unknown, path: string, value: unknown)
     [key]: acc,
   }), value as any);
 
-  return merge(object as PlainObject, result);
+  return merge(object as PlainObject, result, rewrite);
 }
+
+export function debounce(fn: Function, ms:number = 300)  {
+  let timeoutId: ReturnType<typeof setTimeout>;
+  return function (this: any, ...args: any[]) {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => fn.apply(this, args), ms);
+  };
+};

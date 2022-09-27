@@ -18,8 +18,8 @@ type State = {
 export class Store extends EventBus {
   private state: State = {};
 
-  public set(keyPath: string, data: unknown) {
-    set(this.state, keyPath, data);
+  public set(keyPath: string, data: unknown, rewrite = false) {
+    set(this.state, keyPath, data, rewrite);
     this.emit(StoreEvents.Updated, this.getState());
   }
 

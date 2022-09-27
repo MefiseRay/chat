@@ -1,11 +1,11 @@
-if chatId
+if selected
     div(class=styles.chat)
         div(class=styles["top-panel"])
             div(class=styles["chat-info"])
                 div(class=styles["chat-image"])
                     | !{chatImage}
                 div(class=styles["chat-name"])
-                    | #{chatList[chatId].title} {#{chatId}}
+                    | #{chatList[selected].title} {#{selected}}
             div(class=styles.menu)
                 | !{chatMenu}
         div(class=styles.messages)

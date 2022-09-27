@@ -6,24 +6,17 @@ import {Icon} from '../../../../components/Icon';
 import {Input, InputTypes} from '../../../../components/Input';
 import {MenuButton} from '../../../../components/MenuButton';
 import {DropdownMenu} from '../../../../components/DropdownMenu';
-import {ChatMessagesBlock, ChatMessagesBlockProps} from '../ChatMessagesBlock';
 import {withStore} from "../../../../utils/Store";
-import {ChatWebSocket} from "../../../../utils/ChatWebSocket";
 import ChatsController from "../../../../controllers/ChatsController";
 
 export interface ChatMessagesProps {
-  chatId?: string,
-  user?: string,
   menuIconSrc: string,
   attachFileIconSrc: string,
   sendIconSrc: string,
-  deleteCallback: (chatId: string) => void;
   styles?: Record<string, unknown>
 }
 
 export class ChatMessagesBase extends Block<ChatMessagesProps> {
-
-  private chatWebSocket:ChatWebSocket | undefined;
 
   constructor(props: ChatMessagesProps) {
     super(props);
@@ -31,17 +24,14 @@ export class ChatMessagesBase extends Block<ChatMessagesProps> {
   }
 
   protected editPropsBeforeMakeThemProxy(props: Record<string, unknown>) {
-    console.log(props);
     props.styles = chatMessagesStyles;
   }
 
   protected async init() {
-    if (this.props.chatId) {
-      this.chatWebSocket = new ChatWebSocket({
-        socketUserId: this.props.socketUserId,
-        socketChatId: this.props.socketChatId,
-        socketToken: this.props.socketToken
-      });
+  }
+
+  protected render() {
+    if (this.props.selected) {
       this._addChatImage();
       this._addChatMenu();
       this._addAttachFile();
@@ -49,18 +39,15 @@ export class ChatMessagesBase extends Block<ChatMessagesProps> {
       this._addSendButton();
       this._addMessageBlocks();
     }
-  }
-
-  protected render() {
     return this.compile(template, this.props);
   }
 
   private _addChatImage() {
     this.children.chatImage = new Avatar({
-      src: this.props.chatList[this.props.chatId].avatar,
+      src: this.props.chatList[this.props.selected].avatar,
       size: '2em',
-      alt: this.props.chatList[this.props.chatId].title,
-      title: this.props.chatList[this.props.chatId].title,
+      alt: this.props.chatList[this.props.selected].title,
+      title: this.props.chatList[this.props.selected].title,
     });
   }
 
@@ -80,8 +67,8 @@ export class ChatMessagesBase extends Block<ChatMessagesProps> {
           },
           {
             text: 'Покинуть',
-            click: () => {
-              this.props.deleteCallback(this.props.chatId);
+            click: async () => {
+              await ChatsController.delete(this.props.selected);
             },
           },
         ],
@@ -127,7 +114,5 @@ export class ChatMessagesBase extends Block<ChatMessagesProps> {
   }
 }
 
-const withUser = withStore((state) => ({...state.user}));
-const withChats = withStore((state) => ({...state.chats}));
-const withSocket = withStore((state) => ({...state.socket}));
-export const ChatMessages = withSocket(withChats(withUser(ChatMessagesBase)));
+const withChatsAndUser = withStore((state) => ({...state.chats, ...state.user}));
+export const ChatMessages = withChatsAndUser(ChatMessagesBase);

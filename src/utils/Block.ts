@@ -1,6 +1,7 @@
 import {nanoid} from 'nanoid';
 import {EventBus} from './EventBus';
 import refElementsCollection from './RefElementsCollection';
+import {debounce} from "./Helpers";
 
 // Нельзя создавать экземпляр данного класса
 class Block<T extends Record<string, any>> {
@@ -92,6 +93,9 @@ class Block<T extends Record<string, any>> {
   private _makePropsProxy(props: Record<string, any>): Record<string, any> {
     const self = this;
     this.editPropsBeforeMakeThemProxy(props);
+    const debouncedUpdate = debounce((oldTarget: Record<string, unknown>, target: Record<string, unknown>) => {
+      self.eventBus().emit(Block.EVENTS.FLOW_CDU, oldTarget, target)
+    }, 1);
     return new Proxy(props, {
       get(target: Record<string, any>, prop: string) {
         if (prop.startsWith('_')) throw new Error('Ошибка обращения к приватной характеристике');
@@ -104,7 +108,7 @@ class Block<T extends Record<string, any>> {
         const oldTarget = {...target};
         target[prop] = value;
         // Запускаем событие обнволения и передаем старые параметры и новые
-        self.eventBus().emit(Block.EVENTS.FLOW_CDU, oldTarget, target);
+        debouncedUpdate(oldTarget, target);
         return true;
       },
       deleteProperty() {

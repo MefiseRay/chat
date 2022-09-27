@@ -9,14 +9,14 @@ export class ChatsController {
     this.api = API;
   }
 
-  async get() {
+  async get(rewrite= false) {
     try {
       const chatList = await this.api.read();
       let chats: Record<string, ChatData> = {};
       for (const chat of chatList) {
         chats[chat.id] = chat;
       }
-      store.set('chats.chatList', chats);
+      store.set('chats.chatList', chats, rewrite);
     } catch (e: any) {
       console.error(e);
     }
@@ -26,19 +26,32 @@ export class ChatsController {
     try {
       const chat = await this.api.create(title);
       await this.get();
+      this.select(chat.id);
       return chat.id;
     } catch (e: any) {
       console.error(e);
     }
   }
 
-  async delete(chatId:string) {
+  delete(chatId:string) {
     try {
-      await this.api.delete(chatId);
-      await this.get();
+      this.api.delete(chatId).then(
+        async () => {
+          this.unselectAll();
+          await this.get(true);
+        }
+      );
     } catch (e: any) {
       console.error(e);
     }
+  }
+
+  select(chatId:string) {
+    store.set('chats.selected', chatId);
+  }
+
+  unselectAll() {
+    store.set('chats.selected', null);
   }
 
   async changAvatar(chatId:string, data: FormData) {

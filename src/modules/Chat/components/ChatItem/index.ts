@@ -4,18 +4,26 @@ import template from './chatItem.pug';
 import * as chatItemStyles from './chatItem.module.scss';
 import {Avatar} from '../../../../components/Avatar';
 import {ChatData} from "../../../../api/ChatsAPI";
+import ChatsController from "../../../../controllers/ChatsController";
+import {withStore} from "../../../../utils/Store";
+import {ChatListBase} from "../ChatList";
 
-export interface ChatItemProps {
+export interface ChatItemProps extends ChatData {
   styles?: Record<string, unknown>
+  isSelected: boolean;
 }
 
-export class ChatItem extends Block<ChatData> {
-  constructor(props: ChatData) {
+export class ChatItem extends Block<ChatItemProps> {
+  constructor(props: ChatItemProps) {
     super(props);
     this.element!.classList.add(chatItemStyles.item);
+    this.element!.click();
+    this.element!.addEventListener('click',  () => {
+      ChatsController.select(this.props.id);
+    });
   }
 
-  protected editPropsBeforeMakeThemProxy(props: ChatItemProps & ChatData) {
+  protected editPropsBeforeMakeThemProxy(props: ChatItemProps) {
     props.styles = chatItemStyles;
   }
 
@@ -31,23 +39,11 @@ export class ChatItem extends Block<ChatData> {
   }
 
   protected render() {
-    if (this.props.selected) {
+    if (this.props.isSelected) {
       this.element!.classList.add(chatItemStyles.active);
     } else {
       this.element!.classList.remove(chatItemStyles.active);
     }
     return this.compile(template, this.props);
-  }
-
-  public isSelected() {
-    return this.props.selected;
-  }
-
-  public removeSelection() {
-    this.props.selected = false;
-  }
-
-  public select() {
-    this.props.selected = true;
   }
 }

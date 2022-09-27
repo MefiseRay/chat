@@ -3,7 +3,7 @@ import template from './chatList.pug';
 import * as chatListStyles from './chatList.module.scss';
 import {Icon} from '../../../../components/Icon';
 import {Input, InputTypes} from '../../../../components/Input';
-import {ChatItem, ChatItemProps} from '../ChatItem';
+import {ChatItem} from '../ChatItem';
 import {ChatUser, ChatUserBase} from '../ChatUser';
 import Router from "../../../../utils/Router";
 import {Routes} from "../../../../index";
@@ -14,7 +14,6 @@ import {ChatData, ChatsData} from "../../../../api/ChatsAPI";
 export interface ChatListProps {
   addChatIconSrc: string,
   searchIconSrc: string,
-  addCallback: (chatId: string) => void
   selected?: string,
   styles?: Record<string, unknown>
 }
@@ -29,14 +28,11 @@ export class ChatListBase extends Block<ChatListProps> {
     props.styles = chatListStyles;
   }
 
-  protected init() {
+  protected render() {
+    this._addItemsList();
     this._addButton();
     this._addSearchInput();
-    this._addItemsList();
     this._addChatUser();
-  }
-
-  protected render() {
     return this.compile(template, this.props);
   }
 
@@ -56,8 +52,7 @@ export class ChatListBase extends Block<ChatListProps> {
       icon: this.props.addChatIconSrc,
     });
     this.children.addButton.element!.addEventListener('click', async () => {
-      this.props.selected = await ChatsController.create("Новый чат");
-      this.props.addCallback(this.props.selected);
+      await ChatsController.create("Новый чат");
     });
   }
 
@@ -76,8 +71,9 @@ export class ChatListBase extends Block<ChatListProps> {
   }
 
   private _addItemsList() {
-    const itemsList: ChatItem[] = [];
+    const itemsList = [];
     for (const [key, element] of Object.entries(this.props.chatList as ChatsData)) {
+      element.isSelected = element.id === this.props.selected;
       itemsList.push(new ChatItem(element));
     }
     this.children.chatItemsList = itemsList;

@@ -14,7 +14,8 @@ export interface ChatData {
   }
 }
 export interface ChatsData {
-  chatList?:Record<string, ChatData>
+  chatList?:Record<string, ChatData>,
+  selected?:string
 }
 
 export class ChatsAPI extends BaseAPI implements BaseReadAPI,BaseCreateAPI,BaseDeleteAPI{
