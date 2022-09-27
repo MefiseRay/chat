@@ -9,7 +9,6 @@ import ChatsController from "../../controllers/ChatsController";
 import {ChatWebSocket} from "../../utils/ChatWebSocket";
 
 export interface ChatProps {
-  userId: string,
   addChatIconSrc: string,
   searchIconSrc: string,
   menuIconSrc: string,

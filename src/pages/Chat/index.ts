@@ -15,7 +15,6 @@ export class ChatPage extends Block<{}> {
 
   protected init() {
     this.children.chat = new Chat({
-      userId: '1234567890',
       addChatIconSrc: addChatIcon,
       searchIconSrc: searchIcon,
       menuIconSrc: menuIcon,

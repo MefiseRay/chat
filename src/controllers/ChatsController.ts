@@ -25,6 +25,7 @@ export class ChatsController {
   async create(title:string) {
     try {
       const chat = await this.api.create(title);
+      await this.get();
       return chat.id;
     } catch (e: any) {
       console.error(e);

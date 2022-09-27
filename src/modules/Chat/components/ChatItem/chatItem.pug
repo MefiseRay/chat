@@ -1,7 +1,7 @@
 div(class=styles.image)
     | !{image}
 div(class=styles.main)
-    div(class=styles.name) #{title}
+    div(class=styles.name) #{title} #{id}
     if last_message !== null
         div(class=styles.message) #{last_message.content}
 div(class=styles.info)
