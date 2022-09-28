@@ -49,5 +49,13 @@ export class ChatsAPI extends BaseAPI implements BaseReadAPI,BaseCreateAPI,BaseD
   getUserList(chatId: string): Promise<User[]> {
     return this.http.get(`/${chatId}/users`);
   }
+
+  addUsers(chatId: string, users: string[]) {
+    this.http.put('/users', {chatId, users});
+  }
+
+  deleteUsers(chatId: string, users: string[]) {
+    this.http.delete('/users', {chatId, users});
+  }
 }
 export default new ChatsAPI();

@@ -68,6 +68,24 @@ export class ChatsController {
     }
   }
 
+  async addUsers(chatId: string, users: string[]) {
+    try {
+      await this.api.addUsers(chatId, users);
+      await this.get();
+    } catch (e: any) {
+      console.error(e.message);
+    }
+  }
+
+  async deleteUsers(chatId: string, users: string[]) {
+    try {
+      await this.api.deleteUsers(chatId, users);
+      await this.get();
+    } catch (e: any) {
+      console.error(e.message);
+    }
+  }
+
   delete(chatId:string) {
     try {
       this.api.delete(chatId).then(

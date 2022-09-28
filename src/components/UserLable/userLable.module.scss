@@ -1,0 +1,13 @@
+@use "/src/_variables";
+
+.lable {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+  padding: 0 variables.$padding-1 0 0;
+  gap: variables.$padding-0-5;
+  font-size: variables.$font-size;
+  background: variables.$color-light;
+  border-radius: variables.$padding-2;
+}

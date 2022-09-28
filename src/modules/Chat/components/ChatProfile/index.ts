@@ -7,6 +7,11 @@ import {Input, InputTypes} from "../../../../components/Input";
 import {debounce} from "../../../../utils/Helpers";
 import UsersController from "../../../../controllers/UsersController";
 import ChatsController from "../../../../controllers/ChatsController";
+import {User} from "../../../../api/UsersAPI";
+import {UserLable, UserLableProps} from "../../../../components/UserLable";
+import {Icon} from "../../../../components/Icon";
+import deleteIcon from '../../../../../static/icon/close.svg';
+import {SearchUser} from "../../../../components/SearchUser";
 
 export class ChatProfileBase extends Block<{}> {
 
@@ -21,8 +26,8 @@ export class ChatProfileBase extends Block<{}> {
 
   protected render() {
     this._addChatImage();
-    this._addChatNameInput();
-    console.log(this.props.chatList);
+    this._addUserList();
+    this._searchUser();
     return this.compile(template, this.props);
   }
 
@@ -35,23 +40,34 @@ export class ChatProfileBase extends Block<{}> {
     });
   }
 
-  private _addChatNameInput() {
-    const debouncedChangeName = debounce(async (chatName: string) => {
-      // this.props.userList = await ChatsController.;
-    }, 1000);
-    this.children.chatName = new Input({
-      title: 'Название чата',
-      type: InputTypes.text,
-      name: 'name',
-      value: this.props.chatList[this.props.openProfile].title,
-      placeholder: 'Название чата',
-      isRounded: true,
-      isLight: true,
-      displayBlock: true,
-      iconSrc: null,
-    });
-    this.children.chatName.element!.addEventListener('keyup',  () => {
-      debouncedChangeName((this.children.search as Input).getValue());
+  private _addUserList() {
+    this.children.users = [];
+    const userList = this.props.chatList[this.props.openProfile].user_list;
+    if(userList && userList.length > 0) {
+      userList.forEach((user:User) => {
+        const userLableProps:UserLableProps = {
+          user
+        };
+        if(this.props.id !== user.id) {
+          userLableProps.icon = new Icon({
+            size: '1em',
+            icon: deleteIcon,
+          });
+          userLableProps.callBack = async () => {
+            await ChatsController.deleteUsers(this.props.openProfile, [user.id.toString()]);
+          }
+        }
+        (this.children.users as UserLable[]).push(new UserLable(userLableProps));
+      });
+    }
+  }
+
+  private _searchUser() {
+    this.children.searchUser = new SearchUser({
+      callBack: async (userId) => {
+        await ChatsController.addUsers(this.props.openProfile, [userId]);
+        (this.children.searchUser as SearchUser).removeUserList();
+      }
     });
   }
 }

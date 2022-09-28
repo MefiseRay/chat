@@ -1,13 +1,17 @@
 import Block from "../../utils/Block";
 import template from "./searchUser.pug";
 import {Input, InputTypes} from "../Input";
-import {debounce, makeDropdown} from "../../utils/Helpers";
+import {closeDropdown, debounce, makeDropdown} from "../../utils/Helpers";
 import UsersController from "../../controllers/UsersController";
 import {User} from "../../api/UsersAPI";
 import * as searchUserStyles from "./searchUser.module.scss";
 import {DropdownMenu, DropdownMenuItemsProps} from "../DropdownMenu";
 
-export class SearchUser extends Block<{}> {
+export interface SearchUserProps {
+  callBack?: (userId: string) => void
+}
+
+export class SearchUser extends Block<SearchUserProps> {
 
   protected init() {
     this._addSearchInput();
@@ -49,7 +53,7 @@ export class SearchUser extends Block<{}> {
     this.props.userList.forEach((user: User) => {
       items.push({
         text: `${user.login} - ${user.first_name} ${user.second_name}`,
-        click: () => { console.log(user); },
+        click: () => this.props.callBack(user.id),
       })
     });
     if(items.length > 0) {
@@ -58,10 +62,9 @@ export class SearchUser extends Block<{}> {
     }
   }
 
-  private removeUserList() {
+  public removeUserList() {
     if(this.children.userList) {
-      const userList = this.children.userList as DropdownMenu;
-      userList.element!.remove();
+      closeDropdown(this.children.userList as DropdownMenu);
     }
   }
 }

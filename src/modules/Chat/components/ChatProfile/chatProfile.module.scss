@@ -2,9 +2,11 @@
 
 .wrapper {
   height: 100vh;
+  width: 100%;
   display: flex;
-  align-items: center;
+  align-items: start;
   justify-content: center;
+  padding: variables.$padding-5;
 
   .profile {
     background: variables.$color-white;
@@ -13,7 +15,7 @@
     padding: variables.$padding-2 variables.$padding-4;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: start;
     align-items: center;
     gap: variables.$padding-1;
 
@@ -24,8 +26,19 @@
       color: variables.$color-main;
       font-size: variables.$font-size-big;
       font-weight: variables.$font-weight-bold;
+      padding-bottom: variables.$padding-2;
     }
     .user-list {
+      display: flex;
+      align-content: start;
+      align-items: start;
+      flex-wrap: wrap;
+      flex-direction: row;
+      gap: variables.$padding-0-5;
+      max-width: 550px;
+    }
+    .add-user {
+
     }
   }
 }
