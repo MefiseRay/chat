@@ -50,4 +50,7 @@ form {
   .buttons {
     padding: 0;
   }
+  .content {
+    gap: variables.$padding-0-5;
+  }
 }

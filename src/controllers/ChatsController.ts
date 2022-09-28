@@ -57,6 +57,7 @@ export class ChatsController {
   async changAvatar(chatId:string, data: FormData) {
     try {
       await this.api.changeAvatar(chatId, data);
+      await this.get();
     } catch (e: any) {
       console.error(e.message);
     }

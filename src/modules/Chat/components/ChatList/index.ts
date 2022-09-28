@@ -82,6 +82,17 @@ export class ChatListBase extends Block<ChatListProps> {
           displayBlock: true,
           iconSrc: null,
         }),
+        new Input({
+          title: 'Аватар',
+          type: InputTypes.file,
+          name: 'avatar',
+          value: this.props.login,
+          placeholder: 'Аватар',
+          isRounded: false,
+          isLight: false,
+          displayBlock: true,
+          iconSrc: null,
+        }),
       ],
       buttons: [
         new Button({
@@ -91,11 +102,15 @@ export class ChatListBase extends Block<ChatListProps> {
               event.stopPropagation();
               event.preventDefault();
               const formData = (this.children.addForm as Form<UserChangeable>).getFormData();
+              closeDropdown(this.children.dropdownForm as Form<UserChangeable>);
               if(formData) {
                 const name = formData.get("name");
                 if(name) {
-                  await ChatsController.create(name.toString());
-                  closeDropdown(this.children.dropdownForm as Form<UserChangeable>);
+                  const chatId = await ChatsController.create(name.toString()).then(async (chatId) => {
+                    if (chatId && (formData.get("avatar") as File).name !== "") {
+                      await ChatsController.changAvatar(chatId, formData);
+                    }
+                  });
                 }
               }
             },
