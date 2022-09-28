@@ -8,6 +8,7 @@ import {MenuButton} from '../../../../components/MenuButton';
 import {DropdownMenu} from '../../../../components/DropdownMenu';
 import {withStore} from "../../../../utils/Store";
 import ChatsController from "../../../../controllers/ChatsController";
+import {closeDropdown} from "../../../../utils/Helpers";
 
 export interface ChatMessagesProps {
   menuIconSrc: string,
@@ -52,27 +53,29 @@ export class ChatMessagesBase extends Block<ChatMessagesProps> {
   }
 
   private _addChatMenu() {
+    const menu = new DropdownMenu({
+      items: [
+        {
+          text: 'Изменить',
+          click: () => {
+            console.log('Выбран пунк меню: Изменить');
+          },
+        },
+        {
+          text: 'Покинуть',
+          click: async () => {
+            await ChatsController.delete(this.props.selected);
+            closeDropdown(menu);
+          },
+        },
+      ],
+    })
     this.children.chatMenu = new MenuButton({
       icon: new Icon({
         size: '1.5em',
         icon: this.props.menuIconSrc,
       }),
-      menu: new DropdownMenu({
-        items: [
-          {
-            text: 'Изменить',
-            click: () => {
-              console.log('Выбран пунк меню: Изменить');
-            },
-          },
-          {
-            text: 'Покинуть',
-            click: async () => {
-              await ChatsController.delete(this.props.selected);
-            },
-          },
-        ],
-      }),
+      menu,
       horizontalShift: -5,
       verticalShift: 5,
     });

@@ -1,7 +1,7 @@
 import Block from '../../../../utils/Block';
 import template from './chatList.pug';
 import * as chatListStyles from './chatList.module.scss';
-import {Icon} from '../../../../components/Icon';
+import {Icon, IconProps} from '../../../../components/Icon';
 import {Input, InputTypes} from '../../../../components/Input';
 import {ChatItem} from '../ChatItem';
 import {ChatUser, ChatUserBase} from '../ChatUser';
@@ -10,6 +10,13 @@ import {Routes} from "../../../../index";
 import ChatsController from "../../../../controllers/ChatsController";
 import store, {withStore} from "../../../../utils/Store";
 import {ChatData, ChatsData} from "../../../../api/ChatsAPI";
+import {Form} from "../../../Form";
+import {Button} from "../../../../components/Button";
+import ValidationHelper from "../../../../utils/ValidationHelper";
+import {UserChangeable} from "../../../../api/UsersAPI";
+import {closeDropdown, makeDropdown} from "../../../../utils/Helpers";
+import {DropdownMenu} from "../../../../components/DropdownMenu";
+import {Dropdown} from "../../../../components/Dropdown";
 
 export interface ChatListProps {
   addChatIconSrc: string,
@@ -51,8 +58,58 @@ export class ChatListBase extends Block<ChatListProps> {
       size: '1.5em',
       icon: this.props.addChatIconSrc,
     });
-    this.children.addButton.element!.addEventListener('click', async () => {
-      await ChatsController.create("Новый чат");
+    this._addChatForm();
+
+    (this.children.addButton as Icon).element!.addEventListener('click', (event: MouseEvent) => {
+      makeDropdown(this.children.dropdownForm as Form<Record<string, unknown>>, event.target as HTMLElement);
+    });
+  }
+
+  private _addChatForm() {
+    this.children.addForm = new Form({
+      action: "",
+      method: "",
+      title: "",
+      inputs: [
+        new Input({
+          title: 'Название чата',
+          type: InputTypes.text,
+          name: 'name',
+          value: this.props.login,
+          placeholder: 'Название чата',
+          isRounded: true,
+          isLight: true,
+          displayBlock: true,
+          iconSrc: null,
+        }),
+      ],
+      buttons: [
+        new Button({
+          text: 'Создать',
+          events: {
+            click: async (event) => {
+              event.stopPropagation();
+              event.preventDefault();
+              const formData = (this.children.addForm as Form<UserChangeable>).getFormData();
+              if(formData) {
+                const name = formData.get("name");
+                if(name) {
+                  await ChatsController.create(name.toString());
+                  closeDropdown(this.children.dropdownForm as Form<UserChangeable>);
+                }
+              }
+            },
+          },
+          isTransparent: false,
+          isBordered: false,
+          isWhite: false,
+          displayBlock: true,
+        }),
+      ],
+      compact: true
+    })
+    this.children.dropdownForm = new Dropdown({
+      items: [this.children.addForm]
     });
   }
 

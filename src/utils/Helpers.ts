@@ -106,6 +106,7 @@ export function makeDropdown(
   hShift: number = 10,
   vShift: number = 10
 ) {
+  dropdown.element!.style.position = "fixed";
   document.body.append(dropdown.getContent()!);
   dropdown.dispatchComponentDidMount();
   const sourceElRect = target.getBoundingClientRect();

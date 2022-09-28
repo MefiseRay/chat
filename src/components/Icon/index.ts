@@ -2,7 +2,7 @@ import Block from '../../utils/Block';
 import template from './icon.pug';
 import * as iconStyles from './icon.module.scss';
 
-interface IconProps {
+export interface IconProps {
   size: string,
   icon: string
 }

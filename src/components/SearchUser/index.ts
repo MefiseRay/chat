@@ -55,23 +55,6 @@ export class SearchUser extends Block<{}> {
     if(items.length > 0) {
       this.children.userList = new DropdownMenu({items});
       makeDropdown(this.children.userList,this.getContent() as HTMLElement);
-      // document.body.append(this.children.userList.getContent()!);
-      // this.children.userList.dispatchComponentDidMount();
-      // const target = this.getContent() as HTMLElement;
-      // const sourceElRect = target.getBoundingClientRect();
-      // const elRect = this.children.userList.element!.getBoundingClientRect();
-      // const horizontalShift = 10;
-      // const verticalShift = 10;
-      // let top = sourceElRect.bottom + verticalShift;
-      // let left = sourceElRect.left + horizontalShift;
-      // if (top + elRect.height > document.documentElement.clientHeight) {
-      //   top = sourceElRect.top - elRect.height - verticalShift;
-      // }
-      // if (left + elRect.width > document.documentElement.clientWidth) {
-      //   left = sourceElRect.left - elRect.width - horizontalShift;
-      // }
-      // this.children.userList.element!.style.top = `${top}px`;
-      // this.children.userList.element!.style.left = `${left}px`;
     }
   }
 

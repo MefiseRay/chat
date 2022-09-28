@@ -14,12 +14,16 @@ interface FormProps {
   buttons: Button[],
   styles?: Record<string, unknown>,
   formId?: string,
+  compact?: boolean,
 }
 
 export class Form<FD extends Record<string, any>> extends Block<FormProps> {
   constructor(props: FormProps) {
     super(props);
     this.element!.classList.add(formStyles.form);
+    if(this.props.compact) {
+      this.element!.classList.add(formStyles.compact);
+    }
   }
 
   protected editPropsBeforeMakeThemProxy(props: FormProps) {
