@@ -75,7 +75,7 @@ export class ChatListBase extends Block<ChatListProps> {
           title: 'Название чата',
           type: InputTypes.text,
           name: 'name',
-          value: this.props.login,
+          value: '',
           placeholder: 'Название чата',
           isRounded: true,
           isLight: true,

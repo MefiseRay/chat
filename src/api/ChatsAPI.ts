@@ -1,6 +1,6 @@
 import BaseAPI, {BaseCreateAPI, BaseDeleteAPI, BaseReadAPI} from "./BaseAPI";
 import {ContentType} from "../utils/HTTPTransport";
-import {UserChangeable} from "./UsersAPI";
+import {User, UserChangeable} from "./UsersAPI";
 
 export interface ChatData {
   id: number,
@@ -11,7 +11,8 @@ export interface ChatData {
     user: UserChangeable,
     time: string,
     content: string
-  }
+  },
+  user_list?: User[]
 }
 export interface ChatsData {
   chatList?:Record<string, ChatData>,
@@ -43,6 +44,10 @@ export class ChatsAPI extends BaseAPI implements BaseReadAPI,BaseCreateAPI,BaseD
 
   getToken(chatId: number): Promise<{ token: string }> {
     return this.http.post(`/token/${chatId}`);
+  }
+
+  getUserList(chatId: string): Promise<User[]> {
+    return this.http.get(`/${chatId}/users`);
   }
 }
 export default new ChatsAPI();

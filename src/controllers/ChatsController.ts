@@ -14,6 +14,7 @@ export class ChatsController {
       const chatList = await this.api.read();
       let chats: Record<string, ChatData> = {};
       for (const chat of chatList) {
+        chat.user_list = await this.api.getUserList(chat.id.toString());
         chats[chat.id] = chat;
       }
       store.set('chats.chatList', chats, rewrite);
@@ -31,37 +32,6 @@ export class ChatsController {
     } catch (e: any) {
       console.error(e);
     }
-  }
-
-  delete(chatId:string) {
-    try {
-      this.api.delete(chatId).then(
-        async () => {
-          this.unselectAll();
-          await this.get(true);
-        }
-      );
-    } catch (e: any) {
-      console.error(e);
-    }
-  }
-
-  select(chatId:string) {
-    this.closeProfile();
-    store.set('chats.selected', chatId);
-  }
-
-  openProfile(chatId:string) {
-    store.set('chats.openProfile', chatId);
-  }
-
-  closeProfile() {
-    store.set('chats.openProfile', null);
-  }
-
-  unselectAll() {
-    this.closeProfile();
-    store.set('chats.selected', null);
   }
 
   async changAvatar(chatId:string, data: FormData) {
@@ -96,6 +66,37 @@ export class ChatsController {
     } catch (e: any) {
       console.error(e.message);
     }
+  }
+
+  delete(chatId:string) {
+    try {
+      this.api.delete(chatId).then(
+        async () => {
+          this.unselectAll();
+          await this.get(true);
+        }
+      );
+    } catch (e: any) {
+      console.error(e);
+    }
+  }
+
+  select(chatId:string) {
+    this.closeProfile();
+    store.set('chats.selected', chatId);
+  }
+
+  openProfile(chatId:string) {
+    store.set('chats.openProfile', chatId);
+  }
+
+  closeProfile() {
+    store.set('chats.openProfile', null);
+  }
+
+  unselectAll() {
+    this.closeProfile();
+    store.set('chats.selected', null);
   }
 }
 

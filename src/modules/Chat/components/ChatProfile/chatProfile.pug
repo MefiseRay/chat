@@ -1,1 +1,6 @@
-| "test"
+div(class=styles.profile)
+    div(class=styles.avatar)
+        | !{chatImage}
+    div(class=styles.name)
+        | #{chatList[openProfile].title}
+    div(class=styles['user-list'])

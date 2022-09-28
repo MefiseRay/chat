@@ -394,7 +394,6 @@ class ProfileBase extends Block<ProfileProps> {
     return this.compile(template, this.props);
   }
 
-
   private _searchUser() {
     this.children.searchUser = new SearchUser();
   }

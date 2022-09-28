@@ -1,10 +1,31 @@
 @use "/src/_variables";
 
-.profile {
+.wrapper {
   height: 100vh;
-  width: 100%;
-  width: -moz-available;
-  width: -webkit-fill-available;
-  width: stretch;
-  background: variables.$color-white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .profile {
+    background: variables.$color-white;
+    box-shadow: variables.$shadow;
+    border-radius: variables.$border-radius;
+    padding: variables.$padding-2 variables.$padding-4;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: variables.$padding-1;
+
+    .avatar {
+
+    }
+    .name {
+      color: variables.$color-main;
+      font-size: variables.$font-size-big;
+      font-weight: variables.$font-weight-bold;
+    }
+    .user-list {
+    }
+  }
 }
