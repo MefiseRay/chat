@@ -1,3 +1,6 @@
+import Block from "./Block";
+import {DropdownMenu} from "../components/DropdownMenu";
+
 export type PlainObject<T = any> = {
   [k in string]: T;
 };
@@ -94,5 +97,46 @@ export function debounce(fn: Function, ms:number = 300)  {
   return function (this: any, ...args: any[]) {
     clearTimeout(timeoutId);
     timeoutId = setTimeout(() => fn.apply(this, args), ms);
-  };
-};
+  }
+}
+
+export function makeDropdown(
+  dropdown: Block<Record<string, unknown>>,
+  target: HTMLElement,
+  hShift: number = 10,
+  vShift: number = 10
+) {
+  document.body.append(dropdown.getContent()!);
+  dropdown.dispatchComponentDidMount();
+  const sourceElRect = target.getBoundingClientRect();
+  const elRect = dropdown.element!.getBoundingClientRect();
+  let top = sourceElRect.bottom + vShift;
+  let left = sourceElRect.left + hShift;
+  if (top + elRect.height > document.documentElement.clientHeight) {
+    top = sourceElRect.top - elRect.height - vShift;
+  }
+  if (left + elRect.width > document.documentElement.clientWidth) {
+    left = sourceElRect.left - elRect.width - hShift;
+  }
+  dropdown.element!.style.top = `${top}px`;
+  dropdown.element!.style.left = `${left}px`;
+  document.addEventListener('scroll', () => {
+    closeDropdown(dropdown);
+  });
+  document.addEventListener('click', (event: MouseEvent) => {
+    if (event.target) {
+      if (
+        !dropdown.element!.contains(event.target as HTMLElement)
+        && !target.contains(event.target as HTMLElement)
+      ) {
+        closeDropdown(dropdown);
+      }
+    }
+  });
+}
+
+export function  closeDropdown(dropdown: Block<Record<string, unknown>>) {
+  if(dropdown) {
+    dropdown.element!.remove();
+  }
+}

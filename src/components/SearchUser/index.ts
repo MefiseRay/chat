@@ -1,7 +1,7 @@
 import Block from "../../utils/Block";
 import template from "./searchUser.pug";
 import {Input, InputTypes} from "../Input";
-import {debounce} from "../../utils/Helpers";
+import {debounce, makeDropdown} from "../../utils/Helpers";
 import UsersController from "../../controllers/UsersController";
 import {User} from "../../api/UsersAPI";
 import * as searchUserStyles from "./searchUser.module.scss";
@@ -54,23 +54,24 @@ export class SearchUser extends Block<{}> {
     });
     if(items.length > 0) {
       this.children.userList = new DropdownMenu({items});
-      document.body.append(this.children.userList.getContent()!);
-      this.children.userList.dispatchComponentDidMount();
-      const target = this.getContent() as HTMLElement;
-      const sourceElRect = target.getBoundingClientRect();
-      const elRect = this.children.userList.element!.getBoundingClientRect();
-      const horizontalShift = 10;
-      const verticalShift = 10;
-      let top = sourceElRect.bottom + verticalShift;
-      let left = sourceElRect.left + horizontalShift;
-      if (top + elRect.height > document.documentElement.clientHeight) {
-        top = sourceElRect.top - elRect.height - verticalShift;
-      }
-      if (left + elRect.width > document.documentElement.clientWidth) {
-        left = sourceElRect.left - elRect.width - horizontalShift;
-      }
-      this.children.userList.element!.style.top = `${top}px`;
-      this.children.userList.element!.style.left = `${left}px`;
+      makeDropdown(this.children.userList,this.getContent() as HTMLElement);
+      // document.body.append(this.children.userList.getContent()!);
+      // this.children.userList.dispatchComponentDidMount();
+      // const target = this.getContent() as HTMLElement;
+      // const sourceElRect = target.getBoundingClientRect();
+      // const elRect = this.children.userList.element!.getBoundingClientRect();
+      // const horizontalShift = 10;
+      // const verticalShift = 10;
+      // let top = sourceElRect.bottom + verticalShift;
+      // let left = sourceElRect.left + horizontalShift;
+      // if (top + elRect.height > document.documentElement.clientHeight) {
+      //   top = sourceElRect.top - elRect.height - verticalShift;
+      // }
+      // if (left + elRect.width > document.documentElement.clientWidth) {
+      //   left = sourceElRect.left - elRect.width - horizontalShift;
+      // }
+      // this.children.userList.element!.style.top = `${top}px`;
+      // this.children.userList.element!.style.left = `${left}px`;
     }
   }
 
