@@ -9,6 +9,7 @@ import {DropdownMenu} from '../../../../components/DropdownMenu';
 import {withStore} from "../../../../utils/Store";
 import ChatsController from "../../../../controllers/ChatsController";
 import {closeDropdown} from "../../../../utils/Helpers";
+import {ChatProfile} from "../ChatProfile";
 
 export interface ChatMessagesProps {
   menuIconSrc: string,
@@ -28,11 +29,10 @@ export class ChatMessagesBase extends Block<ChatMessagesProps> {
     props.styles = chatMessagesStyles;
   }
 
-  protected async init() {
-  }
-
   protected render() {
-    if (this.props.selected) {
+    if(this.props.openProfile) {
+      this._addChatProfileBlocks()
+    } else if (this.props.selected) {
       this._addChatImage();
       this._addChatMenu();
       this._addAttachFile();
@@ -58,7 +58,8 @@ export class ChatMessagesBase extends Block<ChatMessagesProps> {
         {
           text: 'Изменить',
           click: () => {
-            console.log('Выбран пунк меню: Изменить');
+            ChatsController.openProfile(this.props.selected);
+            closeDropdown(menu);
           },
         },
         {
@@ -114,6 +115,10 @@ export class ChatMessagesBase extends Block<ChatMessagesProps> {
     // this.props.chatData.messages.forEach((messageData: ChatMessagesBlockProps) => {
     //   (this.children.messageBlocks as ChatMessagesBlock[]).push(new ChatMessagesBlock(messageData));
     // });
+  }
+
+  private _addChatProfileBlocks() {
+    this.children.chatProfile = new ChatProfile({});
   }
 }
 

@@ -6,6 +6,7 @@ import * as chatStyles from './chat.module.scss';
 import {ChatItem} from './components/ChatItem';
 import {ChatMessages} from './components/ChatMessages';
 import ChatsController from "../../controllers/ChatsController";
+import {ChatProfile, ChatProfileBase} from "./components/ChatProfile";
 
 export interface ChatProps {
   addChatIconSrc: string,

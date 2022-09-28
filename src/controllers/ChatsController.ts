@@ -47,10 +47,20 @@ export class ChatsController {
   }
 
   select(chatId:string) {
+    this.closeProfile();
     store.set('chats.selected', chatId);
   }
 
+  openProfile(chatId:string) {
+    store.set('chats.openProfile', chatId);
+  }
+
+  closeProfile() {
+    store.set('chats.openProfile', null);
+  }
+
   unselectAll() {
+    this.closeProfile();
     store.set('chats.selected', null);
   }
 
