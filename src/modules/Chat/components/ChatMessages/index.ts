@@ -45,7 +45,7 @@ export class ChatMessagesBase extends Block<ChatMessagesProps> {
 
   private _addChatImage() {
     this.children.chatImage = new Avatar({
-      src: this.props.chatList[this.props.selected].avatar,
+      src: this.props.chatList[this.props.selected].avatar ?? "",
       size: '2em',
       alt: this.props.chatList[this.props.selected].title,
       title: this.props.chatList[this.props.selected].title,

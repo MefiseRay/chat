@@ -1,10 +1,12 @@
 div(class=styles.profile)
-    div(class=styles.avatar)
+    div
         | !{chatImage}
-    div(class=styles.name)
-        | #{chatList[openProfile].title}
+        div(class=styles.name)
+            | #{chatList[openProfile].title}
     div(class=styles['user-list'])
         each user in users
             | !{user}
-    div(class=styles['add-user'])
+    div
         | !{searchUser}
+    div
+        | !{backButton}

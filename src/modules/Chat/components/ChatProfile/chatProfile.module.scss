@@ -12,33 +12,31 @@
     background: variables.$color-white;
     box-shadow: variables.$shadow;
     border-radius: variables.$border-radius;
-    padding: variables.$padding-2 variables.$padding-4;
+    padding: variables.$padding-3 variables.$padding-4;
     display: flex;
     flex-direction: column;
     justify-content: start;
     align-items: center;
-    gap: variables.$padding-1;
+    gap: variables.$padding-2;
 
-    .avatar {
-
-    }
     .name {
+      text-align: center;
       color: variables.$color-main;
       font-size: variables.$font-size-big;
       font-weight: variables.$font-weight-bold;
-      padding-bottom: variables.$padding-2;
+      padding-top: variables.$padding-1;
     }
+
     .user-list {
       display: flex;
       align-content: start;
-      align-items: start;
+      align-items: center;
+      justify-content: center;
       flex-wrap: wrap;
       flex-direction: row;
       gap: variables.$padding-0-5;
       max-width: 550px;
-    }
-    .add-user {
-
+      //padding-bottom: variables.$padding-2;
     }
   }
 }

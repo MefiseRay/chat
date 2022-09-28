@@ -26,8 +26,12 @@ export default class HTTPTransport {
     this.endpoint = `${HTTPTransport.API_URL}${endpoint}`;
   }
 
-  public get<Response>(path = '/', type:ContentType = ContentType.Json): Promise<Response> {
-    return this.request<Response>(this.endpoint + path);
+  public get<Response>(path = '/', data?: unknown,  type:ContentType = ContentType.Json): Promise<Response> {
+    return this.request<Response>(this.endpoint + path, {
+      method: Method.Get,
+      data,
+      type
+    });
   }
 
   public post<Response = void>(path: string, data?: unknown, type:ContentType = ContentType.Json): Promise<Response> {

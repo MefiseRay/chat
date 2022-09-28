@@ -4,14 +4,17 @@ import template from "./chatProfile.pug";
 import {withStore} from "../../../../utils/Store";
 import {Avatar} from "../../../../components/Avatar";
 import {Input, InputTypes} from "../../../../components/Input";
-import {debounce} from "../../../../utils/Helpers";
+import {closeDropdown, debounce, makeDropdown} from "../../../../utils/Helpers";
 import UsersController from "../../../../controllers/UsersController";
 import ChatsController from "../../../../controllers/ChatsController";
-import {User} from "../../../../api/UsersAPI";
+import {User, UserChangeable} from "../../../../api/UsersAPI";
 import {UserLable, UserLableProps} from "../../../../components/UserLable";
 import {Icon} from "../../../../components/Icon";
 import deleteIcon from '../../../../../static/icon/close.svg';
 import {SearchUser} from "../../../../components/SearchUser";
+import {Form} from "../../../Form";
+import {Button} from "../../../../components/Button";
+import {Dropdown} from "../../../../components/Dropdown";
 
 export class ChatProfileBase extends Block<{}> {
 
@@ -24,10 +27,15 @@ export class ChatProfileBase extends Block<{}> {
     props.styles = chatProfileStyles;
   }
 
+  protected init() {
+    this._addBackButton();
+    this._searchUser();
+    this._addChatForm();
+  }
+
   protected render() {
     this._addChatImage();
     this._addUserList();
-    this._searchUser();
     return this.compile(template, this.props);
   }
 
@@ -38,6 +46,11 @@ export class ChatProfileBase extends Block<{}> {
       alt: this.props.chatList[this.props.openProfile].title,
       title: this.props.chatList[this.props.openProfile].title,
     });
+
+    (this.children.chatImage as Avatar).element!.addEventListener('click', (event: MouseEvent) => {
+      makeDropdown(this.children.dropdownForm as Form<Record<string, unknown>>, event.target as HTMLElement);
+    });
+    (this.children.chatImage as Avatar).element!.style.cursor = 'pointer';
   }
 
   private _addUserList() {
@@ -69,6 +82,70 @@ export class ChatProfileBase extends Block<{}> {
         (this.children.searchUser as SearchUser).removeUserList();
       }
     });
+  }
+
+  private _addChatForm() {
+    this.children.addForm = new Form({
+      action: "",
+      method: "",
+      title: "",
+      inputs: [
+        new Input({
+          title: 'Аватар',
+          type: InputTypes.file,
+          name: 'avatar',
+          value: this.props.login,
+          placeholder: 'Аватар',
+          isRounded: false,
+          isLight: false,
+          displayBlock: true,
+          iconSrc: null,
+        }),
+      ],
+      buttons: [
+        new Button({
+          text: 'Изменить аватар',
+          events: {
+            click: async (event) => {
+              event.stopPropagation();
+              event.preventDefault();
+              const formData = (this.children.addForm as Form<UserChangeable>).getFormData();
+              closeDropdown(this.children.dropdownForm as Form<UserChangeable>);
+              if(formData) {
+                if ((formData.get("avatar") as File).name !== "") {
+                  await ChatsController.changAvatar(this.props.openProfile, formData);
+                }
+              }
+            },
+          },
+          isTransparent: false,
+          isBordered: false,
+          isWhite: false,
+          displayBlock: true,
+        }),
+      ],
+      compact: true
+    })
+    this.children.dropdownForm = new Dropdown({
+      items: [this.children.addForm]
+    });
+  }
+
+  private _addBackButton() {
+    this.children.backButton = new Button({
+      text: 'Назад к чату',
+      events: {
+        click: (event) => {
+          event.stopPropagation();
+          event.preventDefault();
+          ChatsController.select(this.props.openProfile);
+        },
+      },
+      isTransparent: false,
+      isBordered: false,
+      isWhite: false,
+      displayBlock: true,
+    })
   }
 }
 
