@@ -4,7 +4,7 @@ import {Icon} from '../Icon';
 import {DropdownMenu} from '../DropdownMenu';
 
 import * as menuButtonStyles from './menuButton.module.scss';
-import {makeDropdown} from "../../utils/Helpers";
+import {closeDropdown, makeDropdown} from "../../utils/Helpers";
 
 interface MenuButtonProps {
   icon: Icon,
@@ -25,9 +25,7 @@ export class MenuButton extends Block<MenuButtonProps> {
   }
 
   protected init() {
-    const menu = this.children.menu as DropdownMenu;
-    const icon = this.children.icon as Icon;
-    icon.element!.addEventListener('click', (event: MouseEvent) => {
+    (this.children.icon as Icon).element!.addEventListener('click', (event: MouseEvent) => {
       const {horizontalShift} = this.props;
       const {verticalShift} = this.props;
       makeDropdown(this.children.menu as DropdownMenu, event.target as HTMLElement,horizontalShift,verticalShift);
@@ -35,8 +33,7 @@ export class MenuButton extends Block<MenuButtonProps> {
   }
 
   public removeMenu() {
-    const menu = this.children.menu as DropdownMenu;
-    menu.element!.remove();
+    closeDropdown(this.children.menu as DropdownMenu);
   }
 
   protected render() {
