@@ -8,8 +8,10 @@ import {MenuButton} from '../../../../components/MenuButton';
 import {DropdownMenu} from '../../../../components/DropdownMenu';
 import {withStore} from "../../../../utils/Store";
 import ChatsController from "../../../../controllers/ChatsController";
-import {closeDropdown} from "../../../../utils/Helpers";
+import {closeDropdown, makeDropdown} from "../../../../utils/Helpers";
 import {ChatProfile} from "../ChatProfile";
+import {ChatWebSocket} from "../../../../utils/ChatWebSocket";
+import {Form} from "../../../Form";
 
 export interface ChatMessagesProps {
   menuIconSrc: string,
@@ -19,6 +21,8 @@ export interface ChatMessagesProps {
 }
 
 export class ChatMessagesBase extends Block<ChatMessagesProps> {
+
+  private webSocket:ChatWebSocket | null = null;
 
   constructor(props: ChatMessagesProps) {
     super(props);
@@ -33,11 +37,13 @@ export class ChatMessagesBase extends Block<ChatMessagesProps> {
     if(this.props.openProfile) {
       this._addChatProfileBlocks()
     } else if (this.props.selected) {
+      this._createWebSocket();
       this._addChatImage();
       this._addChatMenu();
       this._addAttachFile();
       this._addMessageInput();
       this._addSendButton();
+      this._addSendAction();
       this._addMessageBlocks();
     }
     return this.compile(template, this.props);
@@ -120,7 +126,26 @@ export class ChatMessagesBase extends Block<ChatMessagesProps> {
   private _addChatProfileBlocks() {
     this.children.chatProfile = new ChatProfile({});
   }
+
+  private _createWebSocket() {
+    if(this.props.socketUserId && this.props.socketChatId && this.props.socketToken) {
+      this.webSocket = new ChatWebSocket(this.props.socketUserId, this.props.socketChatId, this.props.socketToken);
+      // this.webSocket.getMessages();
+    } else {
+      this.webSocket = null;
+    }
+  }
+
+  private _addSendAction() {
+    (this.children.sendButton as Icon).element!.addEventListener('click', (event: MouseEvent) => {
+      if(this.webSocket) {
+        const value = (this.children.messageInput as Input).getValue();
+        this.webSocket.sendMessage(value);
+      }
+    });
+    (this.children.sendButton as Icon).element!.style.cursor = 'pointer';
+  }
 }
 
-const withChatsAndUser = withStore((state) => ({...state.chats, ...state.user}));
+const withChatsAndUser = withStore((state) => ({...state.chats, ...state.user, ...state.socket}));
 export const ChatMessages = withChatsAndUser(ChatMessagesBase);

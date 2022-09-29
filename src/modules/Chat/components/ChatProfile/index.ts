@@ -135,10 +135,10 @@ export class ChatProfileBase extends Block<{}> {
     this.children.backButton = new Button({
       text: 'Назад к чату',
       events: {
-        click: (event) => {
+        click: async (event) => {
           event.stopPropagation();
           event.preventDefault();
-          ChatsController.select(this.props.openProfile);
+          await ChatsController.select(this.props.openProfile);
         },
       },
       isTransparent: false,

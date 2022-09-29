@@ -18,8 +18,8 @@ export class ChatItem extends Block<ChatItemProps> {
     super(props);
     this.element!.classList.add(chatItemStyles.item);
     this.element!.click();
-    this.element!.addEventListener('click',  () => {
-      ChatsController.select(this.props.id);
+    this.element!.addEventListener('click',  async () => {
+      await ChatsController.select(this.props.id);
     });
   }
 

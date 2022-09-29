@@ -43,7 +43,7 @@ export class ChatsController {
     }
   }
 
-  async getToken(chatId: number) {
+  async getToken(chatId: string) {
     try {
       const token = await this.api.getToken(chatId);
       return token.token;
@@ -52,15 +52,15 @@ export class ChatsController {
     }
   }
 
-  async getSocket(chatId: number) {
+  async getSocket(chatId: string) {
     try {
       if(store.getState().user !== undefined) {
         const userId = store.getState().user?.id;
-        const token = await this.api.getToken(chatId);
+        const token = await this.getToken(chatId);
         store.set('socket', {
           socketUserId: userId,
           socketChatId: chatId,
-          socketToken: token.token
+          socketToken: token
         });
       }
     } catch (e: any) {
@@ -86,6 +86,19 @@ export class ChatsController {
     }
   }
 
+  async select(chatId: string) {
+    this.closeProfile();
+    await this.getSocket(chatId).then(() => {
+      store.set('chats.selected', chatId);
+    });
+  }
+
+  unselectAll() {
+    this.closeProfile();
+    store.set('socket', null);
+    store.set('chats.selected', null);
+  }
+
   delete(chatId:string) {
     try {
       this.api.delete(chatId).then(
@@ -99,22 +112,12 @@ export class ChatsController {
     }
   }
 
-  select(chatId:string) {
-    this.closeProfile();
-    store.set('chats.selected', chatId);
-  }
-
   openProfile(chatId:string) {
     store.set('chats.openProfile', chatId);
   }
 
   closeProfile() {
     store.set('chats.openProfile', null);
-  }
-
-  unselectAll() {
-    this.closeProfile();
-    store.set('chats.selected', null);
   }
 }
 

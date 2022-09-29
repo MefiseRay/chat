@@ -42,10 +42,6 @@ export class ChatsAPI extends BaseAPI implements BaseReadAPI,BaseCreateAPI,BaseD
     return this.http.put('/avatar', data, ContentType.FormData);
   }
 
-  getToken(chatId: number): Promise<{ token: string }> {
-    return this.http.post(`/token/${chatId}`);
-  }
-
   getUserList(chatId: string): Promise<User[]> {
     return this.http.get(`/${chatId}/users?limit=200`);
   }
@@ -57,5 +53,10 @@ export class ChatsAPI extends BaseAPI implements BaseReadAPI,BaseCreateAPI,BaseD
   deleteUsers(chatId: string, users: string[]) {
     this.http.delete('/users', {chatId, users});
   }
+
+  getToken(chatId: string): Promise<{ token: string }> {
+    return this.http.post(`/token/${chatId}`);
+  }
+
 }
 export default new ChatsAPI();
