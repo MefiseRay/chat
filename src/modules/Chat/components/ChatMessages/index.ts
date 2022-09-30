@@ -8,16 +8,29 @@ import {MenuButton} from '../../../../components/MenuButton';
 import {DropdownMenu} from '../../../../components/DropdownMenu';
 import {withStore} from "../../../../utils/Store";
 import ChatsController from "../../../../controllers/ChatsController";
-import {closeDropdown, makeDropdown} from "../../../../utils/Helpers";
+import {closeDropdown} from "../../../../utils/Helpers";
 import {ChatProfile} from "../ChatProfile";
 import {ChatWebSocket} from "../../../../utils/ChatWebSocket";
-import {Form} from "../../../Form";
 
 export interface ChatMessagesProps {
   menuIconSrc: string,
   attachFileIconSrc: string,
   sendIconSrc: string,
   styles?: Record<string, unknown>
+}
+
+export interface MessageData {
+  id: number;
+  user_id: string;
+  chat_id: string;
+  content: string;
+  file: null;
+  is_read: false;
+  time: string;
+  type: string;
+}
+export interface ChatMessagesList {
+  list: MessageData[]
 }
 
 export class ChatMessagesBase extends Block<ChatMessagesProps> {
@@ -130,7 +143,6 @@ export class ChatMessagesBase extends Block<ChatMessagesProps> {
   private _createWebSocket() {
     if(this.props.socketUserId && this.props.socketChatId && this.props.socketToken) {
       this.webSocket = new ChatWebSocket(this.props.socketUserId, this.props.socketChatId, this.props.socketToken);
-      // this.webSocket.getMessages();
     } else {
       this.webSocket = null;
     }
