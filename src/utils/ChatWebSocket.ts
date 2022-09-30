@@ -1,7 +1,7 @@
 import {EventBus} from "./EventBus";
 import {isPlainObject} from "./Helpers";
 import store from "./Store";
-import {ChatMessagesList, MessageData} from "../modules/Chat/components/ChatMessages";
+import {ChatMessagesList, MessageData} from "../modules/Chat/components/ChatMessage";
 
 export interface SocketData {
   socketUserId: string,
@@ -40,22 +40,16 @@ export class ChatWebSocket {
 
   private _open() {
     console.log('Соединение установлено');
+    this._autoPing();
     this.getMessages();
     this.getPing();
   }
 
   private _message(data: unknown) {
-    console.log('Получены данные', data);
     if(Array.isArray(data)) {
-      store.set('messages.list', data, true);
+      store.set('messages', {list: data}, true);
     } else if (isPlainObject(data) && data.type && data.type === 'message') {
-      let messagesList;
-      if(store.getState().messages && !Array.isArray((store.getState().messages as ChatMessagesList).list)) {
-        messagesList = (store.getState().messages as ChatMessagesList).list as MessageData[];
-      } else {
-        messagesList = [];
-      }
-      messagesList.unshift(data);
+      this.getMessages();
     }
   }
 
@@ -102,10 +96,20 @@ export class ChatWebSocket {
     }));
   }
 
+  public close() {
+    this.socket.close();
+  }
+
   public getPing() {
     this.socket.send(JSON.stringify({
       content: "",
       type: 'ping',
     }));
+  }
+
+  private _autoPing() {
+    console.log("Пинг соединения");
+    this.getPing()
+    setTimeout(() => this._autoPing(), 10000);
   }
 }

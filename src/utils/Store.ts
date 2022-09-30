@@ -4,7 +4,7 @@ import Block from './Block';
 import {User} from "../api/UsersAPI";
 import {ChatsData} from "../api/ChatsAPI";
 import {SocketData} from "./ChatWebSocket";
-import {ChatMessagesList} from "../modules/Chat/components/ChatMessages";
+import {ChatMessagesList} from "../modules/Chat/components/ChatMessage";
 
 export enum StoreEvents {
   Updated = 'updated'

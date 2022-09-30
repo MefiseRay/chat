@@ -10,6 +10,7 @@ import {withStore} from "../../../../utils/Store";
 import ChatsController from "../../../../controllers/ChatsController";
 import {closeDropdown} from "../../../../utils/Helpers";
 import {ChatProfile} from "../ChatProfile";
+import {ChatMessagesBlock} from "../ChatMessagesBlock";
 import {ChatWebSocket} from "../../../../utils/ChatWebSocket";
 
 export interface ChatMessagesProps {
@@ -17,20 +18,6 @@ export interface ChatMessagesProps {
   attachFileIconSrc: string,
   sendIconSrc: string,
   styles?: Record<string, unknown>
-}
-
-export interface MessageData {
-  id: number;
-  user_id: string;
-  chat_id: string;
-  content: string;
-  file: null;
-  is_read: false;
-  time: string;
-  type: string;
-}
-export interface ChatMessagesList {
-  list: MessageData[]
 }
 
 export class ChatMessagesBase extends Block<ChatMessagesProps> {
@@ -46,6 +33,10 @@ export class ChatMessagesBase extends Block<ChatMessagesProps> {
     props.styles = chatMessagesStyles;
   }
 
+  protected init() {
+    this._addMessageBlocks();
+  }
+
   protected render() {
     if(this.props.openProfile) {
       this._addChatProfileBlocks()
@@ -57,7 +48,6 @@ export class ChatMessagesBase extends Block<ChatMessagesProps> {
       this._addMessageInput();
       this._addSendButton();
       this._addSendAction();
-      this._addMessageBlocks();
     }
     return this.compile(template, this.props);
   }
@@ -130,10 +120,8 @@ export class ChatMessagesBase extends Block<ChatMessagesProps> {
   }
 
   private _addMessageBlocks() {
-    this.children.messageBlocks = [];
-    // this.props.chatData.messages.forEach((messageData: ChatMessagesBlockProps) => {
-    //   (this.children.messageBlocks as ChatMessagesBlock[]).push(new ChatMessagesBlock(messageData));
-    // });
+    this.children.messageBlock = new ChatMessagesBlock({});
+    // this.children.messageBlock.element!.scrollIntoView(false);
   }
 
   private _addChatProfileBlocks() {
@@ -150,9 +138,19 @@ export class ChatMessagesBase extends Block<ChatMessagesProps> {
 
   private _addSendAction() {
     (this.children.sendButton as Icon).element!.addEventListener('click', (event: MouseEvent) => {
-      if(this.webSocket) {
+      // if(this.webSocket) {
+      //   const value = (this.children.messageInput as Input).getValue();
+      //   if(value) {
+      //     this.webSocket.sendMessage(value);
+      //   }
+      //   this.webSocket.getMessages();
+      // }
+      const webSocket = ChatsController.getChatWebSocket();
+      if(webSocket) {
         const value = (this.children.messageInput as Input).getValue();
-        this.webSocket.sendMessage(value);
+        if(value) {
+          webSocket.sendMessage(value);
+        }
       }
     });
     (this.children.sendButton as Icon).element!.style.cursor = 'pointer';

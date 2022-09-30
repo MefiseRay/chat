@@ -41,5 +41,14 @@ export class UsersController {
       return [];
     }
   }
+
+  async getById(userId: string) {
+    try {
+      return await this.api.getById(userId);
+    } catch (e: any) {
+      console.error(e.message);
+      return {}
+    }
+  }
 }
 export default new UsersController();

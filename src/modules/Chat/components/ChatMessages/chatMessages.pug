@@ -11,8 +11,7 @@ else if selected
             div(class=styles.menu)
                 | !{chatMenu}
         div(class=styles.messages)
-             each messageBlock in messageBlocks
-                 | !{messageBlock}
+            | !{messageBlock}
         div(class=styles["bottom-panel"])
             div(class=styles["attach-file"])
                 | !{attachFile}

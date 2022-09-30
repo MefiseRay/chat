@@ -48,5 +48,9 @@ export class UsersAPI extends BaseAPI implements BaseReadAPI {
     return this.http.post('/search', {login});
   }
 
+  getById(userId: string) {
+    return this.http.get(`/${userId}`);
+  }
+
 }
 export default new UsersAPI();

@@ -1,9 +1,11 @@
 import API, {ChatData, ChatsAPI} from "../api/ChatsAPI";
 import store from "../utils/Store";
+import {ChatWebSocket} from "../utils/ChatWebSocket";
 
 export class ChatsController {
 
   private readonly api: ChatsAPI;
+  private webSocket:ChatWebSocket | null = null;
 
   constructor() {
     this.api = API;
@@ -15,6 +17,7 @@ export class ChatsController {
       let chats: Record<string, ChatData> = {};
       for (const chat of chatList) {
         chat.user_list = await this.api.getUserList(chat.id.toString());
+
         chats[chat.id] = chat;
       }
       store.set('chats.chatList', chats, rewrite);
@@ -57,11 +60,14 @@ export class ChatsController {
       if(store.getState().user !== undefined) {
         const userId = store.getState().user?.id;
         const token = await this.getToken(chatId);
-        store.set('socket', {
-          socketUserId: userId,
-          socketChatId: chatId,
-          socketToken: token
-        });
+        // store.set('socket', {
+        //   socketUserId: userId,
+        //   socketChatId: chatId,
+        //   socketToken: token
+        // });
+        if(userId && chatId && token) {
+          this.webSocket = new ChatWebSocket(userId.toString(),chatId,token);
+        }
       }
     } catch (e: any) {
       console.error(e.message);
@@ -118,6 +124,10 @@ export class ChatsController {
 
   closeProfile() {
     store.set('chats.openProfile', null);
+  }
+
+  getChatWebSocket() {
+    return this.webSocket;
   }
 }
 
