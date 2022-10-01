@@ -1,7 +1,12 @@
 import {EventBus} from "./EventBus";
 import {getMessageTime, isPlainObject} from "./Helpers";
 import store from "./Store";
-import {ChatMessagesList, MessageData} from "../modules/Chat/components/ChatMessage";
+import API from '../api/ResourcesAPI';
+
+enum MessageType {
+  MESSAGE= 'message',
+  FILE= 'file'
+}
 
 export interface SocketData {
   socketUserId: string,
@@ -89,11 +94,17 @@ export class ChatWebSocket {
     });
   }
 
-  public sendMessage(content:string) {
+  public sendMessage(content:string, type:MessageType = MessageType.MESSAGE) {
     this.socket.send(JSON.stringify({
       content,
       type: 'message',
     }));
+  }
+
+  public async sendFile(data: FormData) {
+    await API.sendFile(data).then((fileId) => {
+      this.sendMessage(fileId.id, MessageType.FILE);
+    })
   }
 
   public getMessages(start: string = "0") {
