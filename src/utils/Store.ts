@@ -1,9 +1,9 @@
-import {isEqual, set} from './Helpers';
-import {EventBus} from './EventBus';
+import { isEqual, set } from './Helpers';
+import { EventBus } from './EventBus';
 import Block from './Block';
-import {User} from "../api/UsersAPI";
-import {ChatsData} from "../api/ChatsAPI";
-import {ChatMessagesList} from "../modules/Chat/components/ChatMessage";
+import { User } from '../api/UsersAPI';
+import { ChatsData } from '../api/ChatsAPI';
+import { ChatMessagesList } from '../modules/Chat/components/ChatMessage';
 
 export enum StoreEvents {
   Updated = 'updated'
@@ -36,17 +36,17 @@ export function withStore<SP extends Record<string, any>>(mapStateToProps: (stat
     return class WithStore extends Component {
       constructor(props: P) {
         previousState = mapStateToProps(store.getState());
-        super({...props, ...previousState});
+        super({ ...props, ...previousState });
         store.on(StoreEvents.Updated, () => {
           const stateProps = mapStateToProps(store.getState());
           if (!isEqual(previousState, stateProps)) {
             previousState = stateProps;
-            this.setProps({...stateProps});
+            this.setProps({ ...stateProps });
           }
         });
       }
-    }
-  }
+    };
+  };
 }
 
 export default store;

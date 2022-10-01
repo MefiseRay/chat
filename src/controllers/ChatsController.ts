@@ -1,24 +1,24 @@
-import API, {ChatData, ChatsAPI} from "../api/ChatsAPI";
-import store from "../utils/Store";
-import {ChatWebSocket} from "../utils/ChatWebSocket";
-import {getMessageTime} from "../utils/Helpers";
+import API, { ChatData, ChatsAPI } from '../api/ChatsAPI';
+import store from '../utils/Store';
+import { ChatWebSocket } from '../utils/ChatWebSocket';
+import { getMessageTime } from '../utils/Helpers';
 
 export class ChatsController {
-
   private readonly api: ChatsAPI;
+
   private webSocket:ChatWebSocket | null = null;
 
   constructor() {
     this.api = API;
   }
 
-  async get(rewrite= false) {
+  async get(rewrite = false) {
     try {
       const chatList = await this.api.read();
-      let chats: Record<string, ChatData> = {};
+      const chats: Record<string, ChatData> = {};
       for (const chat of chatList) {
         chat.user_list = await this.api.getUserList(chat.id.toString());
-        if(chat.last_message && chat.last_message.time) {
+        if (chat.last_message && chat.last_message.time) {
           chat.last_message.time = getMessageTime(new Date(chat.last_message.time));
         }
         chats[chat.id] = chat;
@@ -37,6 +37,7 @@ export class ChatsController {
       return chat.id;
     } catch (e: any) {
       console.error(e);
+      return null;
     }
   }
 
@@ -57,16 +58,17 @@ export class ChatsController {
       return token.token;
     } catch (e: any) {
       console.error(e.message);
+      return null;
     }
   }
 
   async getSocket(chatId: string) {
     try {
-      if(store.getState().user !== undefined) {
+      if (store.getState().user !== undefined) {
         const userId = store.getState().user?.id;
         const token = await this.getToken(chatId);
-        if(userId && chatId && token) {
-          this.webSocket = new ChatWebSocket(userId.toString(),chatId,token);
+        if (userId && chatId && token) {
+          this.webSocket = new ChatWebSocket(userId.toString(), chatId, token);
         }
       }
     } catch (e: any) {
@@ -113,7 +115,7 @@ export class ChatsController {
         async () => {
           this.unselectAll();
           await this.get(true);
-        }
+        },
       );
     } catch (e: any) {
       console.error(e);

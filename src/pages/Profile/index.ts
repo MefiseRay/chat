@@ -1,14 +1,13 @@
 import Block from '../../utils/Block';
 import template from './profile.pug';
-import {Profile} from '../../modules/Profile';
+import { Profile } from '../../modules/Profile';
 
 import * as centralAreaStyles from '../../layouts/CentralArea/centralArea.module.scss';
-import logoutIcon from "../../../static/icon/logout.svg";
-import beforeIcon from "../../../static/icon/before.svg";
-import moreVertIcon from "../../../static/icon/more-vert.svg";
+import logoutIcon from '../../../static/icon/logout.svg';
+import beforeIcon from '../../../static/icon/before.svg';
+import moreVertIcon from '../../../static/icon/more-vert.svg';
 
-export class ProfilePage extends Block<{}> {
-
+export class ProfilePage extends Block<Record<string, unknown>> {
   constructor() {
     super({});
     this.element!.classList.add(centralAreaStyles.wrapper);

@@ -1,24 +1,22 @@
-import Block from "../../../../utils/Block";
-import * as chatProfileStyles from "./chatProfile.module.scss";
-import template from "./chatProfile.pug";
-import {withStore} from "../../../../utils/Store";
-import {Avatar} from "../../../../components/Avatar";
-import {Input, InputTypes} from "../../../../components/Input";
-import {closeDropdown, debounce, makeDropdown} from "../../../../utils/Helpers";
-import UsersController from "../../../../controllers/UsersController";
-import ChatsController from "../../../../controllers/ChatsController";
-import {User, UserChangeable} from "../../../../api/UsersAPI";
-import {UserLable, UserLableProps} from "../../../../components/UserLable";
-import {Icon} from "../../../../components/Icon";
+import Block from '../../../../utils/Block';
+import * as chatProfileStyles from './chatProfile.module.scss';
+import template from './chatProfile.pug';
+import { withStore } from '../../../../utils/Store';
+import { Avatar } from '../../../../components/Avatar';
+import { Input, InputTypes } from '../../../../components/Input';
+import { closeDropdown, makeDropdown } from '../../../../utils/Helpers';
+import ChatsController from '../../../../controllers/ChatsController';
+import { User, UserChangeable } from '../../../../api/UsersAPI';
+import { UserLable, UserLableProps } from '../../../../components/UserLable';
+import { Icon } from '../../../../components/Icon';
 import deleteIcon from '../../../../../static/icon/close.svg';
-import {SearchUser} from "../../../../components/SearchUser";
-import {Form} from "../../../Form";
-import {Button} from "../../../../components/Button";
-import {Dropdown} from "../../../../components/Dropdown";
+import { SearchUser } from '../../../../components/SearchUser';
+import { Form } from '../../../Form';
+import { Button } from '../../../../components/Button';
+import { Dropdown } from '../../../../components/Dropdown';
 
-export class ChatProfileBase extends Block<{}> {
-
-  constructor(props: {}) {
+export class ChatProfileBase extends Block<Record<string, unknown>> {
+  constructor(props: Record<string, unknown>) {
     super(props);
     this.element!.classList.add(chatProfileStyles.wrapper);
   }
@@ -42,37 +40,41 @@ export class ChatProfileBase extends Block<{}> {
   private _addChatImage() {
     console.log(this.props.chatList);
     console.log(this.props.openProfile);
-    if(this.props.openProfile) {
+    if (this.props.openProfile) {
       this.children.chatImage = new Avatar({
         src: this.props.chatList[this.props.openProfile].avatar,
         size: '8em',
         alt: this.props.chatList[this.props.openProfile].title,
         title: this.props.chatList[this.props.openProfile].title,
       });
-      (this.children.chatImage as Avatar).element!.addEventListener('click', (event: MouseEvent) => {
-        makeDropdown(this.children.dropdownForm as Form<Record<string, unknown>>, event.target as HTMLElement);
-      });
+      (this.children.chatImage as Avatar).element!
+        .addEventListener('click', (event: MouseEvent) => {
+          makeDropdown(
+          this.children.dropdownForm as Form<Record<string, unknown>>,
+          event.target as HTMLElement,
+          );
+        });
       (this.children.chatImage as Avatar).element!.style.cursor = 'pointer';
     }
   }
 
   private _addUserList() {
     this.children.users = [];
-    if(this.props.openProfile) {
+    if (this.props.openProfile) {
       const userList = this.props.chatList[this.props.openProfile].user_list;
-      if(userList && userList.length > 0) {
+      if (userList && userList.length > 0) {
         userList.forEach((user:User) => {
           const userLableProps:UserLableProps = {
-            user
+            user,
           };
-          if(this.props.id !== user.id) {
+          if (this.props.id !== user.id) {
             userLableProps.icon = new Icon({
               size: '1em',
               icon: deleteIcon,
             });
             userLableProps.callBack = async () => {
               await ChatsController.deleteUsers(this.props.openProfile, [user.id.toString()]);
-            }
+            };
           }
           (this.children.users as UserLable[]).push(new UserLable(userLableProps));
         });
@@ -85,15 +87,15 @@ export class ChatProfileBase extends Block<{}> {
       callBack: async (userId) => {
         await ChatsController.addUsers(this.props.openProfile, [userId]);
         (this.children.searchUser as SearchUser).removeUserList();
-      }
+      },
     });
   }
 
   private _addChatForm() {
     this.children.addForm = new Form({
-      action: "",
-      method: "",
-      title: "",
+      action: '',
+      method: '',
+      title: '',
       inputs: [
         new Input({
           title: 'Аватар',
@@ -116,8 +118,8 @@ export class ChatProfileBase extends Block<{}> {
               event.preventDefault();
               const formData = (this.children.addForm as Form<UserChangeable>).getFormData();
               closeDropdown(this.children.dropdownForm as Form<UserChangeable>);
-              if(formData) {
-                if ((formData.get("avatar") as File).name !== "") {
+              if (formData) {
+                if ((formData.get('avatar') as File).name !== '') {
                   await ChatsController.changAvatar(this.props.openProfile, formData);
                 }
               }
@@ -129,10 +131,10 @@ export class ChatProfileBase extends Block<{}> {
           displayBlock: true,
         }),
       ],
-      compact: true
-    })
+      compact: true,
+    });
     this.children.dropdownForm = new Dropdown({
-      items: [this.children.addForm]
+      items: [this.children.addForm],
     });
   }
 
@@ -150,9 +152,9 @@ export class ChatProfileBase extends Block<{}> {
       isBordered: false,
       isWhite: false,
       displayBlock: true,
-    })
+    });
   }
 }
 
-const withChatsAndUser = withStore((state) => ({...state.chats, ...state.user}));
+const withChatsAndUser = withStore((state) => ({ ...state.chats, ...state.user }));
 export const ChatProfile = withChatsAndUser(ChatProfileBase);

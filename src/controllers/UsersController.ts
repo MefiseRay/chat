@@ -1,6 +1,6 @@
-import API, {ChangePassword, User, UserChangeable, UsersAPI} from "../api/UsersAPI";
-import store from '../utils/Store';
-import router from '../utils/Router';
+import API, {
+  ChangePassword, UserChangeable, UsersAPI,
+} from '../api/UsersAPI';
 
 export class UsersController {
   private readonly api: UsersAPI;
@@ -47,7 +47,7 @@ export class UsersController {
       return await this.api.getById(userId);
     } catch (e: any) {
       console.error(e.message);
-      return {}
+      return {};
     }
   }
 }

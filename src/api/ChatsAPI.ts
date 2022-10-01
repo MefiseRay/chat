@@ -1,6 +1,6 @@
-import BaseAPI, {BaseCreateAPI, BaseDeleteAPI, BaseReadAPI} from "./BaseAPI";
-import {ContentType} from "../utils/HTTPTransport";
-import {User, UserChangeable} from "./UsersAPI";
+import BaseAPI, { BaseCreateAPI, BaseDeleteAPI, BaseReadAPI } from './BaseAPI';
+import { ContentType } from '../utils/HTTPTransport';
+import { User, UserChangeable } from './UsersAPI';
 
 export interface ChatData {
   id: number,
@@ -20,7 +20,7 @@ export interface ChatsData {
   openProfile?:string
 }
 
-export class ChatsAPI extends BaseAPI implements BaseReadAPI,BaseCreateAPI,BaseDeleteAPI{
+export class ChatsAPI extends BaseAPI implements BaseReadAPI, BaseCreateAPI, BaseDeleteAPI {
   constructor() {
     super('/chats');
   }
@@ -30,15 +30,15 @@ export class ChatsAPI extends BaseAPI implements BaseReadAPI,BaseCreateAPI,BaseD
   }
 
   create(title: string): Promise<{id:string}> {
-    return this.http.post('/', {title});
+    return this.http.post('/', { title });
   }
 
   delete(chatId: string): Promise<unknown> {
-    return this.http.delete('/', {chatId: chatId});
+    return this.http.delete('/', { chatId });
   }
 
   changeAvatar(chatId: string, data:FormData): Promise<ChatData> {
-    data.append("chatId", chatId)
+    data.append('chatId', chatId);
     return this.http.put('/avatar', data, ContentType.FormData);
   }
 
@@ -47,16 +47,15 @@ export class ChatsAPI extends BaseAPI implements BaseReadAPI,BaseCreateAPI,BaseD
   }
 
   addUsers(chatId: string, users: string[]) {
-    this.http.put('/users', {chatId, users});
+    this.http.put('/users', { chatId, users });
   }
 
   deleteUsers(chatId: string, users: string[]) {
-    this.http.delete('/users', {chatId, users});
+    this.http.delete('/users', { chatId, users });
   }
 
   getToken(chatId: string): Promise<{ token: string }> {
     return this.http.post(`/token/${chatId}`);
   }
-
 }
 export default new ChatsAPI();

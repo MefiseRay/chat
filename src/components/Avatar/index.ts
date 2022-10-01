@@ -1,7 +1,7 @@
 import Block from '../../utils/Block';
 import template from './avatar.pug';
 import * as avatarStyles from './avatar.module.scss';
-import HTTPTransport from "../../utils/HTTPTransport";
+import HTTPTransport from '../../utils/HTTPTransport';
 
 interface AvatarProps {
   src: string,
@@ -12,8 +12,7 @@ interface AvatarProps {
 }
 
 export class Avatar extends Block<AvatarProps> {
-
-  static NO_IMAGE: string = '/upload/img/noimage.jpg';
+  static NO_IMAGE = '/upload/img/noimage.jpg';
 
   constructor(props: AvatarProps) {
     super(props);
@@ -24,7 +23,7 @@ export class Avatar extends Block<AvatarProps> {
 
   protected editPropsBeforeMakeThemProxy(props: AvatarProps) {
     props.styles = avatarStyles;
-    if (!props.src || props.src === "") {
+    if (!props.src || props.src === '') {
       props.src = Avatar.NO_IMAGE;
     } else {
       props.src = HTTPTransport.getFile(props.src);
@@ -32,7 +31,7 @@ export class Avatar extends Block<AvatarProps> {
   }
 
   public changeAvatar(src: string) {
-    if (!src || src === "") {
+    if (!src || src === '') {
       this.props.src = Avatar.NO_IMAGE;
     } else {
       this.props.src = HTTPTransport.getFile(src);

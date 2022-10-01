@@ -1,10 +1,9 @@
-import Block from "../../utils/Block";
-import {User} from "../../api/UsersAPI";
-import * as userLableStyles from "./userLable.module.scss";
-import template from "./userLable.pug";
-import {Avatar} from "../Avatar";
-import {Icon} from "../Icon";
-import {Input} from "../Input";
+import Block from '../../utils/Block';
+import { User } from '../../api/UsersAPI';
+import * as userLableStyles from './userLable.module.scss';
+import template from './userLable.pug';
+import { Avatar } from '../Avatar';
+import { Icon } from '../Icon';
 
 export interface UserLableProps {
   user: User,
@@ -25,13 +24,13 @@ export class UserLable extends Block<UserLableProps> {
 
   protected init() {
     this._addAvatar();
-    if(this.children.icon) {
+    if (this.children.icon) {
       (this.children.icon as Icon).getContent()!.style.cursor = 'pointer';
-      if(this.props.callBack) {
-        (this.children.icon as Icon).element!.addEventListener('click',  () => this.props.callBack());
+      if (this.props.callBack) {
+        (this.children.icon as Icon).element!.addEventListener('click', () => this.props.callBack());
       }
-    } else if(this.props.callBack) {
-      this.element!.addEventListener('click',  () => this.props.callBack());
+    } else if (this.props.callBack) {
+      this.element!.addEventListener('click', () => this.props.callBack());
     }
   }
 

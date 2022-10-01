@@ -1,7 +1,7 @@
 import Block from '../../utils/Block';
 import template from './error.pug';
 import * as errorStyles from './error.module.scss';
-import {Button} from '../../components/Button';
+import { Button } from '../../components/Button';
 
 interface ErrorProps {
   code: string,

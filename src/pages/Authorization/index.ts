@@ -3,16 +3,16 @@ import template from './authorization.pug';
 
 import * as centralAreaStyles from '../../layouts/CentralArea/centralArea.module.scss';
 
-import {Form} from '../../modules/Form';
-import {Input, InputTypes} from "../../components/Input";
-import ValidationHelper from "../../utils/ValidationHelper";
-import {Button} from "../../components/Button";
+import { Form } from '../../modules/Form';
+import { Input, InputTypes } from '../../components/Input';
+import ValidationHelper from '../../utils/ValidationHelper';
+import { Button } from '../../components/Button';
 import AuthController from '../../controllers/AuthController';
-import {SignInData} from "../../api/AuthAPI";
-import Router from "../../utils/Router";
-import {Routes} from "../../index";
+import { SignInData } from '../../api/AuthAPI';
+import Router from '../../utils/Router';
+import { Routes } from '../../index';
 
-export class AuthorizationPage extends Block<{}> {
+export class AuthorizationPage extends Block<Record<string, unknown>> {
   constructor() {
     super({});
     this.element!.classList.add(centralAreaStyles.wrapper);
@@ -66,9 +66,9 @@ export class AuthorizationPage extends Block<{}> {
             click: async (event: Event) => {
               event.stopPropagation();
               event.preventDefault();
-              const {validate, formData} = form.checkValidate();
+              const { validate, formData } = form.checkValidate();
               if (validate) {
-                await AuthController.signIn(formData)
+                await AuthController.signIn(formData);
               }
             },
           },

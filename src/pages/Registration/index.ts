@@ -3,16 +3,16 @@ import template from './registration.pug';
 
 import * as centralAreaStyles from '../../layouts/CentralArea/centralArea.module.scss';
 
-import {Form} from '../../modules/Form';
-import {Input, InputTypes} from "../../components/Input";
-import ValidationHelper from "../../utils/ValidationHelper";
-import {Button} from "../../components/Button";
-import {SignUpData} from "../../api/AuthAPI";
-import {Routes} from "../../index";
-import Router from "../../utils/Router";
+import { Form } from '../../modules/Form';
+import { Input, InputTypes } from '../../components/Input';
+import ValidationHelper from '../../utils/ValidationHelper';
+import { Button } from '../../components/Button';
+import { SignUpData } from '../../api/AuthAPI';
+import { Routes } from '../../index';
+import Router from '../../utils/Router';
 import AuthController from '../../controllers/AuthController';
 
-export class RegistrationPage extends Block<{}> {
+export class RegistrationPage extends Block<Record<string, unknown>> {
   constructor() {
     super({});
     this.element!.classList.add(centralAreaStyles.wrapper);
@@ -151,7 +151,7 @@ export class RegistrationPage extends Block<{}> {
             click: async (event: Event) => {
               event.stopPropagation();
               event.preventDefault();
-              const {validate, formData} = form.checkValidate();
+              const { validate, formData } = form.checkValidate();
               if (validate) {
                 await AuthController.signUp(formData);
               }
@@ -165,7 +165,7 @@ export class RegistrationPage extends Block<{}> {
         new Button({
           text: 'Войти',
           events: {
-            click: () => Router.go(Routes.Index)
+            click: () => Router.go(Routes.Index),
           },
           isTransparent: true,
           isBordered: false,

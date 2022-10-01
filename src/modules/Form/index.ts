@@ -1,10 +1,10 @@
-import {nanoid} from 'nanoid';
+import { nanoid } from 'nanoid';
 import Block from '../../utils/Block';
 import template from './form.pug';
 import * as formStyles from './form.module.scss';
-import {Button} from '../../components/Button';
-import {Input} from '../../components/Input';
-import {ValidationResult} from '../../utils/CustomValidation';
+import { Button } from '../../components/Button';
+import { Input } from '../../components/Input';
+import { ValidationResult } from '../../utils/CustomValidation';
 
 interface FormProps {
   action: string,
@@ -21,7 +21,7 @@ export class Form<FD extends Record<string, any>> extends Block<FormProps> {
   constructor(props: FormProps) {
     super(props);
     this.element!.classList.add(formStyles.form);
-    if(this.props.compact) {
+    if (this.props.compact) {
       this.element!.classList.add(formStyles.compact);
     }
   }
@@ -39,7 +39,7 @@ export class Form<FD extends Record<string, any>> extends Block<FormProps> {
     validate: boolean,
     validationResultList: Record<string, ValidationResult>,
     formData: FD
-  } {
+    } {
     return this._validation(false);
   }
 
@@ -47,7 +47,7 @@ export class Form<FD extends Record<string, any>> extends Block<FormProps> {
     validate: boolean,
     validationResultList: Record<string, ValidationResult>,
     formData: FD
-  } {
+    } {
     return this._validation(true);
   }
 
@@ -69,7 +69,7 @@ export class Form<FD extends Record<string, any>> extends Block<FormProps> {
       }
     });
     const formData: FD = data as FD;
-    return {validate, validationResultList, formData};
+    return { validate, validationResultList, formData };
   }
 
   public getFormData(): FormData | null {

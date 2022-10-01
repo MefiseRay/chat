@@ -17,11 +17,20 @@ function render(query: string, block: Block<Record<string, any>>) {
 class Route {
   private block: Block<{}> | null = null;
 
+  private readonly pathname: string;
+
+  private readonly blockClass: typeof Block<{}>;
+
+  private readonly query: string;
+
   constructor(
-    private pathname: string,
-    private readonly blockClass: typeof Block<{}>,
-    private readonly query: string
+    pathname: string,
+    blockClass: typeof Block<{}>,
+    query: string,
   ) {
+    this.pathname = pathname;
+    this.blockClass = blockClass;
+    this.query = query;
   }
 
   leave() {
@@ -36,14 +45,15 @@ class Route {
     if (!this.block) {
       this.block = new this.blockClass({});
       render(this.query, this.block);
-      return;
     }
   }
 }
 
 class Router {
   private routes: Route[] = [];
+
   private currentRoute: Route | null = null;
+
   private history = window.history;
 
   constructor(private readonly rootQuery: string) {
@@ -61,7 +71,7 @@ class Router {
       const target = event.currentTarget as Window;
 
       this._onRoute(target.location.pathname);
-    }
+    };
 
     this._onRoute(window.location.pathname);
   }
@@ -97,7 +107,7 @@ class Router {
   }
 
   private getRoute(pathname: string) {
-    return this.routes.find(route => route.match(pathname));
+    return this.routes.find((route) => route.match(pathname));
   }
 }
 

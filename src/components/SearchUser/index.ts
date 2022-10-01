@@ -1,25 +1,22 @@
-import Block from "../../utils/Block";
-import template from "./searchUser.pug";
-import {Input, InputTypes} from "../Input";
-import {closeDropdown, debounce, makeDropdown} from "../../utils/Helpers";
-import UsersController from "../../controllers/UsersController";
-import {User} from "../../api/UsersAPI";
-import * as searchUserStyles from "./searchUser.module.scss";
-import {DropdownMenu, DropdownMenuItemsProps} from "../DropdownMenu";
+import Block from '../../utils/Block';
+import template from './searchUser.pug';
+import { Input, InputTypes } from '../Input';
+import { closeDropdown, debounce, makeDropdown } from '../../utils/Helpers';
+import UsersController from '../../controllers/UsersController';
+import { User } from '../../api/UsersAPI';
+import { DropdownMenu, DropdownMenuItemsProps } from '../DropdownMenu';
 
 export interface SearchUserProps {
   callBack?: (userId: string) => void
 }
 
 export class SearchUser extends Block<SearchUserProps> {
-
   protected init() {
     this._addSearchInput();
   }
 
   protected editPropsBeforeMakeThemProxy(props: Record<string, unknown>) {
     props.userList = [];
-    props.styles = searchUserStyles;
   }
 
   protected render() {
@@ -32,17 +29,17 @@ export class SearchUser extends Block<SearchUserProps> {
       this.props.userList = await UsersController.search(login);
     }, 1000);
     this.children.search = new Input({
-      title: "Поиск пользователя",
+      title: 'Поиск пользователя',
       type: InputTypes.text,
-      name: "user",
-      value: "",
-      placeholder: "Введите логин пользователя",
+      name: 'user',
+      value: '',
+      placeholder: 'Введите логин пользователя',
       isRounded: true,
       isLight: true,
       displayBlock: true,
-      iconSrc: null
+      iconSrc: null,
     });
-    this.children.search.element!.addEventListener('keyup',  () => {
+    this.children.search.element!.addEventListener('keyup', () => {
       debouncedSearch((this.children.search as Input).getValue());
     });
   }
@@ -54,16 +51,16 @@ export class SearchUser extends Block<SearchUserProps> {
       items.push({
         text: `${user.login} - ${user.first_name} ${user.second_name}`,
         click: () => this.props.callBack(user.id),
-      })
+      });
     });
-    if(items.length > 0) {
-      this.children.userList = new DropdownMenu({items});
-      makeDropdown(this.children.userList,this.getContent() as HTMLElement);
+    if (items.length > 0) {
+      this.children.userList = new DropdownMenu({ items });
+      makeDropdown(this.children.userList, this.getContent() as HTMLElement);
     }
   }
 
   public removeUserList() {
-    if(this.children.userList) {
+    if (this.children.userList) {
       closeDropdown(this.children.userList as DropdownMenu);
     }
   }

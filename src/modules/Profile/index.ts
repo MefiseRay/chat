@@ -1,22 +1,22 @@
 import Block from '../../utils/Block';
 import template from './profile.pug';
-import {Avatar} from '../../components/Avatar';
-import {Icon} from '../../components/Icon';
-import {DropdownMenu} from '../../components/DropdownMenu';
-import {Button} from '../../components/Button';
-import {MenuButton} from '../../components/MenuButton';
+import { Avatar } from '../../components/Avatar';
+import { Icon } from '../../components/Icon';
+import { DropdownMenu } from '../../components/DropdownMenu';
+import { Button } from '../../components/Button';
+import { MenuButton } from '../../components/MenuButton';
 import * as profileStyles from './profile.module.scss';
-import {Form} from '../Form';
-import {Input, InputTypes} from '../../components/Input';
+import { Form } from '../Form';
+import { Input, InputTypes } from '../../components/Input';
 import ValidationHelper from '../../utils/ValidationHelper';
-import Router from "../../utils/Router";
-import {Routes} from "../../index";
-import AuthController from "../../controllers/AuthController";
+import Router from '../../utils/Router';
+import { Routes } from '../../index';
+import AuthController from '../../controllers/AuthController';
 import UsersController from '../../controllers/UsersController';
-import {withStore} from "../../utils/Store";
-import {ChangePasswordForm, UserChangeable} from "../../api/UsersAPI";
-import ChatsController from "../../controllers/ChatsController";
-import {SearchUser} from "../../components/SearchUser";
+import { withStore } from '../../utils/Store';
+import { ChangePasswordForm, UserChangeable } from '../../api/UsersAPI';
+import ChatsController from '../../controllers/ChatsController';
+import { SearchUser } from '../../components/SearchUser';
 
 interface ProfileProps {
   renderStatus: string,
@@ -153,7 +153,9 @@ class ProfileBase extends Block<ProfileProps> {
             click: async (event) => {
               event.stopPropagation();
               event.preventDefault();
-              const {validate, formData} = (this.children.changeDataForm as Form<UserChangeable>).checkValidate();
+              const { validate, formData } = (
+                this.children.changeDataForm as Form<UserChangeable>
+              ).checkValidate();
               if (validate) {
                 formData.display_name = `${formData.first_name} ${formData.second_name}`;
                 await UsersController.updateProfile(formData);
@@ -240,7 +242,7 @@ class ProfileBase extends Block<ProfileProps> {
                 validate,
                 formData,
               } = (this.children.changePasswordForm as Form<ChangePasswordForm>).checkValidate();
-              if (validate && formData.newPassword == formData.newPasswordConfirmation) {
+              if (validate && formData.newPassword === formData.newPasswordConfirmation) {
                 await UsersController.changePassword(formData);
                 this._changeRenderStatus(ProfileBase.RENDER_STATUSES.SHOW);
               }
@@ -271,7 +273,7 @@ class ProfileBase extends Block<ProfileProps> {
           isLight: false,
           displayBlock: true,
           iconSrc: null,
-        })
+        }),
       ],
       buttons: [
         new Button({
@@ -280,7 +282,9 @@ class ProfileBase extends Block<ProfileProps> {
             click: async (event) => {
               event.stopPropagation();
               event.preventDefault();
-              const formData = (this.children.changeAvatarForm as Form<Record<string, any>>).getFormData();
+              const formData = (
+                this.children.changeAvatarForm as Form<Record<string, any>>
+              ).getFormData();
               if (formData) {
                 await UsersController.changAvatar(formData);
                 await AuthController.fetchUser();
@@ -343,7 +347,7 @@ class ProfileBase extends Block<ProfileProps> {
       'click',
       async () => {
         await AuthController.logout();
-        Router.go(Routes.Index)
+        Router.go(Routes.Index);
       },
     );
     this.children.logoutIcon.element!.classList.add(profileStyles['button-icon']);
@@ -357,7 +361,7 @@ class ProfileBase extends Block<ProfileProps> {
     this.children.backIcon.element!.addEventListener('click', async () => {
       if (this.props.renderStatus === 'show') {
         await ChatsController.get();
-        Router.go(Routes.Chat)
+        Router.go(Routes.Chat);
       } else {
         this._changeRenderStatus(ProfileBase.RENDER_STATUSES.SHOW);
       }
@@ -399,5 +403,5 @@ class ProfileBase extends Block<ProfileProps> {
   }
 }
 
-const withUser = withStore((state) => ({...state.user}))
+const withUser = withStore((state) => ({ ...state.user }));
 export const Profile = withUser(ProfileBase);

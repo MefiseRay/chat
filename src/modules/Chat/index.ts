@@ -1,12 +1,9 @@
 import Block from '../../utils/Block';
 import template from './chat.pug';
-import {ChatList, ChatListBase} from './components/ChatList';
+import { ChatList } from './components/ChatList';
 
 import * as chatStyles from './chat.module.scss';
-import {ChatItem} from './components/ChatItem';
-import {ChatMessages} from './components/ChatMessages';
-import ChatsController from "../../controllers/ChatsController";
-import {ChatProfile, ChatProfileBase} from "./components/ChatProfile";
+import { ChatMessages } from './components/ChatMessages';
 
 export interface ChatProps {
   addChatIconSrc: string,
@@ -44,7 +41,7 @@ export class Chat extends Block<ChatProps> {
     this.children.chatMessages = new ChatMessages({
       menuIconSrc: this.props.menuIconSrc,
       attachFileIconSrc: this.props.attachFileIconSrc,
-      sendIconSrc: this.props.sendIconSrc
+      sendIconSrc: this.props.sendIconSrc,
     });
   }
 }

@@ -1,6 +1,6 @@
-import Block from "../../utils/Block";
-import template from "./dropdown.pug";
-import * as dropdownStyles from "./dropdown.module.scss";
+import Block from '../../utils/Block';
+import template from './dropdown.pug';
+import * as dropdownStyles from './dropdown.module.scss';
 
 interface DropdownProps {
   items: Block<Record<string, unknown>>[],

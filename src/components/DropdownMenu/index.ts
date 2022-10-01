@@ -1,6 +1,6 @@
 import Block from '../../utils/Block';
 import template from './dropdownMenu.pug';
-import {Button} from '../Button';
+import { Button } from '../Button';
 
 import * as dropdownMenuStyles from './dropdownMenu.module.scss';
 

@@ -1,12 +1,11 @@
-import Block from "./Block";
-import {DropdownMenu} from "../components/DropdownMenu";
+import Block from './Block';
 
 export type PlainObject<T = any> = {
   [k in string]: T;
 };
 
 const Month = [
-  "Янв", "Фев", "Мар", "Апр", "Май", "Июн", "Июл", "Авг", "Сен", "Окт", "Ноя", "Дек"
+  'Янв', 'Фев', 'Мар', 'Апр', 'Май', 'Июн', 'Июл', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек',
 ];
 
 export function isPlainObject(value: unknown): value is PlainObject {
@@ -44,7 +43,7 @@ export function queryString(data: PlainObject) {
   if (!isPlainObject(data)) {
     throw new Error('input must be an object');
   }
-  return getParams(data).map(arr => arr.join('=')).join('&');
+  return getParams(data).map((arr) => arr.join('=')).join('&');
 }
 
 export function isEqual(lhs: PlainObject, rhs: PlainObject) {
@@ -68,7 +67,7 @@ export function isEqual(lhs: PlainObject, rhs: PlainObject) {
 }
 
 export function merge(lhs: PlainObject, rhs: PlainObject, rewrite = false): PlainObject {
-  for (let p in rhs) {
+  for (const p in rhs) {
     if (!rhs.hasOwnProperty(p)) {
       continue;
     }
@@ -85,7 +84,12 @@ export function merge(lhs: PlainObject, rhs: PlainObject, rewrite = false): Plai
   return lhs;
 }
 
-export function set(object: PlainObject | unknown, path: string, value: unknown, rewrite = false): PlainObject | unknown {
+export function set(
+  object: PlainObject | unknown,
+  path: string,
+  value: unknown,
+  rewrite = false,
+): PlainObject | unknown {
   if (typeof object !== 'object' || object === null) {
     return object;
   }
@@ -96,21 +100,21 @@ export function set(object: PlainObject | unknown, path: string, value: unknown,
   return merge(object as PlainObject, result, rewrite);
 }
 
-export function debounce(fn: Function, ms:number = 300)  {
+export function debounce(fn: Function, ms = 300) {
   let timeoutId: ReturnType<typeof setTimeout>;
   return function (this: any, ...args: any[]) {
     clearTimeout(timeoutId);
     timeoutId = setTimeout(() => fn.apply(this, args), ms);
-  }
+  };
 }
 
 export function makeDropdown(
   dropdown: Block<Record<string, unknown>>,
   target: HTMLElement,
-  hShift: number = 10,
-  vShift: number = 10
+  hShift = 10,
+  vShift = 10,
 ) {
-  dropdown.element!.style.position = "fixed";
+  dropdown.element!.style.position = 'fixed';
   document.body.append(dropdown.getContent()!);
   dropdown.dispatchComponentDidMount();
   const sourceElRect = target.getBoundingClientRect();
@@ -145,20 +149,20 @@ export function getMessageTime(date:Date, full = false) {
   const isY = date.getFullYear() === now.getFullYear();
   const isM = date.getMonth() === now.getMonth();
   const isD = date.getDate() === now.getDate();
-  if(isY && isM && isD) {
-    return `${date.getHours()}:${date.getMinutes()}`
-  } else if (isY && full) {
-    return `${date.getDate()} ${Month[date.getMonth()-1]} ${date.getHours()}:${date.getMinutes()}`;
-  } else if (isY) {
-    return `${date.getDate()} ${Month[date.getMonth()-1]}`;
-  } else {
-    return `${date.getFullYear()}`;
+  if (isY && isM && isD) {
+    return `${date.getHours()}:${date.getMinutes()}`;
+  } if (isY && full) {
+    return `${date.getDate()} ${Month[date.getMonth() - 1]} ${date.getHours()}:${date.getMinutes()}`;
+  } if (isY) {
+    return `${date.getDate()} ${Month[date.getMonth() - 1]}`;
   }
-  return "";
+  return `${date.getFullYear()}`;
+
+  return '';
 }
 
-export function  closeDropdown(dropdown: Block<Record<string, unknown>>) {
-  if(dropdown) {
+export function closeDropdown(dropdown: Block<Record<string, unknown>>) {
+  if (dropdown) {
     dropdown.element!.remove();
   }
 }

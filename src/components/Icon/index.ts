@@ -8,7 +8,6 @@ export interface IconProps {
 }
 
 export class Icon extends Block<IconProps> {
-
   constructor(props: IconProps) {
     super(props, 'i');
     this.element!.classList.add(iconStyles.icon);

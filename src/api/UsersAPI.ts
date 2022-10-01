@@ -1,5 +1,5 @@
-import BaseAPI, {BaseReadAPI, BaseUpdateAPI} from "./BaseAPI";
-import {ContentType} from "../utils/HTTPTransport";
+import BaseAPI, { BaseReadAPI } from './BaseAPI';
+import { ContentType } from '../utils/HTTPTransport';
 
 export interface UserChangeable {
   first_name: string;
@@ -45,12 +45,11 @@ export class UsersAPI extends BaseAPI implements BaseReadAPI {
   }
 
   search(login: string) {
-    return this.http.post('/search', {login});
+    return this.http.post('/search', { login });
   }
 
   getById(userId: string) {
     return this.http.get(`/${userId}`);
   }
-
 }
 export default new UsersAPI();

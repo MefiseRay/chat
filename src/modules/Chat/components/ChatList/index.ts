@@ -1,22 +1,20 @@
 import Block from '../../../../utils/Block';
 import template from './chatList.pug';
 import * as chatListStyles from './chatList.module.scss';
-import {Icon, IconProps} from '../../../../components/Icon';
-import {Input, InputTypes} from '../../../../components/Input';
-import {ChatItem} from '../ChatItem';
-import {ChatUser, ChatUserBase} from '../ChatUser';
-import Router from "../../../../utils/Router";
-import {Routes} from "../../../../index";
-import ChatsController from "../../../../controllers/ChatsController";
-import store, {withStore} from "../../../../utils/Store";
-import {ChatData, ChatsData} from "../../../../api/ChatsAPI";
-import {Form} from "../../../Form";
-import {Button} from "../../../../components/Button";
-import ValidationHelper from "../../../../utils/ValidationHelper";
-import {UserChangeable} from "../../../../api/UsersAPI";
-import {closeDropdown, makeDropdown} from "../../../../utils/Helpers";
-import {DropdownMenu} from "../../../../components/DropdownMenu";
-import {Dropdown} from "../../../../components/Dropdown";
+import { Icon } from '../../../../components/Icon';
+import { Input, InputTypes } from '../../../../components/Input';
+import { ChatItem } from '../ChatItem';
+import { ChatUser } from '../ChatUser';
+import Router from '../../../../utils/Router';
+import { Routes } from '../../../../index';
+import ChatsController from '../../../../controllers/ChatsController';
+import { withStore } from '../../../../utils/Store';
+import { ChatsData } from '../../../../api/ChatsAPI';
+import { Form } from '../../../Form';
+import { Button } from '../../../../components/Button';
+import { UserChangeable } from '../../../../api/UsersAPI';
+import { closeDropdown, makeDropdown } from '../../../../utils/Helpers';
+import { Dropdown } from '../../../../components/Dropdown';
 
 export interface ChatListProps {
   addChatIconSrc: string,
@@ -60,16 +58,20 @@ export class ChatListBase extends Block<ChatListProps> {
     });
     this._addChatForm();
 
-    (this.children.addButton as Icon).element!.addEventListener('click', (event: MouseEvent) => {
-      makeDropdown(this.children.dropdownForm as Form<Record<string, unknown>>, event.target as HTMLElement);
-    });
+    (this.children.addButton as Icon).element!
+      .addEventListener('click', (event: MouseEvent) => {
+        makeDropdown(
+          this.children.dropdownForm as Form<Record<string, unknown>>,
+          event.target as HTMLElement,
+        );
+      });
   }
 
   private _addChatForm() {
     this.children.addForm = new Form({
-      action: "",
-      method: "",
-      title: "",
+      action: '',
+      method: '',
+      title: '',
       inputs: [
         new Input({
           title: 'Название чата',
@@ -103,14 +105,15 @@ export class ChatListBase extends Block<ChatListProps> {
               event.preventDefault();
               const formData = (this.children.addForm as Form<UserChangeable>).getFormData();
               closeDropdown(this.children.dropdownForm as Form<UserChangeable>);
-              if(formData) {
-                const name = formData.get("name");
-                if(name) {
-                  const chatId = await ChatsController.create(name.toString()).then(async (chatId) => {
-                    if (chatId && (formData.get("avatar") as File).name !== "") {
-                      await ChatsController.changAvatar(chatId, formData);
-                    }
-                  });
+              if (formData) {
+                const name = formData.get('name');
+                if (name) {
+                  await ChatsController.create(name.toString())
+                    .then(async (chatId) => {
+                      if (chatId && (formData.get('avatar') as File).name !== '') {
+                        await ChatsController.changAvatar(chatId, formData);
+                      }
+                    });
                 }
               }
             },
@@ -121,10 +124,10 @@ export class ChatListBase extends Block<ChatListProps> {
           displayBlock: true,
         }),
       ],
-      compact: true
-    })
+      compact: true,
+    });
     this.children.dropdownForm = new Dropdown({
-      items: [this.children.addForm]
+      items: [this.children.addForm],
     });
   }
 
@@ -144,7 +147,7 @@ export class ChatListBase extends Block<ChatListProps> {
 
   private _addItemsList() {
     const itemsList = [];
-    for (const [key, element] of Object.entries(this.props.chatList as ChatsData)) {
+    for (const element of Object.values(this.props.chatList as ChatsData)) {
       element.isSelected = element.id === this.props.selected;
       itemsList.push(new ChatItem(element));
     }
@@ -152,5 +155,5 @@ export class ChatListBase extends Block<ChatListProps> {
   }
 }
 
-const withChats = withStore((state) => ({...state.chats}));
+const withChats = withStore((state) => ({ ...state.chats }));
 export const ChatList = withChats(ChatListBase);

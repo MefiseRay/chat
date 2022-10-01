@@ -1,8 +1,8 @@
 import Block from '../../utils/Block';
 import template from './input.pug';
 import * as inputStyles from './input.module.scss';
-import {Icon} from '../Icon';
-import {ValidationResult} from '../../utils/CustomValidation';
+import { Icon } from '../Icon';
+import { ValidationResult } from '../../utils/CustomValidation';
 import refElementsCollection from '../../utils/RefElementsCollection';
 
 export enum InputTypes {
@@ -110,7 +110,7 @@ export class Input extends Block<InputProps> {
     if (!this.props.validation) {
       throw new Error('This input does not have a validator');
     }
-    const {value} = this.getInput();
+    const { value } = this.getInput();
     const validationResult: ValidationResult = this.props.validation.callback(
       value,
       this.props.validation.required,
@@ -134,7 +134,7 @@ export class Input extends Block<InputProps> {
   }
 
   public getValue() {
-    const {value} = this.getInput();
+    const { value } = this.getInput();
     return value;
   }
 

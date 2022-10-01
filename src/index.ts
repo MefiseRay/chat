@@ -1,12 +1,12 @@
 import * as styles from './styles.module.scss';
 import Router from './utils/Router';
 import AuthController from './controllers/AuthController';
-import {AuthorizationPage} from "./pages/Authorization";
-import {RegistrationPage} from "./pages/Registration";
-import {ProfilePage} from "./pages/Profile";
-import {NotFoundPage} from "./pages/NotFound";
-import {ChatPage} from "./pages/Chat";
-import ChatsController from "./controllers/ChatsController";
+import { AuthorizationPage } from './pages/Authorization';
+import { RegistrationPage } from './pages/Registration';
+import { ProfilePage } from './pages/Profile';
+import { NotFoundPage } from './pages/NotFound';
+import { ChatPage } from './pages/Chat';
+import ChatsController from './controllers/ChatsController';
 
 export enum Routes {
   Index = '/',
@@ -16,7 +16,7 @@ export enum Routes {
   Chat = '/chat'
 }
 
-const routesPaths: String[] = Object.values(Routes);
+const routesPaths: string[] = Object.values(Routes);
 
 window.addEventListener('DOMContentLoaded', async () => {
   const root: Element = document.querySelector('#app')!;
@@ -26,7 +26,7 @@ window.addEventListener('DOMContentLoaded', async () => {
     .use(Routes.Register, RegistrationPage)
     .use(Routes.Profile, ProfilePage)
     .use(Routes.NotFound, NotFoundPage)
-    .use(Routes.Chat, ChatPage)
+    .use(Routes.Chat, ChatPage);
 
   let isProtectedRoute = true;
 
@@ -42,7 +42,7 @@ window.addEventListener('DOMContentLoaded', async () => {
       await ChatsController.get();
       Router.start();
       if (!isProtectedRoute) {
-        Router.go(Routes.Profile)
+        Router.go(Routes.Profile);
       }
     } catch (e) {
       Router.start();
@@ -51,7 +51,7 @@ window.addEventListener('DOMContentLoaded', async () => {
       }
     }
   } else {
-    console.log("404", window.location.pathname);
+    console.log('404', window.location.pathname);
     Router.start();
     Router.go(Routes.NotFound);
   }

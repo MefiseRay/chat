@@ -18,7 +18,7 @@ type Options = {
 };
 
 export default class HTTPTransport {
-  static API_URL = "https://ya-praktikum.tech/api/v2";
+  static API_URL = 'https://ya-praktikum.tech/api/v2';
 
   protected endpoint: string;
 
@@ -26,43 +26,63 @@ export default class HTTPTransport {
     this.endpoint = `${HTTPTransport.API_URL}${endpoint}`;
   }
 
-  public get<Response>(path = '/', data?: unknown,  type:ContentType = ContentType.Json): Promise<Response> {
+  public get<Response>(
+    path = '/',
+    data?: unknown,
+    type:ContentType = ContentType.Json,
+  ): Promise<Response> {
     return this.request<Response>(this.endpoint + path, {
       method: Method.Get,
       data,
-      type
+      type,
     });
   }
 
-  public post<Response = void>(path: string, data?: unknown, type:ContentType = ContentType.Json): Promise<Response> {
+  public post<Response = void>(
+    path: string,
+    data?: unknown,
+    type:ContentType = ContentType.Json,
+  ): Promise<Response> {
     return this.request<Response>(this.endpoint + path, {
       method: Method.Post,
       data,
-      type
+      type,
     });
   }
 
-  public put<Response = void>(path: string, data: unknown, type:ContentType = ContentType.Json): Promise<Response> {
+  public put<Response = void>(
+    path: string,
+    data: unknown,
+    type:ContentType = ContentType.Json,
+  ): Promise<Response> {
     return this.request<Response>(this.endpoint + path, {
       method: Method.Put,
       data,
-      type
+      type,
     });
   }
 
-  public patch<Response = void>(path: string, data: unknown, type:ContentType = ContentType.Json): Promise<Response> {
+  public patch<Response = void>(
+    path: string,
+    data: unknown,
+    type:ContentType = ContentType.Json,
+  ): Promise<Response> {
     return this.request<Response>(this.endpoint + path, {
       method: Method.Patch,
       data,
-      type
+      type,
     });
   }
 
-  public delete<Response>(path: string, data?: unknown, type:ContentType = ContentType.Json): Promise<Response> {
+  public delete<Response>(
+    path: string,
+    data?: unknown,
+    type:ContentType = ContentType.Json,
+  ): Promise<Response> {
     return this.request<Response>(this.endpoint + path, {
       method: Method.Delete,
       data,
-      type
+      type,
     });
   }
 
@@ -90,14 +110,14 @@ export default class HTTPTransport {
       xhr.onabort = () => reject({ reason: 'abort' });
       xhr.onerror = () => reject({ reason: 'network error' });
       xhr.ontimeout = () => reject({ reason: 'timeout' });
-      if(type !== ContentType.FormData) {
+      if (type !== ContentType.FormData) {
         xhr.setRequestHeader('Content-Type', type);
       }
       xhr.withCredentials = true;
       xhr.responseType = 'json';
       if (method === Method.Get || !data) {
         xhr.send();
-      } else if(type === ContentType.Json) {
+      } else if (type === ContentType.Json) {
         xhr.send(JSON.stringify(data));
       } else {
         xhr.send(data);

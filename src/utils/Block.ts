@@ -1,7 +1,7 @@
-import {nanoid} from 'nanoid';
-import {EventBus} from './EventBus';
+import { nanoid } from 'nanoid';
+import { EventBus } from './EventBus';
 import refElementsCollection from './RefElementsCollection';
-import {debounce} from "./Helpers";
+import { debounce } from './Helpers';
 
 // Нельзя создавать экземпляр данного класса
 class Block<T extends Record<string, any>> {
@@ -16,7 +16,8 @@ class Block<T extends Record<string, any>> {
 
   protected props: Record<string, any>; // параметры для блока
 
-  public children: Record<string, Block<Record<string, any>> | Block<Record<string, any>>[]>; // вложенные блоки
+  public children: Record<string, Block<Record<string, any>> |
+    Block<Record<string, any>>[]>; // вложенные блоки
 
   protected eventBus: () => EventBus; // EventBus для событий
 
@@ -31,12 +32,12 @@ class Block<T extends Record<string, any>> {
    *
    * @returns {void}
    */
-  constructor(propsWithChildren: T = {} as T, tagName: string = 'div') {
+  constructor(propsWithChildren: T = {} as T, tagName = 'div') {
     this._getChildrenAndProps = this._getChildrenAndProps.bind(this);
     // создаем объект EventBus
     const eventBus = new EventBus();
     // поулчаем набор характеристик и дочерних элементов
-    const {props, children} = this._getChildrenAndProps(propsWithChildren);
+    const { props, children } = this._getChildrenAndProps(propsWithChildren);
     this._meta = {
       tagName,
       props,
@@ -63,12 +64,16 @@ class Block<T extends Record<string, any>> {
    * @returns {{ props: Record<string, unknown>, children:Record<string, Block | Block[]> }}
    * @private
    */
-  private _getChildrenAndProps(childrenAndProps: Record<string, unknown>):
-    { props: Record<string, unknown>, children: Record<string, Block<Record<string, any>> | Block<Record<string, any>>[]> } {
+  private _getChildrenAndProps(childrenAndProps: Record<string, unknown>):{
+      props: Record<string, unknown>,
+      children: Record<string, Block<Record<string, any>> |
+        Block<Record<string, any>>[]>
+  } {
     // создаем набор характеристик
     const props: Record<string, unknown> = {};
     // создаем набор дочерних элементов
-    const children: Record<string, Block<Record<string, any>> | Block<Record<string, any>>[]> = {};
+    const children: Record<string, Block<Record<string, any>> |
+      Block<Record<string, any>>[]> = {};
     Object.entries(childrenAndProps).forEach(([key, value]) => {
       if (Array.isArray(value) && value.every((v) => v instanceof Block)) {
         children[key] = value;
@@ -81,7 +86,7 @@ class Block<T extends Record<string, any>> {
       }
     });
     // возвращаем кортеж характеристик и дочерних элементов
-    return {props, children};
+    return { props, children };
   }
 
   /** JSDoc
@@ -93,8 +98,11 @@ class Block<T extends Record<string, any>> {
   private _makePropsProxy(props: Record<string, any>): Record<string, any> {
     const self = this;
     this.editPropsBeforeMakeThemProxy(props);
-    const debouncedUpdate = debounce((oldTarget: Record<string, unknown>, target: Record<string, unknown>) => {
-      self.eventBus().emit(Block.EVENTS.FLOW_CDU, oldTarget, target)
+    const debouncedUpdate = debounce((
+      oldTarget: Record<string, unknown>,
+      target: Record<string, unknown>,
+    ) => {
+      self.eventBus().emit(Block.EVENTS.FLOW_CDU, oldTarget, target);
     }, 1);
     return new Proxy(props, {
       get(target: Record<string, any>, prop: string) {
@@ -105,7 +113,7 @@ class Block<T extends Record<string, any>> {
       },
       set(target: Record<string, any>, prop: string, value) {
         if (prop.startsWith('_')) throw new Error('Ошибка перезаписи приватной характеристики');
-        const oldTarget = {...target};
+        const oldTarget = { ...target };
         target[prop] = value;
         // Запускаем событие обнволения и передаем старые параметры и новые
         debouncedUpdate(oldTarget, target);
@@ -148,7 +156,7 @@ class Block<T extends Record<string, any>> {
    * @private
    */
   private _createResources() {
-    const {tagName} = this._meta;
+    const { tagName } = this._meta;
     this._element = this._createDocumentElement(tagName);
   }
 
@@ -204,7 +212,7 @@ class Block<T extends Record<string, any>> {
 
   private _addEvents() {
     // поулчаем из props запись по ключу events которое является Record<string, () => void>
-    const {events = {}} = this.props as { events: Record<string, () => void> };
+    const { events = {} } = this.props as { events: Record<string, () => void> };
     // перебираем все значения events и добавляем EventListener
     Object.keys(events).forEach((eventName) => {
       this._element?.addEventListener(eventName, events[eventName]);
@@ -291,7 +299,7 @@ class Block<T extends Record<string, any>> {
   }
 
   protected compile(template: (context: any) => string, context: any) {
-    const contextAndStubs = {...context};
+    const contextAndStubs = { ...context };
     Object.entries(this.children).forEach(([name, component]) => {
       if (Array.isArray(component)) {
         const componentList: string[] = [];

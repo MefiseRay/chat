@@ -1,12 +1,11 @@
 import Block from '../../../../utils/Block';
 import template from './chatMessage.pug';
 import * as chatMessageStyles from './chatMessage.module.scss';
-import {Icon} from '../../../../components/Icon';
+import { Icon } from '../../../../components/Icon';
 import isSendIcon from '../../../../../static/icon/done.svg';
 import isReadIcon from '../../../../../static/icon/done-all.svg';
-import {User} from "../../../../api/UsersAPI";
-import HTTPTransport from "../../../../utils/HTTPTransport";
-import {fileData} from "../../../../api/ResourcesAPI";
+import { User } from '../../../../api/UsersAPI';
+import { fileData } from '../../../../api/ResourcesAPI';
 
 export interface ChatMessageProps {
   message: MessageData,
@@ -37,13 +36,13 @@ export class ChatMessage extends Block<ChatMessageProps> {
     if (this.props.message.file) {
       this.element!.classList.add(chatMessageStyles['image-message']);
     }
-    if(this.props.myMessage) {
+    if (this.props.myMessage) {
       this.setMessageMy();
     }
   }
 
   protected init() {
-    if(this.props.message.is_read) {
+    if (this.props.message.is_read) {
       this.children.icon = new Icon({
         size: '1em',
         icon: isReadIcon,

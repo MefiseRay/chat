@@ -1,8 +1,8 @@
-import {EventBus} from "./EventBus";
-import {getMessageTime, isPlainObject} from "./Helpers";
-import store from "./Store";
+import { EventBus } from './EventBus';
+import { getMessageTime, isPlainObject } from './Helpers';
+import store from './Store';
 import API from '../api/ResourcesAPI';
-import HTTPTransport from "./HTTPTransport";
+import HTTPTransport from './HTTPTransport';
 
 enum MessageType {
   MESSAGE= 'message',
@@ -23,9 +23,12 @@ export class ChatWebSocket {
     ERROR: 'error',
   };
 
-  static WEB_SOCKET_URL = "wss://ya-praktikum.tech/ws/chats";
+  static WEB_SOCKET_URL = 'wss://ya-praktikum.tech/ws/chats';
+
   protected endpoint: string;
+
   protected socket: WebSocket;
+
   protected eventBus: () => EventBus;
 
   constructor(userId:string, chatId:string, token:string) {
@@ -39,9 +42,7 @@ export class ChatWebSocket {
 
   private _registerEvents(eventBus: EventBus): void {
     eventBus.on(ChatWebSocket.EVENTS.OPEN, this._open.bind(this));
-    eventBus.on(ChatWebSocket.EVENTS.CLOSE, this._close.bind(this));
     eventBus.on(ChatWebSocket.EVENTS.MESSAGE, this._message.bind(this));
-    eventBus.on(ChatWebSocket.EVENTS.ERROR, this._error.bind(this));
   }
 
   private _open() {
@@ -52,32 +53,28 @@ export class ChatWebSocket {
   }
 
   private _message(data: unknown) {
-    if(Array.isArray(data)) {
+    if (Array.isArray(data)) {
       data = data.map((message) => {
-        if(message.time) {
+        if (message.time) {
           message.time = getMessageTime(new Date(message.time), true);
         }
-        if(message.file) {
+        if (message.file) {
           message.file.path = HTTPTransport.getFile(message.file.path);
         }
         return message;
       });
-      store.set('messages', {list: data}, true);
+      store.set('messages', { list: data }, true);
     } else if (isPlainObject(data) && data.type && data.type === 'message') {
       this.getMessages();
     }
   }
-
-  private _error() {}
-
-  private _close() {}
 
   private _addSocketEventListeners() {
     this.socket.addEventListener('open', () => {
       this.eventBus().emit(ChatWebSocket.EVENTS.OPEN);
     });
 
-    this.socket.addEventListener('close', event => {
+    this.socket.addEventListener('close', (event) => {
       if (event.wasClean) {
         console.log('Соединение закрыто чисто');
       } else {
@@ -87,11 +84,11 @@ export class ChatWebSocket {
       this.eventBus().emit(ChatWebSocket.EVENTS.CLOSE);
     });
 
-    this.socket.addEventListener('message', event => {
+    this.socket.addEventListener('message', (event) => {
       this.eventBus().emit(ChatWebSocket.EVENTS.MESSAGE, JSON.parse(event.data));
     });
 
-    this.socket.addEventListener('error', event => {
+    this.socket.addEventListener('error', (event) => {
       console.log('Ошибка', event);
       this.eventBus().emit(ChatWebSocket.EVENTS.ERROR);
     });
@@ -108,10 +105,10 @@ export class ChatWebSocket {
     await API.sendFile(data).then((fileId) => {
       this.sendMessage(fileId.id, MessageType.FILE);
       this.getMessages();
-    })
+    });
   }
 
-  public getMessages(start: string = "0") {
+  public getMessages(start = '0') {
     this.socket.send(JSON.stringify({
       content: start,
       type: 'get old',
@@ -124,14 +121,14 @@ export class ChatWebSocket {
 
   public getPing() {
     this.socket.send(JSON.stringify({
-      content: "",
+      content: '',
       type: 'ping',
     }));
   }
 
   private _autoPing() {
-    console.log("Пинг соединения");
-    this.getPing()
+    console.log('Пинг соединения');
+    this.getPing();
     setTimeout(() => this._autoPing(), 10000);
   }
 }

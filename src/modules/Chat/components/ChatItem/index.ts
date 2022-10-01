@@ -2,12 +2,9 @@ import Block from '../../../../utils/Block';
 import template from './chatItem.pug';
 
 import * as chatItemStyles from './chatItem.module.scss';
-import {Avatar} from '../../../../components/Avatar';
-import {ChatData} from "../../../../api/ChatsAPI";
-import ChatsController from "../../../../controllers/ChatsController";
-import {withStore} from "../../../../utils/Store";
-import {ChatListBase} from "../ChatList";
-import {getMessageTime} from "../../../../utils/Helpers";
+import { Avatar } from '../../../../components/Avatar';
+import { ChatData } from '../../../../api/ChatsAPI';
+import ChatsController from '../../../../controllers/ChatsController';
 
 export interface ChatItemProps extends ChatData {
   styles?: Record<string, unknown>
@@ -19,7 +16,7 @@ export class ChatItem extends Block<ChatItemProps> {
     super(props);
     this.element!.classList.add(chatItemStyles.item);
     this.element!.click();
-    this.element!.addEventListener('click',  async () => {
+    this.element!.addEventListener('click', async () => {
       await ChatsController.select(this.props.id);
     });
   }
