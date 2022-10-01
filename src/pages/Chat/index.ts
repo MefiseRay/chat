@@ -12,7 +12,7 @@ export class ChatPage extends Block<Record<string, unknown>> {
     super({});
   }
 
-  protected init() {
+  protected async init() {
     this.children.chat = new Chat({
       addChatIconSrc: addChatIcon,
       searchIconSrc: searchIcon,

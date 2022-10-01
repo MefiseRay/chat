@@ -127,7 +127,6 @@ export class ChatWebSocket {
   }
 
   private _autoPing() {
-    console.log('Пинг соединения');
     this.getPing();
     setTimeout(() => this._autoPing(), 10000);
   }
