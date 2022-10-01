@@ -1,3 +1,4 @@
+/*
 import { Profile } from '../modules/Profile';
 import { ProfilePage } from '../pages/Profile';
 import { Form } from '../modules/Form';
@@ -313,3 +314,4 @@ export class PageNavigator {
     }));
   }
 }
+*/

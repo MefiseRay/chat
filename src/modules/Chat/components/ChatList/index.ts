@@ -1,73 +1,53 @@
 import Block from '../../../../utils/Block';
 import template from './chatList.pug';
 import * as chatListStyles from './chatList.module.scss';
-import { Avatar } from '../../../../components/Avatar';
-import { PageNavigator } from '../../../../utils/PageNavigator';
 import { Icon } from '../../../../components/Icon';
 import { Input, InputTypes } from '../../../../components/Input';
-import { ChatItem, ChatItemProps } from '../ChatItem';
+import { ChatItem } from '../ChatItem';
 import { ChatUser } from '../ChatUser';
+import Router from '../../../../utils/Router';
+import { Routes } from '../../../../index';
+import ChatsController from '../../../../controllers/ChatsController';
+import { withStore } from '../../../../utils/Store';
+import { ChatsData } from '../../../../api/ChatsAPI';
+import { Form } from '../../../Form';
+import { Button } from '../../../../components/Button';
+import { UserChangeable } from '../../../../api/UsersAPI';
+import { closeDropdown, makeDropdown } from '../../../../utils/Helpers';
+import { Dropdown } from '../../../../components/Dropdown';
 
 export interface ChatListProps {
-    profile: {
-        id: string,
-        avatarSrc: string,
-        login: string,
-        firstName: string,
-        secondName: string,
-        email: string,
-        phone: string,
-    }
-    addChatIconSrc: string,
-    searchIconSrc: string,
-    styles?: Record<string, unknown>
+  addChatIconSrc: string,
+  searchIconSrc: string,
+  selected?: string,
+  styles?: Record<string, unknown>
 }
 
-export class ChatList extends Block {
+export class ChatListBase extends Block<ChatListProps> {
   constructor(props: ChatListProps) {
-    super('div', props);
-        this.element!.classList.add(chatListStyles.wrapper);
+    super(props);
+    this.element!.classList.add(chatListStyles.wrapper);
   }
 
   protected editPropsBeforeMakeThemProxy(props: ChatListProps) {
     props.styles = chatListStyles;
   }
 
-  protected init() {
-    this._addAvatar();
+  protected render() {
+    this._addItemsList();
     this._addButton();
     this._addSearchInput();
-    this._addItemsList();
     this._addChatUser();
-  }
-
-  protected render() {
     return this.compile(template, this.props);
   }
 
   private _addChatUser() {
     this.children.chatUser = new ChatUser({
-      avatar: new Avatar({
-        src: this.props.profile.avatarSrc,
-        size: '2em',
-        alt: this.props.profile.login,
-        title: this.props.profile.login,
-      }),
-      login: this.props.profile.login,
       events: {
         click: () => {
-          PageNavigator.renderProfilePage();
+          Router.go(Routes.Profile);
         },
       },
-    });
-  }
-
-  private _addAvatar() {
-    this.children.avatar = new Avatar({
-      src: this.props.profile.avatarSrc,
-      size: '2em',
-      alt: this.props.profile.login,
-      title: this.props.profile.login,
     });
   }
 
@@ -76,9 +56,79 @@ export class ChatList extends Block {
       size: '1.5em',
       icon: this.props.addChatIconSrc,
     });
-        this.children.addButton.element!.addEventListener('click', () => {
-          console.log('Нажата кнопка добавления нового чата');
-        });
+    this._addChatForm();
+
+    (this.children.addButton as Icon).element!
+      .addEventListener('click', (event: MouseEvent) => {
+        makeDropdown(
+          this.children.dropdownForm as Form<Record<string, unknown>>,
+          event.target as HTMLElement,
+        );
+      });
+  }
+
+  private _addChatForm() {
+    this.children.addForm = new Form({
+      action: '',
+      method: '',
+      title: '',
+      inputs: [
+        new Input({
+          title: 'Название чата',
+          type: InputTypes.text,
+          name: 'name',
+          value: '',
+          placeholder: 'Название чата',
+          isRounded: true,
+          isLight: true,
+          displayBlock: true,
+          iconSrc: null,
+        }),
+        new Input({
+          title: 'Аватар',
+          type: InputTypes.file,
+          name: 'avatar',
+          value: this.props.login,
+          placeholder: 'Аватар',
+          isRounded: false,
+          isLight: false,
+          displayBlock: true,
+          iconSrc: null,
+        }),
+      ],
+      buttons: [
+        new Button({
+          text: 'Создать',
+          events: {
+            click: async (event) => {
+              event.stopPropagation();
+              event.preventDefault();
+              const formData = (this.children.addForm as Form<UserChangeable>).getFormData();
+              closeDropdown(this.children.dropdownForm as Form<UserChangeable>);
+              if (formData) {
+                const name = formData.get('name');
+                if (name) {
+                  await ChatsController.create(name.toString())
+                    .then(async (chatId) => {
+                      if (chatId && (formData.get('avatar') as File).name !== '') {
+                        await ChatsController.changAvatar(chatId, formData);
+                      }
+                    });
+                }
+              }
+            },
+          },
+          isTransparent: false,
+          isBordered: false,
+          isWhite: false,
+          displayBlock: true,
+        }),
+      ],
+      compact: true,
+    });
+    this.children.dropdownForm = new Dropdown({
+      items: [this.children.addForm],
+    });
   }
 
   private _addSearchInput() {
@@ -96,40 +146,14 @@ export class ChatList extends Block {
   }
 
   private _addItemsList() {
-    const itemsList: ChatItem[] = [];
-    this._testItemsData().forEach((element: ChatItemProps) => {
+    const itemsList = [];
+    for (const element of Object.values(this.props.chatList as ChatsData)) {
+      element.isSelected = element.id === this.props.selected;
       itemsList.push(new ChatItem(element));
-    });
+    }
     this.children.chatItemsList = itemsList;
   }
-
-  private _testItemsData():ChatItemProps[] {
-    const itemsData: ChatItemProps[] = [];
-    let notRead = 0;
-    for (let i = 1; i <= 20; i++) {
-      const min = Math.ceil(-80);
-      const max = Math.floor(80);
-      notRead = Math.floor(Math.random() * (max - min + 1)) + min;
-
-      let imageSrc = '';
-      if (i < 10) {
-        imageSrc = `/upload/img/cat_0${i}.jpg`;
-      } else {
-        imageSrc = `/upload/img/cat_${i}.jpg`;
-      }
-      itemsData.push({
-        chatId: `${i}`,
-        imageSrc,
-        name: `Чат с номером ${i}`,
-        message: {
-          text: 'Случайный текст для проверки отображение его в списке чатов. '
-                        + 'Случайный текст для проверки отображение его в списке чатов.',
-          dateTime: '20:43',
-        },
-        notRead: notRead > 0 ? notRead : 0,
-        selected: false,
-      });
-    }
-    return itemsData;
-  }
 }
+
+const withChats = withStore((state) => ({ ...state.chats }));
+export const ChatList = withChats(ChatListBase);

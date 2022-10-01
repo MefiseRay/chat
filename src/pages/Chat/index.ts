@@ -7,14 +7,13 @@ import menuIcon from '../../../static/icon/more-vert.svg';
 import attachFileIcon from '../../../static/icon/attach.svg';
 import sendIcon from '../../../static/icon/send.svg';
 
-export class ChatPage extends Block {
-  constructor(props: Record<string, unknown>) {
-    super('div', props);
+export class ChatPage extends Block<Record<string, unknown>> {
+  constructor() {
+    super({});
   }
 
-  protected init() {
+  protected async init() {
     this.children.chat = new Chat({
-      userId: '1234567890',
       addChatIconSrc: addChatIcon,
       searchIconSrc: searchIcon,
       menuIconSrc: menuIcon,

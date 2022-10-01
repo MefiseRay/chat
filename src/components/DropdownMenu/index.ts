@@ -4,19 +4,19 @@ import { Button } from '../Button';
 
 import * as dropdownMenuStyles from './dropdownMenu.module.scss';
 
-interface DropdownMenuItemsProps {
+export interface DropdownMenuItemsProps {
   text: string,
   click: () => void,
 }
 
-interface DropdownMenuProps {
-    items: DropdownMenuItemsProps[],
-    styles?: Record<string, unknown>
+export interface DropdownMenuProps {
+  items: DropdownMenuItemsProps[],
+  styles?: Record<string, unknown>
 }
 
-export class DropdownMenu extends Block {
+export class DropdownMenu extends Block<DropdownMenuProps> {
   constructor(props: DropdownMenuProps) {
-    super('div', props);
+    super(props);
     this.element!.classList.add(dropdownMenuStyles.dropdown);
   }
 

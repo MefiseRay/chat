@@ -1,9 +1,7 @@
-type TListener = (...args: unknown[]) => void;
-
 export class EventBus {
-  private readonly listeners: Record<string, Array<(...args: TListener[]) => void>> = {};
+  private readonly listeners: Record<string, Array<(...args: any[]) => void>> = {};
 
-  public on(event: string, callback: (...args: TListener[]) => void): void {
+  public on(event: string, callback: (...args: any[]) => void): void {
     if (!this.listeners[event]) {
       this.listeners[event] = [];
     }
@@ -19,9 +17,9 @@ export class EventBus {
     );
   }
 
-  public emit(event: string, ...args: TListener[]) {
+  public emit(event: string, ...args: any[]) {
     if (!this.listeners[event]) {
-      throw new Event(`Нет события: ${event}`);
+      return;
     }
     this.listeners[event].forEach((listener) => {
       listener(...args);

@@ -3,24 +3,22 @@ import template from './chatItem.pug';
 
 import * as chatItemStyles from './chatItem.module.scss';
 import { Avatar } from '../../../../components/Avatar';
+import { ChatData } from '../../../../api/ChatsAPI';
+import ChatsController from '../../../../controllers/ChatsController';
 
-export interface ChatItemProps {
-    chatId: string,
-    imageSrc: string,
-    name: string,
-    message: {
-        text: string,
-        dateTime: string,
-    },
-    notRead: number,
-    selected: boolean,
-    styles?: Record<string, unknown>
+export interface ChatItemProps extends ChatData {
+  styles?: Record<string, unknown>
+  isSelected: boolean;
 }
 
-export class ChatItem extends Block {
+export class ChatItem extends Block<ChatItemProps> {
   constructor(props: ChatItemProps) {
-    super('div', props);
-        this.element!.classList.add(chatItemStyles.item);
+    super(props);
+    this.element!.classList.add(chatItemStyles.item);
+    this.element!.click();
+    this.element!.addEventListener('click', async () => {
+      await ChatsController.select(this.props.id);
+    });
   }
 
   protected editPropsBeforeMakeThemProxy(props: ChatItemProps) {
@@ -29,33 +27,21 @@ export class ChatItem extends Block {
 
   protected init() {
     this.children.image = new Avatar({
-      src: this.props.imageSrc,
+      src: this.props.avatar,
       size: '3em',
       alt: this.props.name,
       title: this.props.name,
     });
-        this.children.image.getContent()!.style.padding = '1px';
-        this.children.image.getContent()!.style.boxShadow = 'none';
+    this.children.image.getContent()!.style.padding = '1px';
+    this.children.image.getContent()!.style.boxShadow = 'none';
   }
 
   protected render() {
-    if (this.props.selected) {
-            this.element!.classList.add(chatItemStyles.active);
+    if (this.props.isSelected) {
+      this.element!.classList.add(chatItemStyles.active);
     } else {
-            this.element!.classList.remove(chatItemStyles.active);
+      this.element!.classList.remove(chatItemStyles.active);
     }
     return this.compile(template, this.props);
-  }
-
-  public isSelected() {
-    return this.props.selected;
-  }
-
-  public removeSelection() {
-    this.props.selected = false;
-  }
-
-  public select() {
-    this.props.selected = true;
   }
 }

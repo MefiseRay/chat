@@ -6,35 +6,37 @@ import { DropdownMenu } from '../../components/DropdownMenu';
 import { Button } from '../../components/Button';
 import { MenuButton } from '../../components/MenuButton';
 import * as profileStyles from './profile.module.scss';
-import { PageNavigator } from '../../utils/PageNavigator';
 import { Form } from '../Form';
 import { Input, InputTypes } from '../../components/Input';
 import ValidationHelper from '../../utils/ValidationHelper';
+import Router from '../../utils/Router';
+import { Routes } from '../../index';
+import AuthController from '../../controllers/AuthController';
+import UsersController from '../../controllers/UsersController';
+import { withStore } from '../../utils/Store';
+import { ChangePasswordForm, UserChangeable } from '../../api/UsersAPI';
+import ChatsController from '../../controllers/ChatsController';
+import { SearchUser } from '../../components/SearchUser';
 
 interface ProfileProps {
-    avatarSrc: string,
-    login: string,
-    firstName: string,
-    secondName: string,
-    email: string,
-    phone: string,
-    renderStatus: string,
-    logoutSvg: string,
-    backSvg: string,
-    menuSvg: string,
-    styles?: Record<string, unknown>
+  renderStatus: string,
+  logoutSvg: string,
+  backSvg: string,
+  menuSvg: string,
+  styles?: Record<string, unknown>
 }
 
-export class Profile extends Block {
+class ProfileBase extends Block<ProfileProps> {
   static RENDER_STATUSES = {
     SHOW: 'show',
     CHANGE_DATA: 'changeData',
     CHANGE_PASSWORD: 'changePassword',
+    CHANGE_AVATAR: 'changeAvatar',
   };
 
   constructor(props: ProfileProps) {
-    super('div', props);
-        this.element!.classList.add(profileStyles.profile);
+    super(props);
+    this.element!.classList.add(profileStyles.profile);
   }
 
   protected editPropsBeforeMakeThemProxy(props: ProfileProps) {
@@ -48,10 +50,12 @@ export class Profile extends Block {
     this._addMenu();
     this._addChangeDataForm();
     this._addChangePasswordForm();
+    this._addChangeAvatarForm();
+    this._searchUser();
   }
 
   private _addChangeDataForm() {
-    this.children.changeDataForm = new Form({
+    this.children.changeDataForm = new Form<UserChangeable>({
       action: '',
       method: '',
       title: '',
@@ -69,7 +73,7 @@ export class Profile extends Block {
           validation: {
             required: true,
             trim: true,
-            callback: (value: string, required?:boolean, trim?:boolean) => ValidationHelper
+            callback: (value: string, required?: boolean, trim?: boolean) => ValidationHelper
               .loginValidation(value, required, trim),
           },
         }),
@@ -77,7 +81,7 @@ export class Profile extends Block {
           title: 'Имя',
           type: InputTypes.text,
           name: 'first_name',
-          value: this.props.firstName,
+          value: this.props.first_name,
           placeholder: 'Имя',
           isRounded: false,
           isLight: false,
@@ -86,7 +90,7 @@ export class Profile extends Block {
           validation: {
             required: true,
             trim: true,
-            callback: (value: string, required?:boolean, trim?:boolean) => ValidationHelper
+            callback: (value: string, required?: boolean, trim?: boolean) => ValidationHelper
               .nameValidation(value, required, trim),
           },
         }),
@@ -94,7 +98,7 @@ export class Profile extends Block {
           title: 'Фамилия',
           type: InputTypes.text,
           name: 'second_name',
-          value: this.props.secondName,
+          value: this.props.second_name,
           placeholder: 'Фамилия',
           isRounded: false,
           isLight: false,
@@ -103,7 +107,7 @@ export class Profile extends Block {
           validation: {
             required: true,
             trim: true,
-            callback: (value: string, required?:boolean, trim?:boolean) => ValidationHelper
+            callback: (value: string, required?: boolean, trim?: boolean) => ValidationHelper
               .secondNameValidation(value, required, trim),
           },
         }),
@@ -120,7 +124,7 @@ export class Profile extends Block {
           validation: {
             required: true,
             trim: true,
-            callback: (value: string, required?:boolean, trim?:boolean) => ValidationHelper
+            callback: (value: string, required?: boolean, trim?: boolean) => ValidationHelper
               .emailValidation(value, required, trim),
           },
         }),
@@ -137,7 +141,7 @@ export class Profile extends Block {
           validation: {
             required: true,
             trim: true,
-            callback: (value: string, required?:boolean, trim?:boolean) => ValidationHelper
+            callback: (value: string, required?: boolean, trim?: boolean) => ValidationHelper
               .phoneValidation(value, required, trim),
           },
         }),
@@ -146,13 +150,17 @@ export class Profile extends Block {
         new Button({
           text: 'Сохранить',
           events: {
-            click: (event) => {
+            click: async (event) => {
               event.stopPropagation();
               event.preventDefault();
-              const { validate, formData } = (this.children.changeDataForm as Form).checkValidate();
+              const { validate, formData } = (
+                this.children.changeDataForm as Form<UserChangeable>
+              ).checkValidate();
               if (validate) {
-                console.log(formData);
-                this._changeRenderStatus(Profile.RENDER_STATUSES.SHOW);
+                formData.display_name = `${formData.first_name} ${formData.second_name}`;
+                await UsersController.updateProfile(formData);
+                await AuthController.fetchUser();
+                this._changeRenderStatus(ProfileBase.RENDER_STATUSES.SHOW);
               }
             },
           },
@@ -166,7 +174,7 @@ export class Profile extends Block {
   }
 
   private _addChangePasswordForm() {
-    this.children.changePasswordForm = new Form({
+    this.children.changePasswordForm = new Form<ChangePasswordForm>({
       action: '',
       method: '',
       title: '',
@@ -174,7 +182,7 @@ export class Profile extends Block {
         new Input({
           title: 'Пароль',
           type: InputTypes.password,
-          name: 'old_password',
+          name: 'oldPassword',
           value: '',
           placeholder: 'Текущий пароль',
           isRounded: false,
@@ -184,14 +192,14 @@ export class Profile extends Block {
           validation: {
             required: true,
             trim: true,
-            callback: (value: string, required?:boolean, trim?:boolean) => ValidationHelper
+            callback: (value: string, required?: boolean, trim?: boolean) => ValidationHelper
               .passwordValidation(value, required, trim),
           },
         }),
         new Input({
           title: 'Пароль',
           type: InputTypes.password,
-          name: 'password',
+          name: 'newPassword',
           value: '',
           placeholder: 'Новый пароль',
           isRounded: false,
@@ -201,14 +209,14 @@ export class Profile extends Block {
           validation: {
             required: true,
             trim: true,
-            callback: (value: string, required?:boolean, trim?:boolean) => ValidationHelper
+            callback: (value: string, required?: boolean, trim?: boolean) => ValidationHelper
               .passwordValidation(value, required, trim),
           },
         }),
         new Input({
           title: 'Пароль (еще раз)',
           type: InputTypes.password,
-          name: 'password_confirmation',
+          name: 'newPasswordConfirmation',
           value: '',
           placeholder: 'Новый пароль (еще раз)',
           isRounded: false,
@@ -218,7 +226,7 @@ export class Profile extends Block {
           validation: {
             required: true,
             trim: true,
-            callback: (value: string, required?:boolean, trim?:boolean) => ValidationHelper
+            callback: (value: string, required?: boolean, trim?: boolean) => ValidationHelper
               .passwordValidation(value, required, trim),
           },
         }),
@@ -227,16 +235,61 @@ export class Profile extends Block {
         new Button({
           text: 'Сохранить',
           events: {
-            click: (event) => {
+            click: async (event) => {
               event.stopPropagation();
               event.preventDefault();
               const {
                 validate,
                 formData,
-              } = (this.children.changePasswordForm as Form).checkValidate();
-              if (validate) {
-                console.log(formData);
-                this._changeRenderStatus(Profile.RENDER_STATUSES.SHOW);
+              } = (this.children.changePasswordForm as Form<ChangePasswordForm>).checkValidate();
+              if (validate && formData.newPassword === formData.newPasswordConfirmation) {
+                await UsersController.changePassword(formData);
+                this._changeRenderStatus(ProfileBase.RENDER_STATUSES.SHOW);
+              }
+            },
+          },
+          isTransparent: false,
+          isBordered: false,
+          isWhite: false,
+          displayBlock: true,
+        }),
+      ],
+    });
+  }
+
+  private _addChangeAvatarForm() {
+    this.children.changeAvatarForm = new Form<Record<string, any>>({
+      action: '',
+      method: '',
+      title: '',
+      inputs: [
+        new Input({
+          title: 'Аватарка',
+          type: InputTypes.file,
+          name: 'avatar',
+          value: '',
+          placeholder: 'Аватарка',
+          isRounded: false,
+          isLight: false,
+          displayBlock: true,
+          iconSrc: null,
+        }),
+      ],
+      buttons: [
+        new Button({
+          text: 'Сохранить',
+          events: {
+            click: async (event) => {
+              event.stopPropagation();
+              event.preventDefault();
+              const formData = (
+                this.children.changeAvatarForm as Form<Record<string, any>>
+              ).getFormData();
+              if (formData) {
+                await UsersController.changAvatar(formData);
+                await AuthController.fetchUser();
+                (this.children.avatarBlock as Avatar).changeAvatar(this.props.avatar);
+                this._changeRenderStatus(ProfileBase.RENDER_STATUSES.SHOW);
               }
             },
           },
@@ -259,11 +312,15 @@ export class Profile extends Block {
         items: [
           {
             text: 'Изменить даныне',
-            click: () => this._changeRenderStatus(Profile.RENDER_STATUSES.CHANGE_DATA),
+            click: () => this._changeRenderStatus(ProfileBase.RENDER_STATUSES.CHANGE_DATA),
           },
           {
             text: 'Изменить пароль',
-            click: () => this._changeRenderStatus(Profile.RENDER_STATUSES.CHANGE_PASSWORD),
+            click: () => this._changeRenderStatus(ProfileBase.RENDER_STATUSES.CHANGE_PASSWORD),
+          },
+          {
+            text: 'Изменить аватар',
+            click: () => this._changeRenderStatus(ProfileBase.RENDER_STATUSES.CHANGE_AVATAR),
           },
         ],
       }),
@@ -273,8 +330,8 @@ export class Profile extends Block {
   }
 
   private _addAvatar() {
-    this.children.avatar = new Avatar({
-      src: this.props.avatarSrc,
+    this.children.avatarBlock = new Avatar({
+      src: this.props.avatar,
       size: '6em',
       alt: this.props.login,
       title: this.props.login,
@@ -286,11 +343,14 @@ export class Profile extends Block {
       size: '3em',
       icon: this.props.logoutSvg,
     });
-        this.children.logoutIcon.element!.addEventListener(
-          'click',
-          () => PageNavigator.renderAuthorizationPage(),
-        );
-        this.children.logoutIcon.element!.classList.add(profileStyles['button-icon']);
+    this.children.logoutIcon.element!.addEventListener(
+      'click',
+      async () => {
+        await AuthController.logout();
+        Router.go(Routes.Index);
+      },
+    );
+    this.children.logoutIcon.element!.classList.add(profileStyles['button-icon']);
   }
 
   private _addBackButton() {
@@ -298,31 +358,37 @@ export class Profile extends Block {
       size: '2em',
       icon: this.props.backSvg,
     });
-        this.children.backIcon.element!.addEventListener('click', () => {
-          if (this.props.renderStatus === 'show') {
-            PageNavigator.renderChatPage();
-          } else {
-            this._changeRenderStatus(Profile.RENDER_STATUSES.SHOW);
-          }
-        });
-        this.children.backIcon.element!.classList.add(profileStyles['button-icon']);
+    this.children.backIcon.element!.addEventListener('click', async () => {
+      if (this.props.renderStatus === 'show') {
+        await ChatsController.get();
+        Router.go(Routes.Chat);
+      } else {
+        this._changeRenderStatus(ProfileBase.RENDER_STATUSES.SHOW);
+      }
+    });
+    this.children.backIcon.element!.classList.add(profileStyles['button-icon']);
   }
 
   private _changeRenderStatus(renderStatus: string) {
     const menuButton = this.children.menuButton as MenuButton;
     switch (renderStatus) {
-      case Profile.RENDER_STATUSES.CHANGE_DATA:
-        this.props.renderStatus = Profile.RENDER_STATUSES.CHANGE_DATA;
+      case ProfileBase.RENDER_STATUSES.CHANGE_DATA:
+        this.props.renderStatus = ProfileBase.RENDER_STATUSES.CHANGE_DATA;
         menuButton.removeMenu();
         menuButton.hide();
         break;
-      case Profile.RENDER_STATUSES.CHANGE_PASSWORD:
-        this.props.renderStatus = Profile.RENDER_STATUSES.CHANGE_PASSWORD;
+      case ProfileBase.RENDER_STATUSES.CHANGE_PASSWORD:
+        this.props.renderStatus = ProfileBase.RENDER_STATUSES.CHANGE_PASSWORD;
+        menuButton.removeMenu();
+        menuButton.hide();
+        break;
+      case ProfileBase.RENDER_STATUSES.CHANGE_AVATAR:
+        this.props.renderStatus = ProfileBase.RENDER_STATUSES.CHANGE_AVATAR;
         menuButton.removeMenu();
         menuButton.hide();
         break;
       default:
-        this.props.renderStatus = Profile.RENDER_STATUSES.SHOW;
+        this.props.renderStatus = ProfileBase.RENDER_STATUSES.SHOW;
         menuButton.show();
         break;
     }
@@ -331,4 +397,11 @@ export class Profile extends Block {
   protected render() {
     return this.compile(template, this.props);
   }
+
+  private _searchUser() {
+    this.children.searchUser = new SearchUser();
+  }
 }
+
+const withUser = withStore((state) => ({ ...state.user }));
+export const Profile = withUser(ProfileBase);

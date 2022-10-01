@@ -5,6 +5,7 @@
   "rules": {
     "value-no-vendor-prefix": null,
     "selector-no-vendor-prefix": null,
-    "no-descending-specificity": null
+    "no-descending-specificity": null,
+    "declaration-block-no-redundant-longhand-properties": null
   }
 }

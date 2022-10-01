@@ -17,7 +17,8 @@ export enum InputTypes {
   time = 'time',
   url = 'url',
   week = 'week',
-  datetime = 'datetime'
+  datetime = 'datetime',
+  file = 'file'
 }
 
 interface InputProps {
@@ -33,26 +34,26 @@ interface InputProps {
   validation?: {
     required?: boolean,
     trim?: boolean,
-    callback: (value: string, required?:boolean, trim?:boolean) => ValidationResult
+    callback: (value: string, required?: boolean, trim?: boolean) => ValidationResult
   },
   styles?: Record<string, unknown>
 }
 
-export class Input extends Block {
+export class Input extends Block<InputProps> {
   private _input: HTMLInputElement | undefined;
 
   private _message: Element | undefined;
 
   constructor(props: InputProps) {
-    super('div', props);
-        this.element!.classList.add(inputStyles.input);
-        if (props.isRounded) {
-            this.element!.classList.add(inputStyles.rounded);
-            if (props.isLight) this.element!.classList.add(inputStyles.light);
-        }
-        if (props.displayBlock) {
-            this.element!.classList.add(inputStyles.block);
-        }
+    super(props);
+    this.element!.classList.add(inputStyles.input);
+    if (props.isRounded) {
+      this.element!.classList.add(inputStyles.rounded);
+      if (props.isLight) this.element!.classList.add(inputStyles.light);
+    }
+    if (props.displayBlock) {
+      this.element!.classList.add(inputStyles.block);
+    }
   }
 
   protected editPropsBeforeMakeThemProxy(props: InputProps) {
@@ -105,7 +106,7 @@ export class Input extends Block {
     return validationResult;
   }
 
-  public getValidationResult():ValidationResult {
+  public getValidationResult(): ValidationResult {
     if (!this.props.validation) {
       throw new Error('This input does not have a validator');
     }
@@ -130,5 +131,14 @@ export class Input extends Block {
       this._message = refElementsCollection.getElement(this.id, 'message');
     }
     return this._message;
+  }
+
+  public getValue() {
+    const { value } = this.getInput();
+    return value;
+  }
+
+  public clearValue() {
+    this.getInput().value = '';
   }
 }

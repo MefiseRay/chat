@@ -6,8 +6,14 @@ export enum Method {
   Delete = 'Delete'
 }
 
+export enum ContentType {
+  Json = 'application/json',
+  FormData = 'multipart/form-data'
+}
+
 type Options = {
   method: Method;
+  type: ContentType;
   data?: any;
 };
 
@@ -20,42 +26,75 @@ export default class HTTPTransport {
     this.endpoint = `${HTTPTransport.API_URL}${endpoint}`;
   }
 
-  public get<Response>(path = '/'): Promise<Response> {
-    return this.request<Response>(this.endpoint + path);
+  public get<Response>(
+    path = '/',
+    data?: unknown,
+    type:ContentType = ContentType.Json,
+  ): Promise<Response> {
+    return this.request<Response>(this.endpoint + path, {
+      method: Method.Get,
+      data,
+      type,
+    });
   }
 
-  public post<Response = void>(path: string, data?: unknown): Promise<Response> {
+  public post<Response = void>(
+    path: string,
+    data?: unknown,
+    type:ContentType = ContentType.Json,
+  ): Promise<Response> {
     return this.request<Response>(this.endpoint + path, {
       method: Method.Post,
       data,
+      type,
     });
   }
 
-  public put<Response = void>(path: string, data: unknown): Promise<Response> {
+  public put<Response = void>(
+    path: string,
+    data: unknown,
+    type:ContentType = ContentType.Json,
+  ): Promise<Response> {
     return this.request<Response>(this.endpoint + path, {
       method: Method.Put,
       data,
+      type,
     });
   }
 
-  public patch<Response = void>(path: string, data: unknown): Promise<Response> {
+  public patch<Response = void>(
+    path: string,
+    data: unknown,
+    type:ContentType = ContentType.Json,
+  ): Promise<Response> {
     return this.request<Response>(this.endpoint + path, {
       method: Method.Patch,
       data,
+      type,
     });
   }
 
-  public delete<Response>(path: string): Promise<Response> {
+  public delete<Response>(
+    path: string,
+    data?: unknown,
+    type:ContentType = ContentType.Json,
+  ): Promise<Response> {
     return this.request<Response>(this.endpoint + path, {
       method: Method.Delete,
+      data,
+      type,
     });
+  }
+
+  public static getFile(path: string):string {
+    return `${HTTPTransport.API_URL}/resources${path}`;
   }
 
   private request<Response>(
     url: string,
-    options: Options = { method: Method.Get },
+    options: Options = { method: Method.Get, type: ContentType.Json },
   ): Promise<Response> {
-    const { method, data } = options;
+    const { method, data, type } = options;
     return new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();
       xhr.open(method, url);
@@ -71,13 +110,17 @@ export default class HTTPTransport {
       xhr.onabort = () => reject({ reason: 'abort' });
       xhr.onerror = () => reject({ reason: 'network error' });
       xhr.ontimeout = () => reject({ reason: 'timeout' });
-      xhr.setRequestHeader('Content-Type', 'application/json');
+      if (type !== ContentType.FormData) {
+        xhr.setRequestHeader('Content-Type', type);
+      }
       xhr.withCredentials = true;
       xhr.responseType = 'json';
       if (method === Method.Get || !data) {
         xhr.send();
-      } else {
+      } else if (type === ContentType.Json) {
         xhr.send(JSON.stringify(data));
+      } else {
+        xhr.send(data);
       }
     });
   }

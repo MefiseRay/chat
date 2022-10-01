@@ -8,20 +8,23 @@ div(class=styles.head)
     div(class=styles.left)
         | !{backIcon}
     div(class=styles.avatar)
-        | !{avatar}
+        | !{avatarBlock}
         div(class=styles.login) #{login}
     div(class=styles.right)
         | !{menuButton}
 div(class=styles.body)
     case renderStatus
         when "show"
-            +infoList("ФИО", `${firstName} ${secondName}`)
+            +infoList("ФИО", `${first_name} ${second_name}`)
             +infoList("Почта", email)
             +infoList("Телефон", phone)
+            | !{searchUser}
         when "changePassword"
             | !{changePasswordForm}
         when "changeData"
             | !{changeDataForm}
+        when "changeAvatar"
+            | !{changeAvatarForm}
 
 div(class=styles.footer)
     | !{logoutIcon}

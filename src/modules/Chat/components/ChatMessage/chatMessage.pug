@@ -1,13 +1,14 @@
 div(class=styles.user)
-    | #{profile.login}
-if messageText
-    div(class=styles.text)
-        | #{messageText}
-if messageImage
+    | #{author.login}
+if message.file
     div(class=styles.image)
-        img(src=messageImage)
+        img(src=message.file.path)
+else if message.content
+    div(class=styles.text)
+        | #{message.id} -
+        | #{message.content}
 div(class=styles.info)
     if icon
         | !{icon}
     time(class=styles.time)
-        | #{time}
+        | #{message.time}

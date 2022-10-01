@@ -1,0 +1,41 @@
+@use "/src/_variables";
+
+.wrapper {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: start;
+  justify-content: center;
+  padding: variables.$padding-5;
+
+  .profile {
+    background: variables.$color-white;
+    box-shadow: variables.$shadow;
+    border-radius: variables.$border-radius;
+    padding: variables.$padding-3 variables.$padding-4;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    gap: variables.$padding-2;
+
+    .name {
+      text-align: center;
+      color: variables.$color-main;
+      font-size: variables.$font-size-big;
+      font-weight: variables.$font-weight-bold;
+      padding-top: variables.$padding-1;
+    }
+
+    .user-list {
+      display: flex;
+      align-content: start;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      flex-direction: row;
+      gap: variables.$padding-0-5;
+      max-width: 550px;
+    }
+  }
+}

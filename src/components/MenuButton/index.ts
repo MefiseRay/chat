@@ -4,6 +4,7 @@ import { Icon } from '../Icon';
 import { DropdownMenu } from '../DropdownMenu';
 
 import * as menuButtonStyles from './menuButton.module.scss';
+import { closeDropdown, makeDropdown } from '../../utils/Helpers';
 
 interface MenuButtonProps {
   icon: Icon,
@@ -13,9 +14,9 @@ interface MenuButtonProps {
   styles?: Record<string, unknown>
 }
 
-export class MenuButton extends Block {
+export class MenuButton extends Block<MenuButtonProps> {
   constructor(props: MenuButtonProps) {
-    super('div', props);
+    super(props);
     this.element!.classList.add(menuButtonStyles.wrapper);
   }
 
@@ -24,51 +25,20 @@ export class MenuButton extends Block {
   }
 
   protected init() {
-    const menu = this.children.menu as DropdownMenu;
-    const icon = this.children.icon as Icon;
-    icon.element!.addEventListener('click', (event: MouseEvent) => {
-      document.body.append(menu.getContent()!);
-      menu.dispatchComponentDidMount();
-      const target = event.target as HTMLElement;
-      const sourceElRect = target.getBoundingClientRect();
-      const elRect = menu.element!.getBoundingClientRect();
+    (this.children.icon as Icon).element!.addEventListener('click', (event: MouseEvent) => {
       const { horizontalShift } = this.props;
       const { verticalShift } = this.props;
-
-      if (icon.element) {
-        let top = sourceElRect.bottom + verticalShift;
-        let left = sourceElRect.left + horizontalShift;
-
-        if (top + elRect.height > document.documentElement.clientHeight) {
-          top = sourceElRect.top - elRect.height - verticalShift;
-        }
-
-        if (left + elRect.width > document.documentElement.clientWidth) {
-          left = sourceElRect.left - elRect.width - horizontalShift;
-        }
-
-        menu.element!.style.top = `${top}px`;
-        menu.element!.style.left = `${left}px`;
-      }
-    });
-    document.addEventListener('scroll', () => {
-      menu.element!.remove();
-    });
-    document.addEventListener('click', (event: MouseEvent) => {
-      if (event.target) {
-        if (
-          !menu.element!.contains(event.target as HTMLElement)
-          && !icon.element!.contains(event.target as HTMLElement)
-        ) {
-          menu.element!.remove();
-        }
-      }
+      makeDropdown(
+        this.children.menu as DropdownMenu,
+        event.target as HTMLElement,
+        horizontalShift,
+        verticalShift,
+      );
     });
   }
 
   public removeMenu() {
-    const menu = this.children.menu as DropdownMenu;
-    menu.element!.remove();
+    closeDropdown(this.children.menu as DropdownMenu);
   }
 
   protected render() {

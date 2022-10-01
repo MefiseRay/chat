@@ -6,87 +6,86 @@ import { Icon } from '../../../../components/Icon';
 import { Input, InputTypes } from '../../../../components/Input';
 import { MenuButton } from '../../../../components/MenuButton';
 import { DropdownMenu } from '../../../../components/DropdownMenu';
-import { ChatMessagesBlock, ChatMessagesBlockProps } from '../ChatMessagesBlock';
+import { withStore } from '../../../../utils/Store';
+import ChatsController from '../../../../controllers/ChatsController';
+import { closeDropdown, makeDropdown } from '../../../../utils/Helpers';
+import { ChatProfile } from '../ChatProfile';
+import { ChatMessagesBlock } from '../ChatMessagesBlock';
+import { Form } from '../../../Form';
+import { Button } from '../../../../components/Button';
+import { UserChangeable } from '../../../../api/UsersAPI';
+import { Dropdown } from '../../../../components/Dropdown';
 
 export interface ChatMessagesProps {
-    chatId: string,
-    profile: {
-        id: string,
-        avatarSrc: string,
-        login: string,
-        firstName: string,
-        secondName: string,
-        email: string,
-        phone: string,
-    }
-    menuIconSrc: string,
-    attachFileIconSrc: string,
-    sendIconSrc: string,
-    chatData?: Record<string, unknown>,
-    styles?: Record<string, unknown>
+  menuIconSrc: string,
+  attachFileIconSrc: string,
+  sendIconSrc: string,
+  styles?: Record<string, unknown>
 }
 
-export class ChatMessages extends Block {
+export class ChatMessagesBase extends Block<ChatMessagesProps> {
   constructor(props: ChatMessagesProps) {
-    super('div', props);
-        this.element!.classList.add(chatMessagesStyles.chat);
+    super(props);
+    this.element!.classList.add(chatMessagesStyles.chat);
   }
 
-  protected editPropsBeforeMakeThemProxy(props: ChatMessagesProps) {
-    props.chatData = this._getChatData(props.chatId, props.profile.id);
+  protected editPropsBeforeMakeThemProxy(props: Record<string, unknown>) {
     props.styles = chatMessagesStyles;
   }
 
   protected init() {
-    this._addChatImage();
-    this._addChatMenu();
-    this._addAttachFile();
-    this._addMessageInput();
-    this._addSendButton();
     this._addMessageBlocks();
   }
 
   protected render() {
+    if (this.props.openProfile) {
+      this._addChatProfileBlocks();
+    } else if (this.props.selected) {
+      this._addChatImage();
+      this._addChatMenu();
+      this._addChatForm();
+      this._addAttachFile();
+      this._addMessageInput();
+      this._addSendButton();
+      this._addSendAction();
+    }
     return this.compile(template, this.props);
   }
 
   private _addChatImage() {
     this.children.chatImage = new Avatar({
-      src: this.props.chatData.imageSrc,
+      src: this.props.chatList[this.props.selected].avatar ?? '',
       size: '2em',
-      alt: this.props.chatData.name,
-      title: this.props.chatData.name,
+      alt: this.props.chatList[this.props.selected].title,
+      title: this.props.chatList[this.props.selected].title,
     });
   }
 
   private _addChatMenu() {
+    const menu = new DropdownMenu({
+      items: [
+        {
+          text: 'Изменить',
+          click: () => {
+            ChatsController.openProfile(this.props.selected);
+            closeDropdown(menu);
+          },
+        },
+        {
+          text: 'Покинуть',
+          click: async () => {
+            await ChatsController.delete(this.props.selected);
+            closeDropdown(menu);
+          },
+        },
+      ],
+    });
     this.children.chatMenu = new MenuButton({
       icon: new Icon({
         size: '1.5em',
         icon: this.props.menuIconSrc,
       }),
-      menu: new DropdownMenu({
-        items: [
-          {
-            text: 'Изменить',
-            click: () => {
-              console.log('Выбран пунк меню: Изменить');
-            },
-          },
-          {
-            text: 'Очистить',
-            click: () => {
-              console.log('Выбран пунк меню: Очистить сообщения');
-            },
-          },
-          {
-            text: 'Покинуть',
-            click: () => {
-              console.log('Выбран пунк меню: Удалить чат');
-            },
-          },
-        ],
-      }),
+      menu,
       horizontalShift: -5,
       verticalShift: 5,
     });
@@ -97,6 +96,14 @@ export class ChatMessages extends Block {
       size: '1.5em',
       icon: this.props.attachFileIconSrc,
     });
+    (this.children.attachFile as Icon).element!
+      .addEventListener('click', (event: MouseEvent) => {
+        makeDropdown(
+        this.children.dropdownForm as Form<Record<string, unknown>>,
+        event.target as HTMLElement,
+        );
+      });
+    (this.children.attachFile as Icon).element!.style.cursor = 'pointer';
   }
 
   private _addMessageInput() {
@@ -121,177 +128,86 @@ export class ChatMessages extends Block {
   }
 
   private _addMessageBlocks() {
-    this.children.messageBlocks = [];
-    this.props.chatData.messages.forEach((messageData:ChatMessagesBlockProps) => {
-      (this.children.messageBlocks as ChatMessagesBlock[]).push(new ChatMessagesBlock(messageData));
-    });
+    this.children.messageBlock = new ChatMessagesBlock({});
   }
 
-  private _getChatData(chatId: string, userId: string) {
-    let imageSrc = '';
-    if (chatId.length < 2) {
-      imageSrc = `/upload/img/cat_0${chatId}.jpg`;
-    } else {
-      imageSrc = `/upload/img/cat_${chatId}.jpg`;
+  private _addChatProfileBlocks() {
+    this.children.chatProfile = new ChatProfile({});
+  }
+
+  private _addSendAction() {
+    (this.children.sendButton as Icon).element!.addEventListener('click', () => {
+      this._sendMessage();
+    });
+    (this.children.messageInput as Icon).element!.addEventListener('keyup', (event:KeyboardEvent) => {
+      if (event.code === 'Enter') {
+        this._sendMessage();
+      }
+    });
+    (this.children.sendButton as Icon).element!.style.cursor = 'pointer';
+  }
+
+  private _sendMessage() {
+    const webSocket = ChatsController.getChatWebSocket();
+    if (webSocket) {
+      const value = (this.children.messageInput as Input).getValue();
+      if (value) {
+        webSocket.sendMessage(value);
+        (this.children.messageInput as Input).clearValue();
+      }
     }
-    const profiles = {
-      RayMefise: {
-        id: '1234567890',
-        avatarSrc: '/upload/img/user_avatar.jpg',
-        login: 'RayMefise',
-        firstName: 'Max',
-        secondName: 'Zaitsev',
-        email: 'max.zaitsev@site.ru',
-        phone: '8 (920) 900-10-20',
-      },
-      Misha: {
-        id: '1234567891',
-        avatarSrc: '/upload/img/misha_avatar.jpg',
-        login: 'JustAngel',
-        firstName: 'Misha',
-        secondName: 'Collins',
-        email: 'misha.kolins@site.ru',
-        phone: '8 (920) 800-10-20',
-      },
-      Din: {
-        id: '1234567892',
-        avatarSrc: '/upload/img/din_avatar.jpg',
-        login: 'ToughGuy',
-        firstName: 'Dean',
-        secondName: 'Winchester',
-        email: 'misha.kolins@site.ru',
-        phone: '8 (920) 800-10-20',
-      },
-    };
-    return {
-      chatId,
-      imageSrc,
-      name: `Чат с номером ${chatId}`,
-      messages: [
-        {
-          userId,
-          date: '10.08',
-          massages: [
-            {
-              profile: profiles.Misha,
-              time: '12:40',
-              status: 'isRead',
-              messageImage: '',
-              messageText: 'Приятно, граждане, наблюдать, как диаграммы связей ассоциативно распределены по отраслям.',
-            },
-            {
-              profile: profiles.Misha,
-              time: '13:45',
-              status: 'isRead',
-              messageImage: '',
-              messageText: 'Мы вынуждены отталкиваться от того, что сплочённость команды профессионалов позволяет выполнить важные задания по разработке благоприятных перспектив.',
-            },
-            {
-              profile: profiles.Misha,
-              time: '18:27',
-              status: 'isRead',
-              messageImage: '',
-              messageText: 'Высокий уровень вовлечения представителей целевой аудитории является четким доказательством простого факта: сложившаяся структура организации позволяет выполнить важные задания по разработке поставленных обществом задач.',
-            },
-            {
-              profile: profiles.RayMefise,
-              time: '19:56',
-              status: 'isRead',
-              messageImage: '',
-              messageText: 'Разнообразный и богатый опыт говорит нам, что консультация с широким активом предоставляет широкие возможности для направлений прогрессивного развития.',
-            },
-            {
-              profile: profiles.Misha,
-              time: '18:27',
-              status: 'isRead',
-              messageImage: '',
-              messageText: 'Каждый из нас понимает очевидную вещь: консультация с широким активом является качественно новой ступенью позиций, занимаемых участниками в отношении поставленных задач.',
-            },
-          ],
-        },
-        {
-          userId,
-          date: 'ПТ',
-          massages: [
-            {
-              profile: profiles.Misha,
-              time: '11:22',
-              status: 'isRead',
-              messageImage: '',
-              messageText: 'Смотри на какой машине вчера гонял!',
-            },
-            {
-              profile: profiles.Misha,
-              time: '11:22',
-              status: 'isRead',
-              messageImage: '/upload/img/message_01.jpg',
-              messageText: '',
-            },
-            {
-              profile: profiles.RayMefise,
-              time: '11:24',
-              status: 'isRead',
-              messageImage: '',
-              messageText: 'Это же тачка из вашего сериала?',
-            },
-            {
-              profile: profiles.RayMefise,
-              time: '11:24',
-              status: 'isRead',
-              messageImage: '/upload/img/message_02.jpg',
-              messageText: '',
-            },
-            {
-              profile: profiles.Din,
-              time: '11:30',
-              status: 'isRead',
-              messageImage: '',
-              messageText: 'Миша, ВЕРНИ МАШИНУ! Это реквизит!!!',
-            },
-          ],
-        },
-        {
-          userId,
-          date: 'Сегодня',
-          massages: [
-            {
-              profile: profiles.Misha,
-              time: '10:04',
-              status: 'isRead',
-              messageImage: '',
-              messageText: 'Идейные соображения высшего порядка, а также постоянное информационно-пропагандистское обеспечение нашей деятельности обеспечивает актуальность системы массового участия.',
-            },
-            {
-              profile: profiles.Misha,
-              time: '13:48',
-              status: 'isRead',
-              messageImage: '',
-              messageText: 'Таким образом, курс на социально-ориентированный национальный проект напрямую зависит от поставленных обществом задач.',
-            },
-            {
-              profile: profiles.RayMefise,
-              time: '14:24',
-              status: 'isRead',
-              messageImage: '',
-              messageText: 'А ещё непосредственные участники технического прогресса заблокированы в рамках своих собственных рациональных ограничений.',
-            },
-            {
-              profile: profiles.RayMefise,
-              time: '14:24',
-              status: 'isSend',
-              messageImage: '',
-              messageText: 'Также как высокое качество позиционных исследований предполагает независимые способы реализации новых предложений.',
-            },
-            {
-              profile: profiles.RayMefise,
-              time: '14:24',
-              status: '',
-              messageImage: '',
-              messageText: 'С другой стороны, синтетическое тестирование напрямую зависит от экономической целесообразности принимаемых решений.',
-            },
-          ],
-        },
+  }
+
+  private _addChatForm() {
+    this.children.sendFileForm = new Form({
+      action: '',
+      method: '',
+      title: '',
+      inputs: [
+        new Input({
+          title: 'Файл',
+          type: InputTypes.file,
+          name: 'resource',
+          value: this.props.login,
+          placeholder: 'Файл',
+          isRounded: false,
+          isLight: false,
+          displayBlock: true,
+          iconSrc: null,
+        }),
       ],
-    };
+      buttons: [
+        new Button({
+          text: 'Отправить',
+          events: {
+            click: async (event) => {
+              event.stopPropagation();
+              event.preventDefault();
+              const formData = (this.children.sendFileForm as Form<UserChangeable>).getFormData();
+              closeDropdown(this.children.dropdownForm as Form<UserChangeable>);
+              if (formData) {
+                if ((formData.get('resource') as File).name !== '') {
+                  const webSocket = ChatsController.getChatWebSocket();
+                  if (webSocket) {
+                    await webSocket.sendFile(formData);
+                  }
+                }
+              }
+            },
+          },
+          isTransparent: false,
+          isBordered: false,
+          isWhite: false,
+          displayBlock: true,
+        }),
+      ],
+      compact: true,
+    });
+    this.children.dropdownForm = new Dropdown({
+      items: [this.children.sendFileForm],
+    });
   }
 }
+
+const withChatsAndUser = withStore((state) => ({ ...state.chats, ...state.user }));
+export const ChatMessages = withChatsAndUser(ChatMessagesBase);

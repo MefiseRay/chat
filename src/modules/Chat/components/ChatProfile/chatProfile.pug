@@ -1,0 +1,12 @@
+div(class=styles.profile)
+    div
+        | !{chatImage}
+        div(class=styles.name)
+            | #{chatList[openProfile].title}
+    div(class=styles['user-list'])
+        each user in users
+            | !{user}
+    div
+        | !{searchUser}
+    div
+        | !{backButton}

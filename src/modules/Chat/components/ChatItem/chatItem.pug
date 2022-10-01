@@ -1,9 +1,11 @@
 div(class=styles.image)
     | !{image}
 div(class=styles.main)
-    div(class=styles.name) #{name}
-    div(class=styles.message) #{message.text}
+    div(class=styles.name) #{title} #{id}
+    if last_message !== null
+        div(class=styles.message) #{last_message.content}
 div(class=styles.info)
-    time(class=styles["date-time"]) #{message.dateTime}
-    if notRead > 0
-        div(class=styles["not-read"]) #{notRead}
+    if last_message !== null
+        time(class=styles["date-time"]) #{last_message.time}
+    if unread_count > 0
+        div(class=styles["not-read"]) #{unread_count}

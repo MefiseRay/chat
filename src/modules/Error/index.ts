@@ -3,18 +3,18 @@ import template from './error.pug';
 import * as errorStyles from './error.module.scss';
 import { Button } from '../../components/Button';
 
-interface ErrorPageProps {
-    code: string,
-    text: string,
-    buttonText: string,
-    buttonOnClick: (event: Event) => void,
-    styles?: Record<string, unknown>
+interface ErrorProps {
+  code: string,
+  text: string,
+  buttonText: string,
+  buttonOnClick: (event: Event) => void,
+  styles?: Record<string, unknown>
 }
 
-export class ErrorPage extends Block {
-  constructor(props: ErrorPageProps) {
-    super('div', props);
-        this.element!.classList.add(errorStyles.wrapper);
+export class ErrorPage extends Block<ErrorProps> {
+  constructor(props: ErrorProps) {
+    super(props);
+    this.element!.classList.add(errorStyles.wrapper);
   }
 
   protected init() {
