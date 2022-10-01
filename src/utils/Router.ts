@@ -16,15 +16,18 @@ function render(query: string, block: Block<Record<string, any>>) {
 
 class Route {
   private block: Block<{}> | null = null;
+
   private readonly pathname: string;
+
   private readonly blockClass: typeof Block<{}>;
+
   private readonly query: string;
 
   constructor(
     pathname: string,
     blockClass: typeof Block<{}>,
     query: string,
-    private readonly callback?: () => void
+    private readonly callback?: () => void,
   ) {
     this.pathname = pathname;
     this.blockClass = blockClass;
@@ -40,7 +43,7 @@ class Route {
   }
 
   render() {
-    if(this.callback) {
+    if (this.callback) {
       this.callback();
     }
     if (!this.block) {
@@ -52,7 +55,9 @@ class Route {
 
 class Router {
   private routes: Route[] = [];
+
   private currentRoute: Route | null = null;
+
   private history = window.history;
 
   constructor(private readonly rootQuery: string) {
