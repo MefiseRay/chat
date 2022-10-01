@@ -27,9 +27,6 @@ export class Chat extends Block<ChatProps> {
     props.styles = chatStyles;
   }
 
-  protected async init() {
-  }
-
   protected render() {
     this._initChatList();
     this._initChatMessage();

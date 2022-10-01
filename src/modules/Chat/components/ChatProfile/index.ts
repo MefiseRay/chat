@@ -40,38 +40,43 @@ export class ChatProfileBase extends Block<{}> {
   }
 
   private _addChatImage() {
-    this.children.chatImage = new Avatar({
-      src: this.props.chatList[this.props.openProfile].avatar,
-      size: '8em',
-      alt: this.props.chatList[this.props.openProfile].title,
-      title: this.props.chatList[this.props.openProfile].title,
-    });
-
-    (this.children.chatImage as Avatar).element!.addEventListener('click', (event: MouseEvent) => {
-      makeDropdown(this.children.dropdownForm as Form<Record<string, unknown>>, event.target as HTMLElement);
-    });
-    (this.children.chatImage as Avatar).element!.style.cursor = 'pointer';
+    console.log(this.props.chatList);
+    console.log(this.props.openProfile);
+    if(this.props.openProfile) {
+      this.children.chatImage = new Avatar({
+        src: this.props.chatList[this.props.openProfile].avatar,
+        size: '8em',
+        alt: this.props.chatList[this.props.openProfile].title,
+        title: this.props.chatList[this.props.openProfile].title,
+      });
+      (this.children.chatImage as Avatar).element!.addEventListener('click', (event: MouseEvent) => {
+        makeDropdown(this.children.dropdownForm as Form<Record<string, unknown>>, event.target as HTMLElement);
+      });
+      (this.children.chatImage as Avatar).element!.style.cursor = 'pointer';
+    }
   }
 
   private _addUserList() {
     this.children.users = [];
-    const userList = this.props.chatList[this.props.openProfile].user_list;
-    if(userList && userList.length > 0) {
-      userList.forEach((user:User) => {
-        const userLableProps:UserLableProps = {
-          user
-        };
-        if(this.props.id !== user.id) {
-          userLableProps.icon = new Icon({
-            size: '1em',
-            icon: deleteIcon,
-          });
-          userLableProps.callBack = async () => {
-            await ChatsController.deleteUsers(this.props.openProfile, [user.id.toString()]);
+    if(this.props.openProfile) {
+      const userList = this.props.chatList[this.props.openProfile].user_list;
+      if(userList && userList.length > 0) {
+        userList.forEach((user:User) => {
+          const userLableProps:UserLableProps = {
+            user
+          };
+          if(this.props.id !== user.id) {
+            userLableProps.icon = new Icon({
+              size: '1em',
+              icon: deleteIcon,
+            });
+            userLableProps.callBack = async () => {
+              await ChatsController.deleteUsers(this.props.openProfile, [user.id.toString()]);
+            }
           }
-        }
-        (this.children.users as UserLable[]).push(new UserLable(userLableProps));
-      });
+          (this.children.users as UserLable[]).push(new UserLable(userLableProps));
+        });
+      }
     }
   }
 

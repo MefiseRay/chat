@@ -17,7 +17,6 @@ export class ChatsController {
       let chats: Record<string, ChatData> = {};
       for (const chat of chatList) {
         chat.user_list = await this.api.getUserList(chat.id.toString());
-
         chats[chat.id] = chat;
       }
       store.set('chats.chatList', chats, rewrite);
@@ -30,7 +29,7 @@ export class ChatsController {
     try {
       const chat = await this.api.create(title);
       await this.get();
-      this.select(chat.id);
+      await this.select(chat.id);
       return chat.id;
     } catch (e: any) {
       console.error(e);
@@ -39,8 +38,10 @@ export class ChatsController {
 
   async changAvatar(chatId:string, data: FormData) {
     try {
-      await this.api.changeAvatar(chatId, data);
-      await this.get();
+      await this.api.changeAvatar(chatId, data).then(async () => {
+        await this.get(true);
+        await this.openProfile(chatId);
+      });
     } catch (e: any) {
       console.error(e.message);
     }
@@ -60,11 +61,6 @@ export class ChatsController {
       if(store.getState().user !== undefined) {
         const userId = store.getState().user?.id;
         const token = await this.getToken(chatId);
-        // store.set('socket', {
-        //   socketUserId: userId,
-        //   socketChatId: chatId,
-        //   socketToken: token
-        // });
         if(userId && chatId && token) {
           this.webSocket = new ChatWebSocket(userId.toString(),chatId,token);
         }
@@ -77,7 +73,8 @@ export class ChatsController {
   async addUsers(chatId: string, users: string[]) {
     try {
       await this.api.addUsers(chatId, users);
-      await this.get();
+      await this.get(true);
+      await this.openProfile(chatId);
     } catch (e: any) {
       console.error(e.message);
     }
@@ -86,7 +83,8 @@ export class ChatsController {
   async deleteUsers(chatId: string, users: string[]) {
     try {
       await this.api.deleteUsers(chatId, users);
-      await this.get();
+      await this.get(true);
+      await this.openProfile(chatId);
     } catch (e: any) {
       console.error(e.message);
     }

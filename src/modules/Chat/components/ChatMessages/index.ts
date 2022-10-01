@@ -167,5 +167,5 @@ export class ChatMessagesBase extends Block<ChatMessagesProps> {
 }
 
 
-const withChatsAndUser = withStore((state) => ({...state.chats, ...state.user, ...state.socket}));
+const withChatsAndUser = withStore((state) => ({...state.chats, ...state.user}));
 export const ChatMessages = withChatsAndUser(ChatMessagesBase);
