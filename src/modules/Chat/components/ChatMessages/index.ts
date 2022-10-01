@@ -138,24 +138,34 @@ export class ChatMessagesBase extends Block<ChatMessagesProps> {
 
   private _addSendAction() {
     (this.children.sendButton as Icon).element!.addEventListener('click', (event: MouseEvent) => {
-      // if(this.webSocket) {
-      //   const value = (this.children.messageInput as Input).getValue();
-      //   if(value) {
-      //     this.webSocket.sendMessage(value);
-      //   }
-      //   this.webSocket.getMessages();
-      // }
-      const webSocket = ChatsController.getChatWebSocket();
-      if(webSocket) {
-        const value = (this.children.messageInput as Input).getValue();
-        if(value) {
-          webSocket.sendMessage(value);
-        }
+      this._sendMessage();
+    });
+    (this.children.messageInput as Icon).element!.addEventListener('keyup', (event:KeyboardEvent) => {
+      if(event.code === "Enter") {
+        this._sendMessage();
       }
     });
     (this.children.sendButton as Icon).element!.style.cursor = 'pointer';
   }
+  private _sendMessage() {
+    // if(this.webSocket) {
+    //   const value = (this.children.messageInput as Input).getValue();
+    //   if(value) {
+    //     this.webSocket.sendMessage(value);
+    //   }
+    //   this.webSocket.getMessages();
+    // }
+    const webSocket = ChatsController.getChatWebSocket();
+    if(webSocket) {
+      const value = (this.children.messageInput as Input).getValue();
+      if(value) {
+        webSocket.sendMessage(value);
+        (this.children.messageInput as Input).clearValue();
+      }
+    }
+  }
 }
+
 
 const withChatsAndUser = withStore((state) => ({...state.chats, ...state.user, ...state.socket}));
 export const ChatMessages = withChatsAndUser(ChatMessagesBase);

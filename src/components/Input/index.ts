@@ -137,4 +137,8 @@ export class Input extends Block<InputProps> {
     const {value} = this.getInput();
     return value;
   }
+
+  public clearValue() {
+    this.getInput().value = '';
+  }
 }
