@@ -1,5 +1,5 @@
 import {EventBus} from "./EventBus";
-import {isPlainObject} from "./Helpers";
+import {getMessageTime, isPlainObject} from "./Helpers";
 import store from "./Store";
 import {ChatMessagesList, MessageData} from "../modules/Chat/components/ChatMessage";
 
@@ -47,6 +47,13 @@ export class ChatWebSocket {
 
   private _message(data: unknown) {
     if(Array.isArray(data)) {
+      data = data.map((message) => {
+        if(message.time) {
+          message.time = getMessageTime(new Date(message.time), true);
+        }
+        return message;
+      });
+      console.log(data);
       store.set('messages', {list: data}, true);
     } else if (isPlainObject(data) && data.type && data.type === 'message') {
       this.getMessages();

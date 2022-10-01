@@ -1,6 +1,7 @@
 import API, {ChatData, ChatsAPI} from "../api/ChatsAPI";
 import store from "../utils/Store";
 import {ChatWebSocket} from "../utils/ChatWebSocket";
+import {getMessageTime} from "../utils/Helpers";
 
 export class ChatsController {
 
@@ -17,6 +18,9 @@ export class ChatsController {
       let chats: Record<string, ChatData> = {};
       for (const chat of chatList) {
         chat.user_list = await this.api.getUserList(chat.id.toString());
+        if(chat.last_message && chat.last_message.time) {
+          chat.last_message.time = getMessageTime(new Date(chat.last_message.time));
+        }
         chats[chat.id] = chat;
       }
       store.set('chats.chatList', chats, rewrite);

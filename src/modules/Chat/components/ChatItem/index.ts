@@ -7,6 +7,7 @@ import {ChatData} from "../../../../api/ChatsAPI";
 import ChatsController from "../../../../controllers/ChatsController";
 import {withStore} from "../../../../utils/Store";
 import {ChatListBase} from "../ChatList";
+import {getMessageTime} from "../../../../utils/Helpers";
 
 export interface ChatItemProps extends ChatData {
   styles?: Record<string, unknown>

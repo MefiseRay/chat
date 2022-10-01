@@ -5,6 +5,10 @@ export type PlainObject<T = any> = {
   [k in string]: T;
 };
 
+const Month = [
+  "Янв", "Фев", "Мар", "Апр", "Май", "Июн", "Июл", "Авг", "Сен", "Окт", "Ноя", "Дек"
+];
+
 export function isPlainObject(value: unknown): value is PlainObject {
   return typeof value === 'object'
     && value !== null
@@ -134,6 +138,23 @@ export function makeDropdown(
       }
     }
   });
+}
+
+export function getMessageTime(date:Date, full = false) {
+  const now = new Date();
+  const isY = date.getFullYear() === now.getFullYear();
+  const isM = date.getMonth() === now.getMonth();
+  const isD = date.getDate() === now.getDate();
+  if(isY && isM && isD) {
+    return `${date.getHours()}:${date.getMinutes()}`
+  } else if (isY && full) {
+    return `${date.getDate()} ${Month[date.getMonth()-1]} ${date.getHours()}:${date.getMinutes()}`;
+  } else if (isY) {
+    return `${date.getDate()} ${Month[date.getMonth()-1]}`;
+  } else {
+    return `${date.getFullYear()}`;
+  }
+  return "";
 }
 
 export function  closeDropdown(dropdown: Block<Record<string, unknown>>) {
