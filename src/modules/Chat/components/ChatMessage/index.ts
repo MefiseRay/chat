@@ -5,6 +5,8 @@ import {Icon} from '../../../../components/Icon';
 import isSendIcon from '../../../../../static/icon/done.svg';
 import isReadIcon from '../../../../../static/icon/done-all.svg';
 import {User} from "../../../../api/UsersAPI";
+import HTTPTransport from "../../../../utils/HTTPTransport";
+import {fileData} from "../../../../api/ResourcesAPI";
 
 export interface ChatMessageProps {
   message: MessageData,
@@ -18,7 +20,7 @@ export interface MessageData {
   user_id: string;
   chat_id: string;
   content: string;
-  file: null;
+  file: fileData | null;
   is_read: false;
   time: string;
   type: string;

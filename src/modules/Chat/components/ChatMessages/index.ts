@@ -8,10 +8,14 @@ import {MenuButton} from '../../../../components/MenuButton';
 import {DropdownMenu} from '../../../../components/DropdownMenu';
 import {withStore} from "../../../../utils/Store";
 import ChatsController from "../../../../controllers/ChatsController";
-import {closeDropdown} from "../../../../utils/Helpers";
+import {closeDropdown, makeDropdown} from "../../../../utils/Helpers";
 import {ChatProfile} from "../ChatProfile";
 import {ChatMessagesBlock} from "../ChatMessagesBlock";
 import {ChatWebSocket} from "../../../../utils/ChatWebSocket";
+import {Form} from "../../../Form";
+import {Button} from "../../../../components/Button";
+import {UserChangeable} from "../../../../api/UsersAPI";
+import {Dropdown} from "../../../../components/Dropdown";
 
 export interface ChatMessagesProps {
   menuIconSrc: string,
@@ -21,8 +25,6 @@ export interface ChatMessagesProps {
 }
 
 export class ChatMessagesBase extends Block<ChatMessagesProps> {
-
-  private webSocket:ChatWebSocket | null = null;
 
   constructor(props: ChatMessagesProps) {
     super(props);
@@ -41,9 +43,9 @@ export class ChatMessagesBase extends Block<ChatMessagesProps> {
     if(this.props.openProfile) {
       this._addChatProfileBlocks()
     } else if (this.props.selected) {
-      this._createWebSocket();
       this._addChatImage();
       this._addChatMenu();
+      this._addChatForm();
       this._addAttachFile();
       this._addMessageInput();
       this._addSendButton();
@@ -96,6 +98,10 @@ export class ChatMessagesBase extends Block<ChatMessagesProps> {
       size: '1.5em',
       icon: this.props.attachFileIconSrc,
     });
+    (this.children.attachFile as Icon).element!.addEventListener('click', (event: MouseEvent) => {
+      makeDropdown(this.children.dropdownForm as Form<Record<string, unknown>>, event.target as HTMLElement);
+    });
+    (this.children.attachFile as Icon).element!.style.cursor = 'pointer';
   }
 
   private _addMessageInput() {
@@ -121,19 +127,10 @@ export class ChatMessagesBase extends Block<ChatMessagesProps> {
 
   private _addMessageBlocks() {
     this.children.messageBlock = new ChatMessagesBlock({});
-    // this.children.messageBlock.element!.scrollIntoView(false);
   }
 
   private _addChatProfileBlocks() {
     this.children.chatProfile = new ChatProfile({});
-  }
-
-  private _createWebSocket() {
-    if(this.props.socketUserId && this.props.socketChatId && this.props.socketToken) {
-      this.webSocket = new ChatWebSocket(this.props.socketUserId, this.props.socketChatId, this.props.socketToken);
-    } else {
-      this.webSocket = null;
-    }
   }
 
   private _addSendAction() {
@@ -148,13 +145,6 @@ export class ChatMessagesBase extends Block<ChatMessagesProps> {
     (this.children.sendButton as Icon).element!.style.cursor = 'pointer';
   }
   private _sendMessage() {
-    // if(this.webSocket) {
-    //   const value = (this.children.messageInput as Input).getValue();
-    //   if(value) {
-    //     this.webSocket.sendMessage(value);
-    //   }
-    //   this.webSocket.getMessages();
-    // }
     const webSocket = ChatsController.getChatWebSocket();
     if(webSocket) {
       const value = (this.children.messageInput as Input).getValue();
@@ -163,6 +153,56 @@ export class ChatMessagesBase extends Block<ChatMessagesProps> {
         (this.children.messageInput as Input).clearValue();
       }
     }
+  }
+
+  private _addChatForm() {
+    this.children.sendFileForm = new Form({
+      action: "",
+      method: "",
+      title: "",
+      inputs: [
+        new Input({
+          title: 'Файл',
+          type: InputTypes.file,
+          name: 'resource',
+          value: this.props.login,
+          placeholder: 'Файл',
+          isRounded: false,
+          isLight: false,
+          displayBlock: true,
+          iconSrc: null,
+        }),
+      ],
+      buttons: [
+        new Button({
+          text: 'Отправить',
+          events: {
+            click: async (event) => {
+              event.stopPropagation();
+              event.preventDefault();
+              const formData = (this.children.sendFileForm as Form<UserChangeable>).getFormData();
+              closeDropdown(this.children.dropdownForm as Form<UserChangeable>);
+              if(formData) {
+                if ((formData.get("resource") as File).name !== "") {
+                  const webSocket = ChatsController.getChatWebSocket();
+                  if(webSocket) {
+                    await webSocket.sendFile(formData);
+                  }
+                }
+              }
+            },
+          },
+          isTransparent: false,
+          isBordered: false,
+          isWhite: false,
+          displayBlock: true,
+        }),
+      ],
+      compact: true
+    })
+    this.children.dropdownForm = new Dropdown({
+      items: [this.children.sendFileForm]
+    });
   }
 }
 

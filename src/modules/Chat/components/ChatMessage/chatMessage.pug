@@ -1,12 +1,12 @@
 div(class=styles.user)
     | #{author.login}
-if message.content
+if message.file
+    div(class=styles.image)
+        img(src=message.file.path)
+else if message.content
     div(class=styles.text)
         | #{message.id} -
         | #{message.content}
-if message.file
-    div(class=styles.image)
-        img(src=message.file)
 div(class=styles.info)
     if icon
         | !{icon}

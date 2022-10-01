@@ -2,6 +2,7 @@ import {EventBus} from "./EventBus";
 import {getMessageTime, isPlainObject} from "./Helpers";
 import store from "./Store";
 import API from '../api/ResourcesAPI';
+import HTTPTransport from "./HTTPTransport";
 
 enum MessageType {
   MESSAGE= 'message',
@@ -56,9 +57,11 @@ export class ChatWebSocket {
         if(message.time) {
           message.time = getMessageTime(new Date(message.time), true);
         }
+        if(message.file) {
+          message.file.path = HTTPTransport.getFile(message.file.path);
+        }
         return message;
       });
-      console.log(data);
       store.set('messages', {list: data}, true);
     } else if (isPlainObject(data) && data.type && data.type === 'message') {
       this.getMessages();
@@ -97,13 +100,14 @@ export class ChatWebSocket {
   public sendMessage(content:string, type:MessageType = MessageType.MESSAGE) {
     this.socket.send(JSON.stringify({
       content,
-      type: 'message',
+      type,
     }));
   }
 
   public async sendFile(data: FormData) {
     await API.sendFile(data).then((fileId) => {
       this.sendMessage(fileId.id, MessageType.FILE);
+      this.getMessages();
     })
   }
 

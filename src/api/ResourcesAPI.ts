@@ -1,5 +1,5 @@
 import BaseAPI from "./BaseAPI";
-import {ContentType} from "../utils/HTTPTransport";
+import HTTPTransport, {ContentType} from "../utils/HTTPTransport";
 
 export interface fileData {
   "id": string,
@@ -14,11 +14,15 @@ export interface fileData {
 export class ResourcesAPI extends BaseAPI {
 
   constructor() {
-    super('/resource');
+    super('/resources');
   }
 
   sendFile(data:FormData): Promise<fileData> {
     return this.http.post('/', data, ContentType.FormData);
+  }
+
+  getFile(path:string):string {
+    return HTTPTransport.getFile(path);
   }
 }
 export default new ResourcesAPI();
